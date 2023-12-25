@@ -17,8 +17,8 @@ import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 
 interface ContentBlogDetailProps {
     content: any
-    blog: GetBlogDetailProps;
-    comments: GetCommentsProps
+    blog: GetBlogDetailProps
+    comments: GetCommentsProps[]
 }
 const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) => {
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) 
             const delay = 10000;
             const timeoutId = setTimeout(() => {
                 blogService.increaseView({
-                    blogId: blog.blogId,
+                    blogId: blog?.blogId,
                     token: session?.backendTokens.accessToken || undefined,
                 });
             }, delay);
@@ -59,7 +59,7 @@ const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) 
                                 />
                             </div>
                             <div className="flex md:px-8 px-4 pt-4 mb-5">
-                                <Link href={`/user/${blog.author.username}`}>
+                                <Link href={`/user/${blog?.author.username}`}>
                                     <AvatarRank rank={1}>
                                         <Image
                                             width={60}
@@ -75,20 +75,20 @@ const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) 
                                 <div className="ml-3">
                                     <div className="flex items-center mb-1">
                                         <Link
-                                            href={`/user/${blog.author.username}`}
+                                            href={`/user/${blog?.author.username}`}
                                         >
                                             <div className="hover:underline text-lg font-medium">
-                                                {blog.author.name}
+                                                {blog?.author.name}
                                             </div>
                                         </Link>
                                         <span className="ml-2 text-sm font-medium border border-gray-400 px-2 py-[2px] rounded-md">
-                                            Cấp {blog.author.rank || 1}
+                                            Cấp {blog?.author.rank || 1}
                                         </span>
                                     </div>
                                     <div>
                                         <Link href={`/`}>
                                             <p className="text-sm hover:underline">
-                                                {convertTime(blog.createdAt)}
+                                                {convertTime(blog?.createdAt)}
                                             </p>
                                         </Link>
                                     </div>
@@ -102,20 +102,13 @@ const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) 
                             </h1>
                             <TagsBlog
                                 className="md:px-8 px-4 mt-5 mb-6"
-                                listTag={blog.blogTags}
+                                listTag={blog?.blogTags}
                             />
                         </header>
                         <div className="md:px-8 px-4 mb-5">
                             <MDXContent
                                 content={content}
                             />
-                            {/* <MarkdownContent
-                                content={content}
-                            /> */}
-                            {/* { content && <MDXRemote {content} components={{}} /> } */}
-                            
-                            {/* {JSON.stringify(content)} */}
-                            {/* <MDXContent content={content}/> */}
                         </div>
                     </article>
 

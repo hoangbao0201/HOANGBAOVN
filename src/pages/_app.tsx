@@ -1,3 +1,4 @@
+import ProviderLayout from "@/components/modules/Provider";
 import "@/styles/globals.scss";
 import { NextPage } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -20,7 +21,7 @@ export default function App({
     return (
         <>
             <SessionProvider session={session}>
-                {getLayout(<Component {...pageProps} />)}
+                <ProviderLayout>{getLayout(<Component {...pageProps} />)}</ProviderLayout>
             </SessionProvider>
         </>
     );

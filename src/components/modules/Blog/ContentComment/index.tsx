@@ -1,7 +1,6 @@
 import { useParams } from "next/navigation";
 import { Fragment, useRef, useState } from "react";
 
-
 import "draft-js/dist/Draft.css";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,8 +19,6 @@ interface ContentCommentProps {
     blog: GetBlogDetailProps;
 }
 const ContentComment = ({ blog }: ContentCommentProps) => {
-    const { slugBlog } = useParams<{ slugBlog: string }>();
-
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
     const [isLoadingSendComment, setIsLoadingSendComment] = useState(false);
@@ -33,7 +30,15 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
     );
     const editorRef = useRef<Editor | null>(null);
 
-    const handleSendComment = async ({ receiverId, parentId, commentText }: { receiverId?: number, parentId?: number, commentText: string }) => {
+    const handleSendComment = async ({
+        receiverId,
+        parentId,
+        commentText,
+    }: {
+        receiverId?: number;
+        parentId?: number;
+        commentText: string;
+    }) => {
         if (!session || status !== "authenticated") {
             return;
         }
@@ -45,9 +50,11 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                     blogId: blog.blogId,
                     receiverId,
                     parentId,
-                    commentText: commentText ? commentText : JSON.stringify(
-                        convertToRaw(editorState.getCurrentContent())
-                    ) as string,
+                    commentText: commentText
+                        ? commentText
+                        : (JSON.stringify(
+                              convertToRaw(editorState.getCurrentContent())
+                          ) as string),
                 },
                 token: session.backendTokens.accessToken,
             });

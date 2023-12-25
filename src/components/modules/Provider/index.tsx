@@ -1,11 +1,18 @@
 import React from "react";
-import { SessionProvider } from "next-auth/react";
 
 import store from "@/redux/store";
+import "nprogress/nprogress.css";
+import NProgress from "nprogress";
 
 import { Provider } from "react-redux";
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 import SocketProvider from "./SocketProvider";
+import { Router } from "next/router";
+
+//Binding events.
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
+NProgress.configure({ showSpinner: false });
 
 
 export default function ProviderLayout({
@@ -15,13 +22,8 @@ export default function ProviderLayout({
 }) {
     return (
         <>
-            <ProgressBar
-                options={{ showSpinner: false }}
-            />
             <SocketProvider>
-                <SessionProvider>
-                    <Provider store={store}>{children}</Provider>
-                </SessionProvider >
+                <Provider store={store}>{children}</Provider>
             </SocketProvider>
         </>
     );
