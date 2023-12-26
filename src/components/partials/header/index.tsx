@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link";
 import Image from "next/image";
 
@@ -64,7 +62,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                                             <IconBell size={20} className="h-10 mx-auto"/>
                                         </i>
                                     </Link>
-                                    {status == "authenticated" ? (
+                                    { status == "authenticated" ? (
                                         <UserDropdown />
                                         // <div></div>
                                     ) : (

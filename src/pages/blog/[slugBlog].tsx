@@ -90,6 +90,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
             toc,
             comments: comments || []
         },
+        revalidate: 3*60
     };
 };
 

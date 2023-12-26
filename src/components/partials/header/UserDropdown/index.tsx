@@ -13,8 +13,6 @@ const UserDropdown = () => {
         signOut({ redirect: false });
     };
 
-    // console.log(session)
-
     return (
         <>
             <Menu as="div" className="relative align-middle flex-shrink-0">
