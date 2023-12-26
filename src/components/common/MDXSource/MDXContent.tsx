@@ -11,7 +11,7 @@ const MDXContent = ({ content }: MDXContentProps) => {
     const MDXLayout = useMemo(() => getMDXComponent(content), [content]);
 
     return (
-        <div className="prose max-w-none dark:prose-dark">
+        <div className="prose prose-lg max-w-none dark:prose-dark">
             <MDXLayout
                 components={{
                     pre: Pre,
