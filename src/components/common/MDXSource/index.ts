@@ -57,7 +57,7 @@
 import { Toc } from "@/types";
 import matter from "gray-matter";
 import { h } from "hastscript";
-import mdxMermaid from "mdx-mermaid";
+// import mdxMermaid from "mdx-mermaid";
 import { serialize } from "next-mdx-remote/serialize";
 
 // import remarkGfm from "remark-gfm";
@@ -87,7 +87,7 @@ export const MDXSource = async ({ source }: MDXSourceProps) => {
                     [remarkFootnotes, { inlineNotes: true }],
                     // remarkGfm,
                     remarkMath,
-                    [mdxMermaid, {}],
+                    // [mdxMermaid, {}],
                 ],
                 rehypePlugins: [
                     rehypeSlug,
@@ -95,7 +95,7 @@ export const MDXSource = async ({ source }: MDXSourceProps) => {
                         rehypeAutolinkHeadings,
                         {
                             properties: { className: "heading-link" },
-                            test(element) {
+                            test(element: any) {
                                 return (
                                     ["h2", "h3", "h4", "h5", "h6"].includes(
                                         element.tagName
