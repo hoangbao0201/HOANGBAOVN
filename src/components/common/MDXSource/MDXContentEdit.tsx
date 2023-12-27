@@ -11,7 +11,7 @@ import remarkMath from "remark-math";
 // Rehype packages
 import rehypeSlug from "rehype-slug";
 import rehypeKatex from "rehype-katex";
-import rehypePrismPlus from "rehype-prism-plus";
+// import rehypePrismPlus from "rehype-prism-plus";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 interface MDXContentEditProps {
@@ -25,7 +25,8 @@ const MDXContentEdit = ({ content }: MDXContentEditProps) => {
                 rehypeSlug,
                 rehypeAutolinkHeadings,
                 rehypeKatex,
-                [rehypePrismPlus, { ignoreMissing: true }],
+
+                // [rehypePrismPlus, { ignoreMissing: true }],
             ]}
             remarkPlugins={[
                 [remarkTocHeadings, { exportRef: toc }],
