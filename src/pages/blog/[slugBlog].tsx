@@ -1,19 +1,16 @@
 import {
     GetStaticPaths,
     GetStaticProps,
-    Metadata,
-    ResolvingMetadata,
 } from "next";
 
-import siteMetadata from "@/lib/siteMetadata";
 import commentService, {
     GetCommentsProps,
 } from "@/lib/services/comment.service";
 import { Toc } from "@/types";
-import { NextPageWithLayout } from "../_app";
 import { ParsedUrlQuery } from "querystring";
+import { NextPageWithLayout } from "../_app";
 import MainLayout from "@/components/Layouts/MainLayout";
-import { MDXSource } from "@/components/common/MDXSource/MDXSource";
+import { MDXSource } from "@/components/common/MDXSource";
 import ContentBlogDetail from "@/components/modules/Blog/ContentBlogDetail";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
@@ -34,6 +31,9 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
     toc,
     comments
 }) => {
+
+    // console.log(blog, toc, comments)
+    // console.log("toc: ", toc)
 
     return (
         <>

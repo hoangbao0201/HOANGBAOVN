@@ -1,18 +1,17 @@
-import { useMemo } from "react";
-import { getMDXComponent } from "mdx-bundler/client";
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 
 import Pre from "./Tags/Pre";
 import YoutubeEmbed from "./Tags/YoutubeEmbed";
 
 interface MDXContentProps {
-    content: string;
+    content: MDXRemoteSerializeResult
 }
 const MDXContent = ({ content }: MDXContentProps) => {
-    const MDXLayout = useMemo(() => getMDXComponent(content), [content]);
 
     return (
-        <div className="prose prose-lg max-w-none dark:prose-dark">
-            <MDXLayout
+        <div id='mdxpage' className="prose prose-lg max-w-none dark:prose-dark">
+            <MDXRemote
+                {...content}
                 components={{
                     pre: Pre,
                     YoutubeEmbed,

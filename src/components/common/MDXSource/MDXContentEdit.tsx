@@ -5,7 +5,7 @@ import { Toc } from "@/types";
 import remarkTocHeadings from "./remarkTocHeadings";
 
 // Remark packages
-import remarkGfm from "remark-gfm";
+// import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
 // Rehype packages
@@ -29,7 +29,7 @@ const MDXContentEdit = ({ content }: MDXContentEditProps) => {
             ]}
             remarkPlugins={[
                 [remarkTocHeadings, { exportRef: toc }],
-                remarkGfm,
+                // remarkGfm,
                 remarkMath,
             ]}
             components={{
