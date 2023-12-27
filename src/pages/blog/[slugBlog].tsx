@@ -86,8 +86,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
             blog: {
                 ...blog,
                 content
-            },
-            toc,
+            } || null,
+            toc: toc || [],
             comments: comments || []
         },
         // revalidate: 3*60

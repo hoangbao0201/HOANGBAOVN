@@ -1,4 +1,5 @@
 import { Toc } from "@/types";
+import matter from 'gray-matter'
 import { bundleMDX } from "mdx-bundler";
 
 // Remark packages
