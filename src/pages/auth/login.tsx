@@ -14,8 +14,7 @@ import ButtonAuth from "@/components/modules/Auth/ButtonAuth";
 interface AuthLoginPageProps {
     session: any;
 }
-const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({ session }) => {
-    console.log(session);
+const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
     const router = useRouter();
     const [dataLogin, setDataLogin] = useState({
         accout: "",
@@ -160,8 +159,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     return {
-        props: {
-            session,
-        },
+        props: {},
     };
 };
