@@ -8,7 +8,6 @@ import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import blogService, { GetBlogsProps } from "@/lib/services/blog.service";
 import { GetStaticProps } from "next";
 
-
 interface HomePageProps {
     blogs: GetBlogsProps[];
 }
@@ -52,9 +51,7 @@ HomePage.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const { blogs } = await await blogService.getAllBlogs({
-        next: { revalidate: 60 * 2 },
-    });
+    const { blogs } = await await blogService.getAllBlogs({});
 
-    return { props: { blogs: blogs || [] } };
+    return { props: { blogs: blogs || [] }, revalidate: 60 * 60 };
 };

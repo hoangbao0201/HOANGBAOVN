@@ -79,7 +79,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         query: `?blogId=${slugBlog.replace(/.*[^0-9]/, "")}`,
     });
 
-    const { content, toc } = await MDXSource({ source: blog.content });
+    const { content, toc } = await MDXSource({ source: blog?.content });
 
     return {
         props: {
@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
             toc: toc || [],
             comments: comments || []
         },
-        // revalidate: 3*60
+        revalidate: 24*60*60
     };
 };
 
