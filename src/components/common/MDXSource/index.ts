@@ -3,12 +3,12 @@ import matter from "gray-matter";
 import { h } from "hastscript";
 import { serialize } from "next-mdx-remote/serialize";
 
+import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkTocHeadings from "./remarkTocHeadings";
 
-import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
-import rehypeKatex from "rehype-katex";
+import rehypeKatex from "rehype-katex"
 import rehypePrismPlus from "rehype-prism-plus";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
@@ -25,10 +25,9 @@ export const MDXSource = async ({ source }: MDXSourceProps) => {
         {
             mdxOptions: {
                 remarkPlugins: [
-                    [remarkTocHeadings, { exportRef: toc }],
                     remarkGfm,
                     remarkMath,
-                    // [mdxMermaid, {}],
+                    [remarkTocHeadings, { exportRef: toc }],
                 ],
                 rehypePlugins: [
                     rehypeSlug,
@@ -72,7 +71,6 @@ export const MDXSource = async ({ source }: MDXSourceProps) => {
                     [rehypeKatex, { output: "htmlAndMathml" }],
                     // @ts-ignore
                     [rehypePrismPlus, { ignoreMissing: true }],
-                    // rehypeKatex,
                 ],
             },
             scope: { ...data },
