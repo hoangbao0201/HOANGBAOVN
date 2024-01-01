@@ -15,6 +15,7 @@ import {
     addCommentsBlogDetailRDHandle,
     addReplyCommentsBlogDetailRDHandle,
 } from "@/redux/commentsBlogDetail";
+import SkeletonItemComment from "../../skeletons/SkeletonItemComment";
 
 interface ContentCommentProps {
     blog: GetBlogDetailProps;
@@ -31,6 +32,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
     );
     const editorRef = useRef<Editor | null>(null);
 
+    // Handle Send Comment
     const handleSendComment = async ({
         receiverId,
         parentId,
@@ -44,36 +46,28 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
             return;
         }
 
-        // console.log({
-        //     receiverId,
-        //     parentId,
-        //     commentText,
-        // });
-        // return;
-
         try {
             const commentRes = await commentService.addComment({
                 data: {
                     blogId: blog.blogId,
                     receiverId,
                     parentId,
-                    commentText: (JSON.stringify(
+                    commentText: JSON.stringify(
                         convertToRaw(commentText.getCurrentContent())
-                    ) as string),
+                    ) as string,
                 },
                 token: session.backendTokens.accessToken,
             });
 
             if (commentRes.success) {
-                if(receiverId && parentId) {
+                if (receiverId && parentId) {
                     dispatch(
                         addReplyCommentsBlogDetailRDHandle({
                             commentId: parentId,
                             replyComments: [commentRes?.comment],
                         })
                     );
-                }
-                else {
+                } else {
                     dispatch(
                         addCommentsBlogDetailRDHandle([
                             {
@@ -104,6 +98,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         }
     };
 
+    // Call Handle Send Comment
     const handleCallSendComment = async ({
         receiverId,
         parentId,
@@ -125,7 +120,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         } catch (error) {
             setIsLoadingSendComment(false);
         }
-    }
+    };
 
     return (
         <div className="md:px-5 px-3 py-5 bg-white mt-5 md:rounded-md shadow-sm">
@@ -146,7 +141,10 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
             </div>
 
             <div className="list-item-comment">
-                {commentsBlogDetail &&
+                {isLoadingBlogDetail ? (
+                    <SkeletonItemComment count={3} />
+                ) : (
+                    commentsBlogDetail &&
                     commentsBlogDetail.length > 0 &&
                     commentsBlogDetail.map((comment, index) => {
                         return (
@@ -158,7 +156,8 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                                 />
                             </Fragment>
                         );
-                    })}
+                    })
+                )}
             </div>
         </div>
     );

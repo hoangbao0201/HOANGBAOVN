@@ -83,10 +83,10 @@ const ItemComment = ({
                                 <span className="font-semibold">
                                     {comment?.sender.name}
                                 </span>
-                                <span className="text-sm"> - userid: {comment.sender?.userId}</span>
+                                {/* <span className="text-sm"> - userid: {comment.sender?.userId}</span>
                                 <span className="text-sm"> - commentId: {comment?.commentId}</span>
                                 <span className="text-sm"> - parentid: {comment?.parentId}</span>
-                                <span className="text-sm"> - receiverid: {comment?.receiver?.userId}</span>
+                                <span className="text-sm"> - receiverid: {comment?.receiver?.userId}</span> */}
                             </Link>
 
                             <ButtonAction
