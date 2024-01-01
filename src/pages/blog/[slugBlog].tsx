@@ -3,9 +3,6 @@ import {
     GetStaticProps,
 } from "next";
 
-import commentService, {
-    GetCommentsProps,
-} from "@/lib/services/comment.service";
 import { Toc } from "@/types";
 import { ParsedUrlQuery } from "querystring";
 import { NextPageWithLayout } from "../_app";
@@ -23,17 +20,12 @@ interface Params extends ParsedUrlQuery {
 interface BlogDetailPageProps {
     toc: Toc;
     blog: GetBlogDetailProps;
-    comments: GetCommentsProps[];
 }
 
 const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
     blog,
     toc,
-    comments
 }) => {
-
-    // console.log(blog, toc, comments)
-    // console.log("toc: ", toc)
 
     return (
         <>
@@ -44,10 +36,9 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
                     </div>
 
                     <div className="lg:col-span-8 col-span-full pt-3">
-                        {blog && comments ? (
+                        {blog ? (
                             <ContentBlogDetail
                                 blog={blog}
-                                comments={comments}
                                 content={blog.content}
                             />
                         ) : (
@@ -75,9 +66,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const { blog } = await blogService.getBlogDetail({
         query: slugBlog,
     });
-    const { comments } = await commentService.getComments({
-        query: `?blogId=${slugBlog.replace(/.*[^0-9]/, "")}`,
-    });
 
     const { content, toc } = await MDXSource({ source: blog?.content });
 
@@ -88,9 +76,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
                 content
             } || null,
             toc: toc || [],
-            comments: comments || []
         },
-        revalidate: 24*60*60
+        revalidate: 3*60*60
     };
 };
 

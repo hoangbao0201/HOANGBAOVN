@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.4",
+    "@draft-js-plugins/mention": "^5.2.2",
     "@headlessui/react": "^1.7.17",
     "@reduxjs/toolkit": "^2.0.1",
     "@tailwindcss/typography": "^0.5.10",

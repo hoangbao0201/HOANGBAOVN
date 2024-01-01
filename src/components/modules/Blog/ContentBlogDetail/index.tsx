@@ -9,20 +9,44 @@ import ContentComment from "../ContentComment";
 import TagsBlog from "@/components/common/TagsBlog";
 import AvatarRank from "@/components/common/AvatarRank";
 import MDXContent from "@/components/common/MDXSource/MDXContent";
-import { GetCommentsProps } from "@/lib/services/comment.service";
+import commentService, { GetCommentsProps } from "@/lib/services/comment.service";
 import { setCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetail";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
+import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 
 
-
+interface Params extends ParsedUrlQuery {
+    slugBlog: string;
+}
 interface ContentBlogDetailProps {
     content: any
     blog: GetBlogDetailProps
-    comments: GetCommentsProps[]
 }
-const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) => {
+const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
+    const router = useRouter();
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
+
+    const handleGetComments = async () => {
+        const { slugBlog } = router.query as Params;
+        if(!slugBlog) {
+            return;
+        }
+        try {
+            const { success, comments } = await commentService.getComments({
+                query: `?blogId=${slugBlog.replace(/.*[^0-9]/, "")}`,
+            });
+
+            
+            if(success) {
+                console.log(comments)
+                dispatch(setCommentsBlogDetailRDHandle(comments));
+            }
+        } catch (error) {
+            
+        }
+    }
 
     useEffect(() => {
         if (status !== "loading") {
@@ -39,7 +63,7 @@ const ContentBlogDetail = ({ blog, content, comments }: ContentBlogDetailProps) 
     }, [status]);
 
     useEffect(() => {
-        dispatch(setCommentsBlogDetailRDHandle(comments));
+        handleGetComments();
     }, [])
 
     return (

@@ -7,8 +7,8 @@ interface SidebarLeftBlogDetailProps {
 }
 const SidebarLeftBlogDetail = ({  }: SidebarLeftBlogDetailProps) => {
     return (
-        <aside className="sticky top-[72px]">
-            <div className="bg-white px-3 py-4 shadow-sm rounded-md">
+        <aside className="sticky top-[72px] pl-4">
+            <div className="bg-white py-4 shadow-sm rounded-md">
                 <div className="text-gray-500 space-y-3">
                     <div className="flex flex-col items-center">
                         <div className="p-2 flex-1 cursor-pointer hover:bg-gray-100 rounded-full">

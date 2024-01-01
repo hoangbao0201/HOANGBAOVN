@@ -13,6 +13,7 @@ import { GetBlogDetailProps } from "@/lib/services/blog.service";
 import {
     RootStateCommentsBlogDetail,
     addCommentsBlogDetailRDHandle,
+    addReplyCommentsBlogDetailRDHandle,
 } from "@/redux/commentsBlogDetail";
 
 interface ContentCommentProps {
@@ -37,12 +38,18 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
     }: {
         receiverId?: number;
         parentId?: number;
-        commentText: string;
+        commentText: EditorState;
     }) => {
         if (!session || status !== "authenticated") {
             return;
         }
-        setIsLoadingSendComment(true);
+
+        // console.log({
+        //     receiverId,
+        //     parentId,
+        //     commentText,
+        // });
+        // return;
 
         try {
             const commentRes = await commentService.addComment({
@@ -50,46 +57,75 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                     blogId: blog.blogId,
                     receiverId,
                     parentId,
-                    commentText: commentText
-                        ? commentText
-                        : (JSON.stringify(
-                              convertToRaw(editorState.getCurrentContent())
-                          ) as string),
+                    commentText: (JSON.stringify(
+                        convertToRaw(commentText.getCurrentContent())
+                    ) as string),
                 },
                 token: session.backendTokens.accessToken,
             });
 
             if (commentRes.success) {
-                dispatch(
-                    addCommentsBlogDetailRDHandle([
-                        {
-                            ...commentRes.comment,
-                            sender: {
-                                userId: session.user.userId,
-                                name: session.user.name,
-                                username: session.user.username,
-                                rank: session.user.rank,
-                                role: {
-                                    roleId: session.user.role.roleId,
-                                    roleName: session.user.role.roleName,
+                if(receiverId && parentId) {
+                    dispatch(
+                        addReplyCommentsBlogDetailRDHandle({
+                            commentId: parentId,
+                            replyComments: [commentRes?.comment],
+                        })
+                    );
+                }
+                else {
+                    dispatch(
+                        addCommentsBlogDetailRDHandle([
+                            {
+                                ...commentRes.comment,
+                                sender: {
+                                    userId: session.user.userId,
+                                    name: session.user.name,
+                                    username: session.user.username,
+                                    rank: session.user.rank,
+                                    role: {
+                                        roleId: session.user.role.roleId,
+                                        roleName: session.user.role.roleName,
+                                    },
+                                    avatarUrl: session.user.avatarUrl,
                                 },
-                                avatarUrl: session.user.avatarUrl,
+                                _count: {
+                                    replyComments: 0,
+                                },
                             },
-                            _count: {
-                                replyComments: 0,
-                            },
-                        },
-                    ])
-                );
+                        ])
+                    );
+                }
             }
             setEditorState(() => EditorState.createEmpty());
-            setIsLoadingSendComment(false);
             editorRef.current?.focus();
         } catch (error) {
             setEditorState(EditorState.createEmpty());
-            setIsLoadingSendComment(false);
         }
     };
+
+    const handleCallSendComment = async ({
+        receiverId,
+        parentId,
+        commentText,
+    }: {
+        receiverId?: number;
+        parentId?: number;
+        commentText: EditorState;
+    }) => {
+        setIsLoadingSendComment(true);
+
+        try {
+            await handleSendComment({
+                receiverId,
+                parentId,
+                commentText,
+            });
+            setIsLoadingSendComment(false);
+        } catch (error) {
+            setIsLoadingSendComment(false);
+        }
+    }
 
     return (
         <div className="md:px-5 px-3 py-5 bg-white mt-5 md:rounded-md shadow-sm">
@@ -97,30 +133,33 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
 
             <div className="pb-4 block">
                 <FormEditorComment
+                    isReply={false}
                     isLoad={isLoadingSendComment}
-                    user={session?.user}
+                    sender={session?.user}
+                    receiver={session?.user}
                     editorRef={editorRef}
-                    handleSend={handleSendComment}
+                    handleSend={handleCallSendComment}
                     isEditorComment={false}
                     setDataFormComment={setEditorState}
                     dataFormComment={editorState}
                 />
             </div>
 
-            {status === "authenticated" &&
-                commentsBlogDetail &&
-                commentsBlogDetail.length > 0 &&
-                commentsBlogDetail.map((comment, index) => {
-                    return (
-                        <Fragment key={comment.commentId || index}>
-                            <CardComment
-                                user={session.user}
-                                comment={comment}
-                                handleSendComment={handleSendComment}
-                            />
-                        </Fragment>
-                    );
-                })}
+            <div className="list-item-comment">
+                {commentsBlogDetail &&
+                    commentsBlogDetail.length > 0 &&
+                    commentsBlogDetail.map((comment, index) => {
+                        return (
+                            <Fragment key={comment.commentId || index}>
+                                <CardComment
+                                    user={session?.user}
+                                    comment={comment}
+                                    handleSendComment={handleSendComment}
+                                />
+                            </Fragment>
+                        );
+                    })}
+            </div>
         </div>
     );
 };

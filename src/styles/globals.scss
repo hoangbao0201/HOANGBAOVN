@@ -517,3 +517,11 @@ pre[class*="language-"] {
     display: block;
     transition: display 3s ease;
 }
+
+// Comment
+.list-item-comment {
+    .item-comment {
+        opacity: 1;
+        transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+    }
+}

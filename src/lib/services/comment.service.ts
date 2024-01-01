@@ -1,38 +1,54 @@
 import { API_BASE_URL } from "../constants";
 
 export interface GetCommentsProps {
-    blogId: number,
-    commentId: number,
-    commentText: string,
-    createdAt: Date,
-    updatedAt: Date,
+    blogId: number;
+    commentId: number;
+    commentText: string;
+    parentId: number | null,
+    createdAt: Date;
+    updatedAt: Date;
+    receiver?: {
+        userId: number;
+        name: string;
+        username: string;
+    } | null;
     sender: {
-        userId: number,
-        name: string,
-        username: string,
-        rank: number,
+        userId: number;
+        name: string;
+        username: string;
+        rank: number;
         role: {
-            roleId: number,
-            roleName: "user" | "admin"
-        },
-        avatarUrl: string | null
-    },
+            roleId: number;
+            roleName: "user" | "admin";
+        };
+        avatarUrl: string | null;
+    };
     _count: {
-        replyComments: number
-    }
+        replyComments: number;
+    };
 }
 
-export interface GetReplyCommentsProps extends GetCommentsProps {
-    receiver: {
-        userId: number,
-        name: string,
-        username: string
-    }
-}
+// export interface GetReplyCommentsProps extends GetCommentsProps {
+//     receiver?: {
+//         userId: number;
+//         name: string;
+//         username: string;
+//     };
+// }
 
 class CommentService {
-
-    async addComment({ data, token } : { data: { receiverId?: number, parentId?: number, blogId: number, commentText: string }, token: string }): Promise<any> {
+    async addComment({
+        data,
+        token,
+    }: {
+        data: {
+            receiverId?: number;
+            parentId?: number;
+            blogId: number;
+            commentText: string;
+        };
+        token: string;
+    }): Promise<any> {
         const { receiverId, parentId, blogId, commentText } = data;
 
         try {
@@ -43,10 +59,11 @@ class CommentService {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    blogId: blogId,
-                    receiverId,
-                    parentId,
-                    commentText: commentText,
+                    // blogId: blogId,
+                    // receiverId,
+                    // parentId,
+                    // commentText: commentText,
+                    ...data,
                 }),
             });
             const comment = await commentRes.json();
@@ -60,14 +77,16 @@ class CommentService {
         }
     }
 
-    async getComments({query, cache, next}: { query?: string, cache?: RequestCache, next?: NextFetchRequestConfig }): Promise<any> {
+    async getComments({
+        query
+    }: {
+        query?: string;
+    }): Promise<any> {
         try {
             const commentsRes = await fetch(
                 `${API_BASE_URL}/api/comments${query || ""}`,
                 {
                     method: "GET",
-                    cache: cache || "default",
-                    next: next
                 }
             );
             const comments = await commentsRes.json();
@@ -81,14 +100,16 @@ class CommentService {
         }
     }
 
-    async getReplyComments({query, cache, next}: { query?: string, cache?: RequestCache, next?: NextFetchRequestConfig }): Promise<any> {
+    async getReplyComments({
+        query,
+    }: {
+        query?: string;
+    }): Promise<any> {
         try {
             const commentsRes = await fetch(
                 `${API_BASE_URL}/api/comments/reply${query || ""}`,
                 {
                     method: "GET",
-                    cache: cache || "default",
-                    next: next
                 }
             );
             const comments = await commentsRes.json();
@@ -102,15 +123,24 @@ class CommentService {
         }
     }
 
-    async deleteComment({ commentId, token } : { commentId: number, token: string }): Promise<any> {
+    async deleteComment({
+        commentId,
+        token,
+    }: {
+        commentId: number;
+        token: string;
+    }): Promise<any> {
         try {
-            const commentRes = await fetch(`${API_BASE_URL}/api/comments/${commentId || ""}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const commentRes = await fetch(
+                `${API_BASE_URL}/api/comments/${commentId || ""}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             const comment = await commentRes.json();
             return comment;
         } catch (error) {

@@ -1,14 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
     GetCommentsProps,
-    GetReplyCommentsProps,
 } from "@/lib/services/comment.service";
 
 export type RootStateCommentsBlogDetail = {
     commentsBlogDetail: CommentsBlogDetailSlideProps;
 };
 export interface CommentsBlogDetailProps extends GetCommentsProps {
-    replyComments: GetReplyCommentsProps[];
+    replyComments?: GetCommentsProps[];
 }
 
 export interface CommentsBlogDetailSlideProps {
@@ -60,6 +59,13 @@ export const counterSlice = createSlice({
         setIsLoadingCommentsBlogDetailRDHandle: (state, action) => {
             state.isLoadingBlogDetail = action.payload;
         },
+        sendCommentBlogDetailRDHandle: (state, action) => {
+            const { blogId, receiverId, parentId, commentText } = action.payload;
+            if(receiverId && parentId) {
+                
+            }
+            state.isLoadingBlogDetail = action.payload;
+        },
     },
 });
 
@@ -69,6 +75,7 @@ export const {
     addReplyCommentsBlogDetailRDHandle,
     setIsLoadingCommentsBlogDetailRDHandle,
     deleteCommentsBlogDetailRDHandle,
+    sendCommentBlogDetailRDHandle
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

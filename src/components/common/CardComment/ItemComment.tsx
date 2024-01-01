@@ -8,23 +8,25 @@ import { Editor, EditorState } from "draft-js";
 
 import AvatarRank from "../AvatarRank";
 import ButtonAction from "./ButtonAction";
+import { GetCommentsProps } from "@/lib/services/comment.service";
 import { CommentsBlogDetailProps } from "@/redux/commentsBlogDetail";
 import FormEditorComment from "@/components/modules/Blog/ContentComment/FormEditorComment";
 
 interface ItemCommentProps {
-    user: any;
+    user: GetCommentsProps['sender'] | undefined;
     comment: CommentsBlogDetailProps;
     isReply?: boolean;
     childIndex?: number;
     lastChild?: boolean;
+    handleSendComment: any
 }
 
 const ItemComment = ({
     user,
     comment,
     isReply,
-    childIndex,
     lastChild,
+    handleSendComment
 }: ItemCommentProps) => {
     const editorRef = useRef<Editor | null>(null);
     const [editorState, setEditorState] = useState(() =>
@@ -32,19 +34,32 @@ const ItemComment = ({
     );
     const [isLoadingSendComment, setIsLoadingSendComment] = useState(false);
     const [isFormEditor, setIsFormEditor] = useState<null | number>(null);
-    const [isLoadingReplyComment, setIsLoadingReplyComment] = useState(false);
 
-    const handleSendComment = () => {};
+    const handleSend = async () => {
+        try {
+            setIsLoadingSendComment(true);
+            await handleSendComment({
+                receiverId: comment.sender.userId,
+                parentId: comment?.parentId ? comment?.parentId : comment?.commentId,
+                commentText: editorState,
+            });
+
+            setIsLoadingSendComment(false);
+        } catch (error) {
+            setIsLoadingSendComment(false);
+        }
+    }
 
     return (
-        <>
+        <div className="relative">
+            {lastChild && (<div style={{ height: "calc(100% - 25px)" }} className="border-l-[2.5px] border-gray-200 w-2 absolute translate-y-[5px] left-[20px] top-0 bottom-0"></div>)}
             <div
-                className={clsx("flex pb-2 relative item-comment", {
-                    "pl-12": childIndex == 1,
+                className={clsx("flex pb-2 item-comment relative", {
+                    "pl-12": isReply
                 })}
             >
-                {isReply && !lastChild && (
-                    <div className="border-l-2 border-gray-200 h-full absolute left-[20px] top-1 bottom-0"></div>
+                {isReply && (
+                    <div className="border-l-[2.5px] border-b-[2.5px] border-gray-200 w-6 h-[88px] absolute left-[20px] -top-[68px] rounded-bl-xl"></div>
                 )}
 
                 <AvatarRank rank={1}>
@@ -68,6 +83,10 @@ const ItemComment = ({
                                 <span className="font-semibold">
                                     {comment?.sender.name}
                                 </span>
+                                <span className="text-sm"> - userid: {comment.sender?.userId}</span>
+                                <span className="text-sm"> - commentId: {comment?.commentId}</span>
+                                <span className="text-sm"> - parentid: {comment?.parentId}</span>
+                                <span className="text-sm"> - receiverid: {comment?.receiver?.userId}</span>
                             </Link>
 
                             <ButtonAction
@@ -97,22 +116,25 @@ const ItemComment = ({
                     </div>
                 </div>
             </div>
-            {isFormEditor && (
-                <div className="pl-12 relative">
-                    <div className="border-l-[2.5px] border-gray-200 h-[75%] absolute left-[21px] -top-[65px] bottom-0"></div>
-                    <div className="border-l-[2.5px] border-b-[2.5px] border-gray-200 w-7 h-4 absolute left-[21px] top-2 rounded-bl-lg"></div>
-                    <FormEditorComment
-                        isLoad={isLoadingSendComment}
-                        user={user}
-                        editorRef={editorRef}
-                        handleSend={handleSendComment}
-                        isEditorComment={false}
-                        setDataFormComment={setEditorState}
-                        dataFormComment={editorState}
-                    />
-                </div>
-            )}
-        </>
+            <div className={`${isReply && "pl-12"}`}>
+                {isFormEditor && (
+                    <div className={`pl-12 relative`}>
+                        <div className="border-l-[2.5px] border-b-[2.5px] border-gray-200 w-6 h-[88px] absolute left-[20px] -top-[68px] rounded-bl-xl"></div>
+                        <FormEditorComment
+                            isReply={true}
+                            isLoad={isLoadingSendComment}
+                            sender={user}
+                            receiver={comment.sender}
+                            editorRef={editorRef}
+                            handleSend={handleSend}
+                            isEditorComment={false}
+                            setDataFormComment={setEditorState}
+                            dataFormComment={editorState}
+                        />
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 

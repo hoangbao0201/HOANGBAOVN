@@ -1,23 +1,11 @@
 import { Fragment } from "react";
-import { GetStaticProps, Metadata } from "next";
+import { GetStaticProps } from "next";
 
-import siteMetadata from "@/lib/siteMetadata";
 import CardTag from "@/components/modules/Tag/CardTag";
 import tagService, { GetTagsProps } from "@/lib/services/tag.service";
 import MainLayout from "@/components/Layouts/MainLayout";
 import { NextPageWithLayout } from "../_app";
 
-type Props = {
-    params: { slugUser: string }
-}
-
-// export async function generateMetadata(): Promise<Metadata> {
-
-//     return {
-//         title: "Danh sách chủ đề | " + siteMetadata.title,
-//         description: "Đây là nơi tập trung các thẻ đa dạng liên quan đến nhiều lĩnh vực, giúp bạn dễ dàng khám phá và tiếp cận thông tin một cách hiệu quả."
-//     };
-// }
 interface TagsPageProps {
     tags: GetTagsProps[]
 }

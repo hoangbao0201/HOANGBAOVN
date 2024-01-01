@@ -173,14 +173,12 @@ class BlogService {
         }
     }
 
-    async getAllBlogs({query, cache, next}: { query?: string, cache?: RequestCache, next?: NextFetchRequestConfig }): Promise<any> {
+    async getAllBlogs({ query }: { query?: string }): Promise<any> {
         try {
             const blogsRes = await fetch(
                 `${API_BASE_URL}/api/blogs${query || ""}`,
                 {
                     method: "GET",
-                    cache: cache || "default",
-                    next: next
                 }
             );
 
@@ -201,9 +199,6 @@ class BlogService {
                 `${API_BASE_URL}/api/blogs/search${query || ""}`,
                 {
                     method: "GET",
-                    // headers: {
-                    //     Authorization: `Bearer ${token}`
-                    // }
                 }
             );
             const blogs = await blogsRes.json();
@@ -217,14 +212,12 @@ class BlogService {
         }
     }
 
-    async getBlogDetail({query, cache, next}: { query?: string, cache?: RequestCache, next?: NextFetchRequestConfig }): Promise<any> {
+    async getBlogDetail({query}: { query?: string }): Promise<any> {
         try {
             const blogRes = await fetch(
                 `${API_BASE_URL}/api/blogs/${query || ""}`,
                 {
                     method: "GET",
-                    // next: { revalidate: 3*60*60 }
-                    cache: "no-store",
                 }
             );
             const blog = await blogRes.json();
@@ -248,7 +241,6 @@ class BlogService {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
                     },
-                    cache: "no-store",
                 }
             );
             const blog = await blogRes.json();
