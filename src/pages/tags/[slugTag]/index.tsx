@@ -26,7 +26,7 @@ const TagDetailPage: NextPageWithLayout<TagDetailPageProps> = ({ slugTag, blogs 
     return (
         <>
             <NextSeo
-                title={`Chủ đề ${slugTag.toUpperCase()} - ${siteMetadata?.title}`}
+                title={`Chủ đề ${slugTag ? slugTag?.toUpperCase() : ""} - ${siteMetadata?.title}`}
                 description={``}
             />
             <div className="max-w-7xl w-full min-h-screen mx-auto mb-4">
