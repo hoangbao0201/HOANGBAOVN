@@ -3,6 +3,9 @@ import {
     GetStaticProps,
 } from "next";
 
+import { NextSeo } from "next-seo"
+import { format } from 'date-fns';
+
 import { Toc } from "@/types";
 import { ParsedUrlQuery } from "querystring";
 import { NextPageWithLayout } from "../_app";
@@ -13,6 +16,7 @@ import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import SidebarLeftBlogDetail from "@/components/modules/Blog/SideLeftBlogDetail";
 import SidebarRightBlogDetail from "@/components/modules/Blog/SideRightBlogDetail";
+import siteMetadata from "@/lib/siteMetadata";
 
 interface Params extends ParsedUrlQuery {
     slugBlog: string;
@@ -27,8 +31,61 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
     toc,
 }) => {
 
+    const seoImages = (() => {
+        const listImagesBlog =
+            blog?.blogImages.length > 0
+                ? [{
+                    width: 800,
+                    height: 600,
+                    alt: '',
+                    url: blog?.blogImages[0].urlImage
+                }]
+                : [{
+                    width: 800,
+                    height: 600,
+                    alt: '',
+                    url: siteMetadata?.imageBlog
+                }];
+                
+        if (blog?.blogImages) {
+            return listImagesBlog;
+        }
+        return [];
+    })();
+
+    const seoTags = (() => {
+        const listTagsBlog =
+            blog?.blogTags.length > 0
+                ? blog.blogTags.map((tag) => tag.tags.slug)
+                : [];
+                
+        return [...listTagsBlog, `${siteMetadata?.title}`];
+    })();
+
     return (
         <>
+
+            <NextSeo
+                title={`${blog?.title} - ${siteMetadata?.title}`}
+                description={blog?.summary}
+                openGraph={{
+                    url: `${siteMetadata?.siteUrl}/blog/${blog?.slug}-${blog?.blogId}`,
+                    title: blog?.title,
+                    description: blog?.summary,
+                    images: seoImages,
+                    type: 'article',
+                    article: {
+                        publishedTime: blog?.createdAt ? format(blog.createdAt, 'yyyy-MM-dd HH:mm:ss') : '',
+                        modifiedTime: blog?.updatedAt ? format(blog.updatedAt, 'yyyy-MM-dd HH:mm:ss') : '',
+                        expirationTime: undefined,
+                        section: undefined,
+                        authors: [
+                            `${siteMetadata?.siteUrl}/user/${blog?.author.username}`,
+                        ],
+                        tags: seoTags,
+                    },
+                }}
+            />
             <div className="max-w-7xl w-full min-h-screen mx-auto mb-4">
                 <div className="grid grid-cols-12">
                     <div className="col-span-1 xl:block hidden pt-3">
@@ -63,7 +120,7 @@ BlogDetailPage.getLayout = (page) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const { slugBlog } = context.params as Params;
-    const { blog } = await blogService.getBlogDetail({
+    const { blog }: { blog: GetBlogDetailProps } = await blogService.getBlogDetail({
         query: slugBlog,
     });
 

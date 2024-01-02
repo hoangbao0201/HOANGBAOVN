@@ -40,7 +40,6 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
 
             
             if(success) {
-                console.log(comments)
                 dispatch(setCommentsBlogDetailRDHandle(comments));
             }
         } catch (error) {

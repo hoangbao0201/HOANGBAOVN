@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import TagsBlog from "../TagsBlog";
 import AvatarRank from "../AvatarRank";
@@ -7,7 +8,6 @@ import convertTime from "@/utils/convertTime";
 import IconShare from "../../modules/icons/IconShare";
 import IconVerify from "../../modules/icons/IconVerify";
 import { GetBlogsProps } from "@/lib/services/blog.service";
-import dynamic from "next/dynamic";
 
 const ButtonAction = dynamic(() => import('./ButtonAcction'), {
     ssr: false
@@ -19,10 +19,8 @@ interface CardBlog {
 
 const CardBlog = ({blog} : CardBlog) => {
 
-    // const { data: session, status } = useSession();
-
     return (
-        <article className="md:px-3 flex mb-4 relative">
+        <article id={`${blog?.blogId}`} className="md:px-3 flex mb-4 relative">
             <div className="bg-white md:rounded-md w-full overflow-hidden shadow-sm outline-2 outline-indigo-500 hover:outline-dashed">
                 <div className="flex px-4 pt-4">
                     <Link href={`/user/${blog.author.username}`}>
@@ -37,22 +35,27 @@ const CardBlog = ({blog} : CardBlog) => {
                         </AvatarRank>
                     </Link>
                     <div className="ml-2">
-                        <div className="flex items-center mb-[3px]">
+                        <div className="flex items-center mb-[2px]">
                             <Link href={`/user/${blog.author.username}`}>
                                 <p className="hover:underline text-lg font-medium">
                                     {blog.author.name}
                                 </p>
                             </Link>
-                            <i className="ml-1">
-                                <IconVerify
-                                    className="w-4 h-4 block fill-blue-500"
-                                />
-                            </i>
+                            {
+                                blog.author.role.roleName === "admin" && (
+                                    <i className="ml-1">
+                                        <IconVerify
+                                            className="w-4 h-4 block fill-blue-500"
+                                        />
+                                    </i>
+                                )
+                            }
                             {/* <span className="ml-2 text-sm font-medium border border-gray-400 px-2 py-[2px] rounded-md">
                                 Cấp {blog.author.rank || 1}
                             </span> */}
+                            {/* <span>{`${blog?.blogId}`}</span> */}
                         </div>
-                        <Link href={`/`}>
+                        <Link href={`/blog/${blog.slug}-${blog.blogId}`}>
                             <p className="text-sm hover:underline">
                                 {convertTime(blog.createdAt)}
                             </p>

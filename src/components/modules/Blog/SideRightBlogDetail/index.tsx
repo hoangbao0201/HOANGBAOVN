@@ -7,7 +7,7 @@ interface SidebarRightBlogDetailProps {
 const SidebarRightBlogDetail = ({ toc } : SidebarRightBlogDetailProps) => {
 
     return (
-        <aside className="sticky top-[72px]">
+        <aside className="sticky top-[72px] md:px-3">
             {toc?.length > 0 && (
                 <div className="bg-white px-3 py-4 rounded-md shadow-sm">
                     <TOCInline toc={toc}/>

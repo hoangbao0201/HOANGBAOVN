@@ -80,5 +80,6 @@ export const MDXSource = async ({ source }: MDXSourceProps) => {
     return {
         content: mdxSource,
         toc: toc,
+        frontMatter: data,
     };
 };

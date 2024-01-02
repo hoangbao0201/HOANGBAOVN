@@ -21,7 +21,6 @@ const TOCInline = ({
     asDisclosure = false,
     exclude = "",
 }: TOCInlineProps) => {
-    const router = useRouter();
     const re = Array.isArray(exclude)
         ? new RegExp("^(" + exclude.join("|") + ")$", "i")
         : new RegExp("^(" + exclude + ")$", "i");
