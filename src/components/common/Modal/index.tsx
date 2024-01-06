@@ -8,8 +8,9 @@ import IconClose from "../../modules/icons/IconClose";
 
 interface ModalProps {
     title?: string
-    children: ReactNode;
-    isOpen: boolean;
+    children: ReactNode
+    isOpen: boolean
+    className?: string
     size?: "small" | "medium" | "large" | "extra" | "full";
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -18,6 +19,7 @@ const Modal = ({
     children,
     isOpen,
     setIsOpen,
+    className = "",
     size = "medium",
 }: ModalProps) => {
     return (
@@ -47,7 +49,7 @@ const Modal = ({
                     >
                         <Dialog.Panel
                             className={clsx(
-                                "relative flex flex-col min-h-0 w-full mx-auto transform bg-white rounded-lg shadow-xl transition-all",
+                                "relative flex flex-col min-h-0 w-full mx-auto transform bg-white rounded-lg shadow-xl transition-all pb-4",
                                 {
                                     "max-w-md": size === "small",
                                     "max-w-xl": size === "medium",

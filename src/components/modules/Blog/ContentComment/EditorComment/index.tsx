@@ -1,8 +1,14 @@
-import { Dispatch, RefObject, useCallback, useEffect, useMemo, useState } from "react";
+import {
+    Dispatch,
+    RefObject,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 
-import { EditorState } from "draft-js"
-import Editor from '@draft-js-plugins/editor';
-import '@draft-js-plugins/mention/lib/plugin.css';
+import { EditorState } from "draft-js";
+import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin, {
     MentionData,
     defaultSuggestionsFilter,
@@ -55,7 +61,7 @@ const EditorComment = ({
 }: EditorCommentProps) => {
     const [open, setOpen] = useState(false);
     const [suggestions, setSuggestions] = useState(mentions);
-    
+
     const { MentionSuggestions, plugins } = useMemo(() => {
         const mentionPlugin = createMentionPlugin();
         // eslint-disable-next-line no-shadow
@@ -67,11 +73,10 @@ const EditorComment = ({
 
     const onOpenChange = useCallback((_open: boolean) => {
         setOpen(_open);
-      }, []);
-      const onSearchChange = useCallback(({ value }: { value: string }) => {
-        // setSuggestions(defaultSuggestionsFilter(value, mentions));
-        setSuggestions(defaultSuggestionsFilter(value, mentions))
-      }, []);
+    }, []);
+    const onSearchChange = useCallback(({ value }: { value: string }) => {
+        setSuggestions(defaultSuggestionsFilter(value, mentions));
+    }, []);
 
     const focusEditor = () => {
         if (editor?.current) {
@@ -86,12 +91,13 @@ const EditorComment = ({
         <>
             <Editor
                 ref={editor}
+                editorKey={"editor"}
                 plugins={plugins}
                 editorState={editorState}
                 placeholder={placeholder || ""}
                 onChange={(editorState) => setEditorState(editorState)}
             />
-            {/* <MentionSuggestions
+            <MentionSuggestions
                 open={open}
                 onOpenChange={onOpenChange}
                 suggestions={suggestions}
@@ -99,7 +105,7 @@ const EditorComment = ({
                 onAddMention={() => {
                     // get the mention object selected
                 }}
-            /> */}
+            />
         </>
     );
 };

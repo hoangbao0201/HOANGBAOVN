@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { GetStaticProps } from "next";
 
 import { NextSeo } from "next-seo";
@@ -11,6 +11,8 @@ import SideLeftHome from "@/components/modules/Home/SideLeftHome";
 import SideRightHome from "@/components/modules/Home/SideRightHome";
 import blogService, { GetBlogsProps } from "@/lib/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStatePageHome, setPostsPageHomeRDHandle } from "@/redux/pageHomeSlide";
 
 // const InterestingArticle = dynamic(() => import('@/components/common/InterestingArticle'), {
 //     ssr: false
@@ -20,6 +22,16 @@ interface HomePageProps {
     blogs: GetBlogsProps[];
 }
 const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
+
+    const dispatch = useDispatch();
+    const { isLoadPostsPageHome, postsPageHome } = useSelector((state: RootStatePageHome) => state.pageHome);
+
+    useEffect(() => {
+        if(blogs) {
+            dispatch(setPostsPageHomeRDHandle(blogs));
+        }
+    }, [blogs])
+
     return (
         <>
             <NextSeo
@@ -53,11 +65,11 @@ const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
                         <div className="col-span-2 pt-3 h-full hidden xl:block">
                             <SideLeftHome />
                         </div>
-                        <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
-                            {blogs && blogs.length > 0 ? (
+                        <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3 transition-all">
+                            {!isLoadPostsPageHome ? (
                                 <>
-                                    {blogs.length > 0 &&
-                                        blogs.map((item, index) => {
+                                    {postsPageHome.length > 0 &&
+                                        postsPageHome.map((item, index) => {
                                             return (
                                                 <Fragment key={index}>
                                                     <CardBlog blog={item} />

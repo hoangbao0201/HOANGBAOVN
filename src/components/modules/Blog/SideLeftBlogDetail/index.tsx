@@ -1,3 +1,4 @@
+import Link from "next/link";
 import IconComment from "../../icons/IconComment";
 import IconHear from "../../icons/IconHear";
 import IconSave from "../../icons/IconSave";
@@ -17,12 +18,14 @@ const SidebarLeftBlogDetail = ({  }: SidebarLeftBlogDetailProps) => {
                         <p className="text-lg">0</p>
                     </div>
                     <div className="flex flex-col items-center">
-                        <div className="p-2 flex-1 cursor-pointer hover:bg-gray-100 rounded-full">
-                            <IconComment
-                                size={24}
-                                className="fill-gray-500"
-                            />
-                        </div>
+                        <Link href="#comment">
+                            <div className="p-2 flex-1 cursor-pointer hover:bg-gray-100 rounded-full">
+                                <IconComment
+                                    size={24}
+                                    className="fill-gray-500"
+                                />
+                            </div>
+                        </Link>
                         <p className="text-lg">0</p>
                     </div>
                     <div className="flex flex-col items-center">

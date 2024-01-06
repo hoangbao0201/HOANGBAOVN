@@ -52,7 +52,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
 
                             ) : (
                                 <>
-                                    <Link href={`/create/blog`} title="Tạo bài viết">
+                                    <Link href={`/creator/new-post`} title="Tạo bài viết">
                                         <i className="w-10 bg-gray-100 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
                                             <IconPen size={20} className="h-10 mx-auto"/>
                                         </i>

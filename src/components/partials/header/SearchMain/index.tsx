@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import Modal from "@/components/common/Modal";
 import { useDebounce } from "@/hook/useDebounce";
@@ -12,6 +12,7 @@ import blogService, { GetSearchBlogsProps } from "@/lib/services/blog.service";
 import clsx from "clsx";
 
 const SearchMain = () => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const [isModalSearch, setIsModalSearch] = useState<boolean>(false);
 
     const [valueSearch, setValueSearch] = useState("");
@@ -49,7 +50,10 @@ const SearchMain = () => {
     return (
         <>
             <div
-                onClick={() => setIsModalSearch(true)}
+                onClick={() => {
+                    setIsModalSearch(true);
+                    inputRef.current?.focus();
+                }}
                 className="hidden md:block px-4 py-2 text-base bg-gray-50 text-gray-600 border hover:border-blue-400 rounded-md cursor-text select-none w-full max-w-sm"
             >
                 Tìm kiếm...
@@ -72,6 +76,7 @@ const SearchMain = () => {
                             <IconSearch className="" />
                         </i>
                         <input
+                            ref={inputRef}
                             value={valueSearch}
                             onChange={eventOnchangeValueSearch}
                             className="w-full outline-none border-none py-2 px-2"

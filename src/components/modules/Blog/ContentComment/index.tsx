@@ -14,7 +14,7 @@ import {
     RootStateCommentsBlogDetail,
     addCommentsBlogDetailRDHandle,
     addReplyCommentsBlogDetailRDHandle,
-} from "@/redux/commentsBlogDetail";
+} from "@/redux/commentsBlogDetailSlide";
 import SkeletonItemComment from "../../skeletons/SkeletonItemComment";
 
 interface ContentCommentProps {
@@ -91,10 +91,8 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                     );
                 }
             }
-            setEditorState(() => EditorState.createEmpty());
-            editorRef.current?.focus();
         } catch (error) {
-            setEditorState(EditorState.createEmpty());
+            
         }
     };
 
@@ -116,15 +114,19 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                 parentId,
                 commentText,
             });
+
+            editorRef.current?.focus();
             setIsLoadingSendComment(false);
+            setEditorState(EditorState.createEmpty());
         } catch (error) {
             setIsLoadingSendComment(false);
+            setEditorState(EditorState.createEmpty());
         }
     };
 
     return (
         <div className="md:px-5 px-3 py-5 bg-white mt-5 md:rounded-md shadow-sm">
-            <h5 className="text-lg font-semibold mb-4">Bình luận bài viết</h5>
+            <h5 id="comment" className="text-lg font-semibold mb-4">Bình luận bài viết</h5>
 
             <div className="pb-4 block">
                 <FormEditorComment

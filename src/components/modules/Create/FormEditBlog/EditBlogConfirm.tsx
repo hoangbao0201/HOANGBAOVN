@@ -81,6 +81,7 @@ const EditBlogConfirm = () => {
             </button>
             <Modal
                 size="full"
+                title="Tổng quan bài viết"
                 isOpen={isShowEditBlogDetail}
                 setIsOpen={setIsShowEditBlogDetail}
             >

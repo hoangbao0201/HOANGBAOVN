@@ -321,6 +321,35 @@ class BlogService {
         }
     }
 
+    async delete({
+        blogId,
+        token,
+    }: {
+        blogId: number;
+        token?: string;
+    }): Promise<any> {
+        try {
+            const blogRes = await fetch(
+                `${API_BASE_URL}/api/blogs/${blogId}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token ? `Bearer ${token}` : "",
+                    },
+                }
+            );
+            const blog = await blogRes.json();
+            return blog;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
+
     async findAllSEO(): Promise<any> {
         try {
             const blogsRes = await fetch(

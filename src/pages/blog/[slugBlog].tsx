@@ -14,9 +14,13 @@ import { MDXSource } from "@/components/common/MDXSource";
 import ContentBlogDetail from "@/components/modules/Blog/ContentBlogDetail";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
-import SidebarLeftBlogDetail from "@/components/modules/Blog/SideLeftBlogDetail";
 import SidebarRightBlogDetail from "@/components/modules/Blog/SideRightBlogDetail";
 import siteMetadata from "@/lib/siteMetadata";
+import dynamic from "next/dynamic";
+
+const SidebarLeftBlogDetail = dynamic(() => import("@/components/modules/Blog/SideLeftBlogDetail"), {
+    ssr: false
+});
 
 interface Params extends ParsedUrlQuery {
     slugBlog: string;
@@ -66,7 +70,7 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
         <>
 
             <NextSeo
-                title={`${blog?.title} - ${siteMetadata?.title}`}
+                title={`${blog?.title || ""} - ${siteMetadata?.title}`}
                 description={blog?.summary}
                 openGraph={{
                     url: `${siteMetadata?.siteUrl}/blog/${blog?.slug}-${blog?.blogId}`,

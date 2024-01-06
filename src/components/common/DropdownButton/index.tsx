@@ -1,24 +1,24 @@
-import { ReactNode, useRef, useState } from 'react';
+import { Dispatch, ReactNode, forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { useClickOutSide } from '@/hook/useClickOutSide';
 
 
 interface DropdownButtonProps {
+    isOptions: boolean
+    setIsOptions: Dispatch<React.SetStateAction<boolean>>
     children: ReactNode
     content: ReactNode
     className?: string
     placement?: string
 }
-const DropdownButton = ({ children, content, placement, className } : DropdownButtonProps) => {
+export interface DropdownButtonRef {
+    hiddentOptions: () => void;
+};
+const DropdownButton = ({ isOptions, setIsOptions, children, content, placement, className }: DropdownButtonProps) => {
 
     const optionRef = useRef<HTMLDivElement>(null)
-    const [isOptions, setIsOptions] = useState(false);
-
-    const handleHiddenOptions = () => {
-        setIsOptions(false);
-    }
-
-    useClickOutSide(optionRef, handleHiddenOptions);
-
+    
+    useClickOutSide(optionRef, () => setIsOptions(false));
+      
     return (
         <div ref={optionRef} className='relative'>
             <button onClick={() => setIsOptions(value => !value)}>
@@ -33,6 +33,6 @@ const DropdownButton = ({ children, content, placement, className } : DropdownBu
             }
         </div>
     )
-}
+};
 
-export default DropdownButton;
+export default DropdownButton;  

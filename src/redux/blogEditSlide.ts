@@ -40,7 +40,7 @@ export const counterSlice = createSlice({
             state.isSave = false;
         },
         addImageBlogEditRDHandle: (state, action) => {
-            if(state.blogEdit) {
+            if(state.blogEdit && state.blogEdit.blogImages) {
                 state.blogEdit.blogImages.push(action.payload)
             }
             state.isSave = false;

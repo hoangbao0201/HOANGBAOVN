@@ -10,7 +10,7 @@ import TagsBlog from "@/components/common/TagsBlog";
 import AvatarRank from "@/components/common/AvatarRank";
 import MDXContent from "@/components/common/MDXSource/MDXContent";
 import commentService, { GetCommentsProps } from "@/lib/services/comment.service";
-import { setCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetail";
+import { setCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetailSlide";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
@@ -62,6 +62,7 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
     }, [status]);
 
     useEffect(() => {
+        dispatch(setCommentsBlogDetailRDHandle(null));
         handleGetComments();
     }, [])
 

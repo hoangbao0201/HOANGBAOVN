@@ -9,13 +9,16 @@ import { useDebounce } from "@/hook/useDebounce";
 import EditorMarkdown from "@/components/common/EditorMarkdown";
 import blogService, { GetBlogEditProps } from "@/lib/services/blog.service";
 import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle } from "@/redux/blogEditSlide";
+import { useRouter } from "next/router";
 
 
 interface FormEditBlogProps {
-    blog: GetBlogEditProps
+    // blog?: GetBlogEditProps
+    isEdit: boolean
 }
-const FormEditBlog = ({ blog } : FormEditBlogProps) => {
+const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
 
+    const router = useRouter();
     const dispatch = useDispatch();
     const { blogEdit, isSave } = useSelector((state: any) => state.blogEdit);
     const [isLoad, setIsLoad] = useState(false);
@@ -40,6 +43,7 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
         if(!session || status !== "authenticated") {
             return;
         }
+        // console.log(blogEdit)
         try {
             const saveEditBlogRes = await blogService.updateBlog({
                 data: blogEdit,
@@ -55,15 +59,41 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
 
         dispatch(setIsSaveBlogEditRDHandle(true)); 
     }
+
+    // Handle Create Blog
+    const handleCreateBlog = async () => {
+        if(!session || status !== "authenticated") {
+            return;
+        }
+
+        try {
+            const { success, blog } = await blogService.createBlog({
+                data: {
+                    ...blogEdit,
+                    // blogTags: convertTags
+                },
+                token: session.backendTokens.accessToken
+            });
+
+            if(success) {
+                dispatch(setIsSaveBlogEditRDHandle(true));
+                router.push(`/creator/post/${blog?.blogId}/edit`, undefined, { shallow: true });
+            }
+        } catch (error) {}
+    }
     
     useEffect(() => {
-        if(isLoad) {
+        if(!isEdit && blogEdit) {
+            if(blogEdit?.title?.length > 10 || blogEdit?.content?.length > 10) {
+                handleCreateBlog();
+            }
+        }
+        else if(isLoad) {
             dispatch(setIsSaveBlogEditRDHandle(false));
             handleSaveEditBlog()
             console.log("lưu bài viết")
         }
         else {
-            dispatch(setBlogEditRDHandle(blog));
             console.log("load lần đầu")
         }
     }, [contentBlogEditDebounce]);
@@ -86,7 +116,7 @@ const FormEditBlog = ({ blog } : FormEditBlogProps) => {
 
                 <ListImageEditBlog />
 
-                {!isSave && "Loading"}
+                {isEdit && !isSave && "Loading"}
                 
                 <div>
                     {session ? (

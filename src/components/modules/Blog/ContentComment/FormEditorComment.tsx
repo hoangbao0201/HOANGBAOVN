@@ -38,18 +38,20 @@ const FormEditorComment = ({
     const [isFormEditor, setIsFormEditor] = useState(isEditorComment);
     return (
         <div className="flex mb-5">
-            <AvatarRank rank={1}>
-                <Link href={`/`}>
-                    <Image
-                        width={60}
-                        height={60}
-                        alt="ảnh người dùng"
-                        src={"/static/images/default/avatar_user_sm.jpg"}
-                        className="md:w-10 md:h-10 w-9 h-9 block object-cover rounded-full flex-shrink-0"
-                    />
-                </Link>
-            </AvatarRank>
-            <div className="w-full flex-1 ml-2">
+            <div className="flex-shrink-0">
+                <AvatarRank rank={1}>
+                    <Link href={`/`}>
+                        <Image
+                            width={60}
+                            height={60}
+                            alt="ảnh người dùng"
+                            src={"/static/images/default/avatar_user_sm.jpg"}
+                            className={`${isReply ? "md:w-8 md:h-8 w-8 h-8" : "md:w-10 md:h-10 w-9 h-9"} block object-cover rounded-full`}
+                        />
+                    </Link>
+                </AvatarRank>
+            </div>
+            <div className="w-full flex-1 flex-shrink-0 ml-2">
                 {isReply && (
                     <div className="bg-gray-200 border px-3 py-1 rounded-t-md">
                         <span className="font-semibold">Người nhận: {receiver?.name}</span>
