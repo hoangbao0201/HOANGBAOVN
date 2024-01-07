@@ -138,7 +138,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
             } || null,
             toc: toc || [],
         },
-        revalidate: 3*60*60
+        revalidate: 60
     };
 };
 

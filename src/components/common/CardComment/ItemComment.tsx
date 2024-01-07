@@ -69,7 +69,7 @@ const ItemComment = ({
                         <div className="border rounded-[20px] py-[8px] px-[12px] mb-1 bg-gray-100 min-h-[50px]">
                             <div className="flex items-center justify-between">
                                 <Link href={`/user/${comment?.sender.username}`}>
-                                    <span className="font-semibold">
+                                    <span className="font-semibold text-[15px]">
                                         {comment?.sender.name}
                                     </span>
                                     {/* <span className="text-sm"> - userid: {comment.sender?.userId}</span>

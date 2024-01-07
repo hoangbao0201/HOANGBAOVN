@@ -28,7 +28,7 @@ const SideBarNavigationMainData = [
     },
     {
         title: 'Live',
-        link: "/watch/live",
+        link: "/",
         icon: <IconSignalStream size={22} />
     },
 ];

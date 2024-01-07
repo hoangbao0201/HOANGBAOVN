@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import blogEditSlide from "./blogEditSlide";
-import buttonActionSlide from "./buttonActionSlide";
 import pageHomeSlide from "./pageHomeSlide";
+import pageTagDetail from "./pageTagDetail";
+import buttonActionSlide from "./buttonActionSlide";
 import commentsBlogDetailSlide from "./commentsBlogDetailSlide";
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
         blogEdit: blogEditSlide,
         buttonAction: buttonActionSlide,
         pageHome: pageHomeSlide,
+        pageTagDetail: pageTagDetail,
         commentsBlogDetail: commentsBlogDetailSlide
     },
 });

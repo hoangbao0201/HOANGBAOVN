@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 import { ParsedUrlQuery } from "querystring";
@@ -12,21 +12,43 @@ import SideRightTagDetail from "@/components/modules/Tag/SideRightTagDetail";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import { NextSeo } from "next-seo";
 import siteMetadata from "@/lib/siteMetadata";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    RootStatePageTagDetail,
+    setPostsPageTagDetailRDHandle,
+} from "@/redux/pageTagDetail";
 
 interface Params extends ParsedUrlQuery {
     slugBlog: string;
 }
 
 interface TagDetailPageProps {
-    slugTag: string
-    blogs: GetBlogsProps[]
+    slugTag: string;
+    blogs: GetBlogsProps[];
 }
-const TagDetailPage: NextPageWithLayout<TagDetailPageProps> = ({ slugTag, blogs }) => {
+const TagDetailPage: NextPageWithLayout<TagDetailPageProps> = ({
+    slugTag,
+    blogs,
+}) => {
+    const dispatch = useDispatch();
+    const { isLoadPostsPageTagDetail, postsPageTagDetail } = useSelector(
+        (state: RootStatePageTagDetail) => state.pageTagDetail
+    );
+
+    useEffect(() => {
+        if (blogs) {
+            dispatch(setPostsPageTagDetailRDHandle(blogs));
+        }
+    }, [blogs]);
+
+    console.log(isLoadPostsPageTagDetail, postsPageTagDetail)
 
     return (
         <>
             <NextSeo
-                title={`Chủ đề ${slugTag ? slugTag?.toUpperCase() : ""} - ${siteMetadata?.title}`}
+                title={`Chủ đề ${slugTag ? slugTag?.toUpperCase() : ""} - ${
+                    siteMetadata?.title
+                }`}
                 description={``}
             />
             <div className="max-w-7xl w-full min-h-screen mx-auto mb-4">
@@ -35,17 +57,19 @@ const TagDetailPage: NextPageWithLayout<TagDetailPageProps> = ({ slugTag, blogs 
                         <SideLeftTagDetail />
                     </div>
                     <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
-                        {blogs && blogs.length > 0 ? (
+                        {!isLoadPostsPageTagDetail ? (
                             <>
-                                {
-                                    blogs.map((blog, index) => {
+                                {postsPageTagDetail.length > 0 ? (
+                                    postsPageTagDetail.map((blog, index) => {
                                         return (
                                             <Fragment key={blog.blogId}>
                                                 <CardBlog blog={blog} />
                                             </Fragment>
                                         );
                                     })
-                                }
+                                ) : (
+                                    <div></div>
+                                )}
                             </>
                         ) : (
                             <SkeletonCardBlog count={3} />
@@ -68,14 +92,16 @@ TagDetailPage.getLayout = (page) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const { slugTag } = context.params as Params;
-    const { blogs } = await blogService.getAllBlogs({ query: `?tag=${slugTag}` });
+    const { blogs } = await blogService.getAllBlogs({
+        query: `?tag=${slugTag}`,
+    });
 
     return {
         props: {
             slugTag: slugTag || "",
-            blogs: blogs || []
+            blogs: blogs || [],
         },
-        revalidate: 24*60*60
+        revalidate: 60 * 60,
     };
 };
 

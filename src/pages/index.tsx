@@ -13,6 +13,7 @@ import blogService, { GetBlogsProps } from "@/lib/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStatePageHome, setPostsPageHomeRDHandle } from "@/redux/pageHomeSlide";
+import { setLoadPostsPageTagDetail } from "@/redux/pageTagDetail";
 
 // const InterestingArticle = dynamic(() => import('@/components/common/InterestingArticle'), {
 //     ssr: false
@@ -30,7 +31,7 @@ const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
         if(blogs) {
             dispatch(setPostsPageHomeRDHandle(blogs));
         }
-    }, [blogs])
+    }, [blogs]);
 
     return (
         <>
