@@ -31,7 +31,7 @@ const MDXContent = ({ content }: MDXContentProps) => {
                     },
                     a: ({ node, ...props }: any) => {
                         return (
-                            <Link href={`${props?.href}`} target="_blank" className="text-blue-500">
+                            <Link href={`${props?.href}`} target="_blank" className="text-blue-500" {...props}>
                                 {props?.children.length > 50 ? props?.children.substring(0, 50) + "/..." : props?.children}
                             </Link>
                         );

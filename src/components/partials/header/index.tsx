@@ -31,9 +31,10 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                         <Image
                             width={100}
                             height={100}
+                            loading="lazy"
+                            decoding="async"
                             src={`/static/images/logo.png`}
                             alt="Logo HOANGBAO"
-                            priority={true}
                             className="w-[100px]"
                         />
                     </Link>
