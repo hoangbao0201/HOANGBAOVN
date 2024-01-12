@@ -79,7 +79,7 @@ const TOCInline = ({
                     className={`${
                         heading.url.slice(1) === activeId
                             ? `text-indigo-700 opacity-100 active-see`
-                            : ` text-gray-900`
+                            : ` text-gray-900 dark:text-white`
                     } cursor-pointer font-medium select-none line-clamp-2 transition-all item-toc mb-2hover:underline hover:text-indigo-800`}
                 >
                     {/* <div title={heading.value} onClick={() => handleChangeTagTOC(heading.url)}>{heading.value}</div> */}

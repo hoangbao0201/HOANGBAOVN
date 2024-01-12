@@ -21,7 +21,7 @@ const CardBlog = ({blog} : CardBlog) => {
 
     return (
         <article id={`${blog?.blogId}`} className="md:px-3 flex mb-4 relative">
-            <div className="bg-white md:rounded-md w-full overflow-hidden shadow-sm outline-2 outline-indigo-500 hover:outline-dashed">
+            <div className="bg-white dark:bg-slate-800 md:rounded-md w-full overflow-hidden shadow-sm outline-2 outline-indigo-500 hover:outline-dashed">
                 <div className="flex px-4 pt-4">
                     <Link href={`/user/${blog.author.username}`}>
                         <AvatarRank rank={1}>
@@ -67,7 +67,7 @@ const CardBlog = ({blog} : CardBlog) => {
                 </div>
                 <div className="px-4 my-3">
                     <h2 className="text-2xl font-semibold mb-2 line-clamp-2">
-                        <Link href={`/blog/${blog.slug}-${blog.blogId}`} className="hover:underline hover:text-indigo-700">
+                        <Link href={`/blog/${blog.slug}-${blog.blogId}`} className="hover:underline hover:text-indigo-600">
                             {blog.title}
                         </Link>
                     </h2>

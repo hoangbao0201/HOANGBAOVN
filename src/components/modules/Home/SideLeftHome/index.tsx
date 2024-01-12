@@ -44,10 +44,10 @@ const SideLeftHome = () => {
                             <li key={index}>
                                 <Link href={item.link}>
                                     <div
-                                        className="text-gray-700 flex items-center px-3 py-2 space-x-3 hover:bg-white/90 rounded-md"
+                                        className="text-gray-700 dark:text-white flex items-center px-3 py-2 space-x-3 hover:bg-white/90 dark:hover:bg-white/10 rounded-md"
                                     >
                                         {item.icon && (
-                                            <i className="flex-shrink-0 fill-gray-500 stroke-gray-500">{item.icon}</i>
+                                            <i className="flex-shrink-0 fill-gray-500 dark:fill-white stroke-gray-500">{item.icon}</i>
                                         )}
                                         <p>{item.title}</p>
                                     </div>

@@ -8,8 +8,11 @@ import EditBlogConfirm from "./EditBlogConfirm";
 import { useDebounce } from "@/hook/useDebounce";
 import EditorMarkdown from "@/components/common/EditorMarkdown";
 import blogService, { GetBlogEditProps } from "@/lib/services/blog.service";
-import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle } from "@/redux/blogEditSlide";
+import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
 import { useRouter } from "next/router";
+import ListTag from "./ListTag";
+import Link from "next/link";
+import Image from "next/image";
 
 
 interface FormEditBlogProps {
@@ -21,7 +24,7 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { blogEdit, isSave } = useSelector((state: any) => state.blogEdit);
-    const [isLoad, setIsLoad] = useState(false);
+    // const [isLoad, setIsLoad] = useState(false);
 
     const contentBlogEditDebounce = useDebounce(JSON.stringify(blogEdit), 2000);
 
@@ -31,7 +34,8 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
     // Onchange Data Blog
     const eventOnchangeDataBlog = (data: { [key: string]: any }) => {
         // dispatch(setIsSaveBlogEditRDHandle(false)); 
-        setIsLoad(true);
+        // setIsLoad(true);
+        dispatch(setIsSaveBlogEditRDHandle(false));
         dispatch(setBlogEditRDHandle({
             ...blogEdit,
             ...data
@@ -83,13 +87,13 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
     }
     
     useEffect(() => {
+        console.log(blogEdit)
         if(!isEdit && blogEdit) {
-            if(blogEdit?.title?.length > 10 || blogEdit?.content?.length > 10) {
+            if(blogEdit?.title?.length > 10 && blogEdit?.content?.length > 10) {    
                 handleCreateBlog();
             }
         }
-        else if(isLoad) {
-            dispatch(setIsSaveBlogEditRDHandle(false));
+        else if(!isSave) {
             handleSaveEditBlog()
             console.log("lưu bài viết")
         }
@@ -99,26 +103,53 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
     }, [contentBlogEditDebounce]);
 
     return (
-        <main className="">
-            <div
-                className="py-5 px-4 bg-white"
-            >
-                <div className="flex">
+        <div className="w-screen h-screen md:p-4 fixed inset-0">
+            <div className="relative bg-white md:rounded-md shadow-sm">
+                <div className="w-full relative top-0 left-0 right-0 px-4 py-4">
+                    <div className="flex items-center mb-3">
+                        <Link href={`/`}>
+                            <Image
+                                width={100}
+                                height={100}
+                                loading="lazy"
+                                decoding="async"
+                                src={`/static/images/logo.png`}
+                                alt="Logo HOANGBAO"
+                                className="w-[80px] h-[30px]"
+                            />
+                        </Link>
+                        <span className="mx-3 inline h-5 w-px bg-gray-300/60"></span>
+                        <div className="mr-auto whitespace-nowrap">
+                            {
+                                isEdit && (
+                                    !isSave ? (
+                                        <span className="bg-indigo-600 text-white rounded-md py-1 px-2 text-sm">Đang lưu...</span>
+                                    ) : (
+                                        <span className="bg-indigo-600 text-white rounded-md py-1 px-2 text-sm">Đã lưu</span>
+                                    )
+                                )
+                            }
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <ListImageEditBlog />
+                            <EditBlogConfirm />
+                        </div>
+                        
+                    </div>
                     <input
                         name="title"
                         value={blogEdit?.title || ''}
                         onChange={(e) => eventOnchangeDataBlog({ [e.target.name]: e.target.value })}
                         placeholder="Tiêu đề bài viết"
-                        className="border-b outline-none mb-4 pb-2 font-semibold text-xl w-full"
+                        className="border-b outline-none mb-4 pt-2 pb-2 font-semibold text-xl w-full"
                     />
-                    <EditBlogConfirm />
                 </div>
-
-                <ListImageEditBlog />
-
-                {isEdit && !isSave && "Loading"}
                 
-                <div>
+                <div
+                    // pt-44 pb-20 px-4
+                    className="md:h-[calc(100vh-180px)] h-[calc(100vh-145px)] px-4 pb-4"
+                >
                     {session ? (
                         <EditorMarkdown
                             blogId={blogEdit?.blogId}
@@ -127,12 +158,11 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
                             onchangeContent={eventOnchangeDataBlog}
                         />
                     ) : (
-                        <div className="w-full min-h-screen border-none"></div>
+                        <div className="w-full border-none"></div>
                     )}
                 </div>
             </div>
-
-        </main>
+        </div>
     );
 };
 

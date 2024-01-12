@@ -8,7 +8,7 @@ const CardTag = ({ tag } : CardTagProps) => {
 
     return (
         <div className="px-2 mb-4">
-            <div className="h-48 bg-white rounded-md shadow-sm px-3 py-3 flex flex-col outline-2 outline-indigo-500 hover:outline-dashed">
+            <div className="h-48 bg-white dark:bg-slate-800 rounded-md shadow-sm px-3 py-3 flex flex-col outline-2 outline-indigo-500 hover:outline-dashed">
                 <div className="flex items-end justify-between line-clamp-1 mb-2">
                     <Link
                         className=""
@@ -24,7 +24,7 @@ const CardTag = ({ tag } : CardTagProps) => {
 
                 <div className="space-x-1 mt-auto">
                     <button className="py-2 px-3 text-sm min-w-[90px] text-white border bg-blue-600 hover:bg-blue-700 rounded-md">Theo dõi</button>
-                    <button className="py-2 px-3 text-sm min-w-[90px] text-black hover:bg-blue-50 rounded-md">Ẩn đi</button>
+                    <button className="py-2 px-3 text-sm min-w-[90px] text-black dark:text-white hover:bg-blue-50 hover:dark:bg-white/30 rounded-md">Ẩn đi</button>
                 </div>
             </div>
         </div>

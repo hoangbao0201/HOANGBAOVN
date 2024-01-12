@@ -7,7 +7,7 @@ const SkeletonCardBlog = ({ count = 4 }: { count?: number }) => {
                 return (
                     <Fragment key={i}>
                         <div className="md:px-3 flex mb-4">
-                            <div className="w-full bg-white md:rounded-md animate-pulse">
+                            <div className="w-full bg-white dark:bg-slate-800 md:rounded-md animate-pulse">
                                 <div className="flex px-4 pt-4">
                                     <div className="w-12 h-12 flex-shrink-0 bg-gray-200 rounded-full dark:bg-gray-700"></div>
                                     <div className="ml-2">

@@ -34,7 +34,7 @@ const Modal = ({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-black/20" />
+                    <div className="fixed inset-0 bg-black/20 dark:bg-white/10" />
                 </Transition.Child>
 
                 <div className="fixed flex flex-col top-0 left-0 right-0 bottom-0 h-screen w-screen md:py-20 py-5 px-1">
@@ -49,13 +49,13 @@ const Modal = ({
                     >
                         <Dialog.Panel
                             className={clsx(
-                                "relative flex flex-col min-h-0 w-full mx-auto transform bg-white rounded-lg shadow-xl transition-all pb-4",
+                                "relative flex flex-col min-h-0 w-full mx-auto transform bg-white dark:bg-slate-900 rounded-lg shadow-xl transition-all pb-4",
                                 {
                                     "max-w-md": size === "small",
                                     "max-w-xl": size === "medium",
                                     "max-w-3xl": size === "large",
                                     "max-w-7xl": size === "extra",
-                                    "max-w-full": size === "full"
+                                    "max-w-full h-full": size === "full"
                                 }
                             )}
                         >

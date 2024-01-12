@@ -10,7 +10,7 @@ interface MDXContentProps {
 }
 const MDXContent = ({ content }: MDXContentProps) => {
     return (
-        <div id="mdxpage" className="prose prose-lg max-w-none dark:prose-dark text-black font-sans">
+        <div id="mdxpage" className="prose md:prose-lg prose-base max-w-none dark:prose-dark text-black font-sans prose-gray">
             <MDXRemote
                 {...content}
                 components={{

@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Modal from "@/components/common/Modal";
 import IconCheckMark from "../../icons/IconCheckMark";
-import { EditBlogSlideProps, addImageContentBlogEditRDHandle } from "@/redux/blogEditSlide";
+import { PageEditBlogSlideProps, addImageContentBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
 
 interface ListImageEditBlogProps {}
 const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
     const dispatch = useDispatch();
-    const { blogEdit, isSave }: EditBlogSlideProps = useSelector(
+    const { blogEdit, isSave }: PageEditBlogSlideProps = useSelector(
         (state: any) => state.blogEdit
     );
 
@@ -56,7 +56,7 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
         <>
             <button
                 onClick={() => setIsShowListImageBlog(true)}
-                className="px-3 mb-4 rounded-md h-10 border text-white whitespace-nowrap bg-blue-500 hover:bg-blue-600"
+                className="px-3 py-1 rounded-md border text-white whitespace-nowrap bg-blue-500 hover:bg-blue-600"
             >
                 Danh sách ảnh
             </button>

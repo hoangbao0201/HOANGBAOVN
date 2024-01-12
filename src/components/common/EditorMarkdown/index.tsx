@@ -9,8 +9,7 @@ import convertTime from "@/utils/convertTime";
 import TextActionSave from "./Toolbar/TextActionSave";
 import imageService from "@/lib/services/image.service";
 import MDXContentEdit from "../MDXSource/MDXContentEdit";
-import { addImageBlogEditRDHandle } from "@/redux/blogEditSlide";
-
+import { addImageBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
 
 
 interface EditorMarkdownProps {
@@ -33,6 +32,8 @@ const EditorMarkdown = ({
         if (!session || status !== "authenticated") {
             return;
         }
+
+        console.log("blogId: ", blogId);
 
         try {
             const formData = new FormData();
@@ -60,21 +61,20 @@ const EditorMarkdown = ({
     }, [lastEdited]);
 
     return (
-        <div>
+        <>
             <Editor
                 value={content || ""}
-                htmlClass=" "
-                className="w-full h-screen border-none"
+                className="max-h-full h-full"
                 onChange={({ text, html }) =>
                     onchangeContent({ content: text })
                 }
                 onImageUpload={handleUploadImageBlog}
                 renderHTML={async (text: string) => {
-                    // return await renderHTML(text);
                     return <MDXContentEdit content={text}/>
                 }}
+
             />
-        </div>
+        </>
     );
 };
 

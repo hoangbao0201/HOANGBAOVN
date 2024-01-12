@@ -69,7 +69,7 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
     return (
         <>
             <div className="md:px-3">
-                <div className="bg-white md:rounded-md shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-slate-800 md:rounded-md shadow-sm overflow-hidden">
                     <article className="">
                         <header className="mb-4">
                             <div className="mb-6">
@@ -120,7 +120,7 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
                             </div>
                             <h1
                                 title={blog?.title}
-                                className="font-extrabold text-4xl md:px-8 px-4 relative block"
+                                className="md:font-bold md:text-4xl md:px-8 font-semibold text-2xl px-4 line-clamp-2 relative block"
                             >
                                 {blog?.title}
                             </h1>

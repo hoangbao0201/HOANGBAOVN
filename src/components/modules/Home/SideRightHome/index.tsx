@@ -6,7 +6,7 @@ const SideRightHome = () => {
 
     return (
         <aside className="sticky top-[72px]">
-            <div className="bg-white rounded-lg shadow-sm sticky top-[72px] mb-4">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm sticky top-[72px] mb-4">
                 <div>
                     <div className="px-3 py-4 flex items-center text-lg font-semibold border-b">
                         <h2>Bảnh xếp hạng</h2>
@@ -15,7 +15,7 @@ const SideRightHome = () => {
                         {
                             [1,2,3,4,5].map((item,index) => {
                                 return (
-                                    <div key={index} className="px-3 py-2 border-b">
+                                    <div key={index} className="px-3 py-2 border-t">
                                         <div className="flex items-center">
                                             <span className="w-8 mr-3 flex justify-center font-semibold">
                                                 {

@@ -1,12 +1,14 @@
 import { ChangeEvent, useState } from "react";
 
 import { MultiValue } from "react-select";
-import CreatableSelect from "react-select/creatable";
+import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 
+import ListTag from "./ListTag";
 import Modal from "@/components/common/Modal";
-import { setBlogEditRDHandle } from "@/redux/blogEditSlide";
 import IconAlertCircle from "../../icons/IconAlertCircle";
+import imageService from "@/lib/services/image.service";
+import { RootStatePageEditBlog, addImageBlogEditRDHandle, setBlogEditRDHandle, setIsSaveBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
 
 
 interface Option {
@@ -17,9 +19,9 @@ interface EditBlogConfirmProps {
 }
 const EditBlogConfirm = () => {
     const dispatch = useDispatch();
-    const { blogEdit, isSave } = useSelector((state: any) => state.blogEdit);
+    const { data: session, status } = useSession();
+    const { blogEdit, isSave } = useSelector((state: RootStatePageEditBlog) => state.pageEditBlog);
 
-    const [selectedTags, setSelectedTags] = useState<MultiValue<Option>>([]);
     const [isShowEditBlogDetail, setIsShowEditBlogDetail] =
         useState<boolean>(false);
     const [fileThumbnail, setFileThumbnail] = useState<{
@@ -29,11 +31,9 @@ const EditBlogConfirm = () => {
         dataImage: null,
         urlImage: "",
     });
-    const [optionTagDefault, setOptionTagDefault] = useState<
-        MultiValue<Option>
-    >([{ label: "ReactJS", value: "reactjs" }]);
 
-    const eventOnchangeDataBlog = (e: ChangeEvent<HTMLInputElement>) => {
+    const eventOnchangeDataBlog = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        dispatch(setIsSaveBlogEditRDHandle(false));
         dispatch(setBlogEditRDHandle({
             ...blogEdit,
             [e.target.name]: e.target.value,
@@ -44,40 +44,50 @@ const EditBlogConfirm = () => {
     const eventOnchangeThumbnailBlog = async (
         e: ChangeEvent<HTMLInputElement>
     ) => {
-        if (e.target.files == null) {
+        if (e.target.files == null || (e.target.files && e.target.files.length <=0)) {
             return;
         }
         const dataImg = e.target.files[0];
+        const urlImage = URL.createObjectURL(dataImg)
 
         setFileThumbnail({
             ...fileThumbnail,
             dataImage: dataImg,
-            urlImage: URL.createObjectURL(dataImg),
+            urlImage: urlImage,
         });
     };
 
-    const handleSaveEditBlog = () => {
+    const handleUploadThumbnailBlog = async () => {
+        if (!session || status !== "authenticated" || !fileThumbnail.dataImage) {
+            return;
+        }
 
+        try {
+            const formData = new FormData();
+            formData.append("image", fileThumbnail.dataImage);
+            const imageRes = await imageService.createImageBlog({
+                query: `?blogId=${blogEdit?.blogId}`,
+                dataImage: formData,
+                token: session.backendTokens.accessToken,
+            });
+
+            if (imageRes?.success) {
+                dispatch(addImageBlogEditRDHandle({
+                    blogImageId: imageRes.blogImageId,
+                    urlImage: imageRes.urlImage
+                }));
+                return imageRes.urlImage;
+            }
+        } catch (error) {}
     }
-
-    const handleUploadThumbnailBlog = () => {
-
-    }
-
-    const eventOnchangeTagsBlog = (
-        selectedOptions: MultiValue<Option>,
-        // actionMeta: ActionMeta<Option>
-    ) => {
-        setSelectedTags(selectedOptions);
-    };
 
     return (
         <>
             <button
                 onClick={() => setIsShowEditBlogDetail(true)}
-                className="ml-5 px-3 rounded-md h-10 border text-white whitespace-nowrap bg-blue-500 hover:bg-blue-600"
+                className="px-3 py-1 rounded-md border text-white whitespace-nowrap bg-green-500 hover:bg-green-600"
             >
-                Lưu
+                Xuất bản
             </button>
             <Modal
                 size="full"
@@ -85,11 +95,17 @@ const EditBlogConfirm = () => {
                 isOpen={isShowEditBlogDetail}
                 setIsOpen={setIsShowEditBlogDetail}
             >
-                <div>
+                <div className="">
                     <div className="font-semibold text-lg mb-4">Xem trước</div>
-                    <div className="h-full md:flex md:space-x-8">
+                    <div className="md:flex md:space-x-8">
                         <div className="md:w-2/5">
-                            <div className="mb-6">
+                            <div className="mb-4">
+                                <input
+                                    id="inputThumbnail"
+                                    className="hidden"
+                                    type="file"
+                                    onChange={eventOnchangeThumbnailBlog}
+                                />
                                 <label
                                     htmlFor="inputThumbnail"
                                     className="cursor-pointer group image-change"
@@ -106,6 +122,7 @@ const EditBlogConfirm = () => {
                                         <p className={`text-gray-900 mb-3`}>
                                             Thêm một ảnh đại diện hấp dẫn sẽ
                                             giúp bài viết của bạn cuốn hút hơn
+
                                             với độc giả.
                                         </p>
                                         <p>
@@ -116,33 +133,27 @@ const EditBlogConfirm = () => {
                                 </label>
                             </div>
                             <input
-                                // value={blogEdit?.title}
                                 name="title"
+                                value={blogEdit?.title}
                                 onChange={eventOnchangeDataBlog}
                                 placeholder="Tiêu đề bài viết"
                                 className="border-b outline-none mb-4 pb-2 font-semibold text-lg w-full"
                             />
-                            <input
-                                value={blogEdit?.summary}
+                            <textarea
                                 name="summary"
+                                value={blogEdit?.summary}
                                 onChange={eventOnchangeDataBlog}
                                 placeholder="Mô tả khi được hiển thị"
-                                className="border-b outline-none mb-4 pb-2 font-medium text-base w-full"
+                                onKeyDown={(e) => {
+                                    if(e.key === "Enter") {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                maxLength={250}
+                                className="shadow border outline-none mb-2 px-3 py-3 rounded-md font-medium text-base w-full h-[80px] resize-none"
                             />
-                            <input
-                                id="inputThumbnail"
-                                className="hidden"
-                                type="file"
-                                onChange={eventOnchangeThumbnailBlog}
-                            />
-                            <button
-                                onClick={handleUploadThumbnailBlog}
-                                className="border rounded-md px-3 py-1 bg-blue-600 active:scale-105"
-                            >
-                                Upload
-                            </button>
                         </div>
-                        <div className="md:w-3/5 flex flex-col justify-between">
+                        <div className="md:w-3/5 flex flex-col justify-between relative">
                             <div className="">
                                 <div className="flex items-center py-1">
                                     <IconAlertCircle className="w-4 h-4 stroke-blue-500 block" />
@@ -150,33 +161,8 @@ const EditBlogConfirm = () => {
                                         Không quá 3 thẻ, không quá 15 kí tự
                                     </span>
                                 </div>
-                                <CreatableSelect
-                                    isMulti
-                                    // getOptionLabel={option => option.label}
-                                    // getOptionValue={option => option.name}
-                                    // formatOptionLabel={option => option.name ? option.label : `${option.label} Whatever`}
-                                    formatCreateLabel={(inputValue) =>
-                                        `Tạo tag ${inputValue}`
-                                    }
-                                    isValidNewOption={(value) =>
-                                        value.length > 1 && value.length < 15
-                                    }
-                                    // isValidNewOption={() => true}
-                                    options={optionTagDefault}
-                                    placeholder="Ví dụ: ReactJS, NodeJS, UX, UI"
-                                    noOptionsMessage={() => "Không tìm thấy"}
-                                    styles={{
-                                        control: (baseStyles, state) => ({
-                                            ...baseStyles,
-                                            borderColor: "#ccc",
-                                            outline: "none",
-                                            backgroundColor: "#fafafa",
-                                            borderRadius: "6px",
-                                            padding: "3px 5px",
-                                        }),
-                                    }}
-                                    defaultValue={selectedTags}
-                                    onChange={eventOnchangeTagsBlog}
+                                <ListTag
+                                    tags={blogEdit?.blogTags || []}
                                 />
 
                                 <div className="flex items-center mt-4">
@@ -206,24 +192,18 @@ const EditBlogConfirm = () => {
                                     </label>
                                 </div>
                             </div>
-                            <div className="mt-10 py-5 flex bottom-0 justify-end space-x-2">
-                                <button
-                                    onClick={handleSaveEditBlog}
-                                    className="border rounded-md py-2 px-3 bg-green-600 hover:bg-green-700 text-white"
-                                >
-                                    Lưu và xuất bản
-                                </button>
-
-                                <button
-                                    onClick={() =>
-                                        setIsShowEditBlogDetail(false)
-                                    }
-                                    className="border rounded-md py-2 px-3 hover:bg-slate-100 text-black"
-                                >
-                                    Thoát
-                                </button>
-                            </div>
                         </div>
+                    </div>
+
+                    <div className="mt-10 flex justify-end space-x-2">
+                        <button
+                            onClick={() =>
+                                setIsShowEditBlogDetail(false)
+                            }
+                            className="border rounded-md py-2 px-3 hover:bg-slate-100 text-black"
+                        >
+                            Thoát
+                        </button>
                     </div>
                 </div>
             </Modal>

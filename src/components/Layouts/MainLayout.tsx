@@ -4,13 +4,14 @@ import Header from "../partials/header"
 
 interface MainLayoutProps {
     children: ReactNode
+    isHeaderDynamic?: boolean
 }
-const MainLayout = ({ children }: MainLayoutProps) => {
+const MainLayout = ({ children, isHeaderDynamic = true }: MainLayoutProps) => {
 
     return (
         <>
-            <Header />
-            <main>
+            <Header isDynamic={isHeaderDynamic}/>
+            <main className={``}>
                 {children}
             </main>
             <Footer />

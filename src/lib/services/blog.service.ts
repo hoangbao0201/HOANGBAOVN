@@ -258,11 +258,11 @@ class BlogService {
         data,
         token,
     }: {
-        data: PostCreateBlogProps & { blogId: string };
+        data: PostCreateBlogProps & { blogId: string, slug: string };
         token: string;
     }): Promise<any> {
         try {
-            const { blogId, title, content, published, summary } = data;
+            const { blogId, title, slug = "", content, published = false, summary = "", blogTags = [] } = data;
 
             const blogRes = await fetch(
                 `${API_BASE_URL}/api/blogs/edit?blogId=${blogId}`,
@@ -274,10 +274,11 @@ class BlogService {
                     },
                     body: JSON.stringify({
                         title: title,
+                        slug: textToSlug(title) || "",
                         content: content,
-                        published: published,
-                        thumbnailUrl: "",
                         summary: summary,
+                        blogTags: blogTags,
+                        published: published,
                     }),
                 }
             );

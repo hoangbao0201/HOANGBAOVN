@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 import clsx from "clsx";
+import { useTheme } from "next-themes";
 
 import SearchMain from "./SearchMain";
 import UserDropdown from "./UserDropdown";
-import { useSession } from "next-auth/react";
+import ButtonDarkMode from "./ButtonDarkMode";
 import IconPen from "@/components/modules/icons/IconPen";
 import IconBell from "@/components/modules/icons/IconBell";
 
@@ -14,12 +16,14 @@ interface HeaderProps {
 }
 const Header = ({ isDynamic = true } : HeaderProps) => {
     const { data: session, status } = useSession();
+    const { systemTheme, theme } = useTheme();
+    const currentTheme = theme === "system" ? systemTheme : theme;
     // const matchesMobile = useMediaQuery("(max-width: 768px)");
 
     return (
         <header
             className={clsx(
-                "w-full bg-white shadow-sm border-b z-30 top-0 left-0 right-0",
+                "w-full bg-white dark:bg-slate-800 shadow-sm border-b z-30 top-0 left-0 right-0",
                 { sticky: isDynamic }
             )}
         >
@@ -33,9 +37,9 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                             height={100}
                             loading="lazy"
                             decoding="async"
-                            src={`/static/images/logo.png`}
+                            src={`/static/images/${currentTheme === "light" ? "logo.png" : "logo-dark.png"}`}
                             alt="Logo HOANGBAO"
-                            className="w-[100px]"
+                            className="w-[100px] h-[40px]"
                         />
                     </Link>
                     <span className="mx-3 inline h-5 w-px bg-gray-300/60"></span>
@@ -46,23 +50,24 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                         {
                             status === "loading" ? (
                                 <>
-                                    <span className="bg-gray-100 w-10 h-10 rounded-full"></span>
-                                    <span className="bg-gray-100 w-10 h-10 rounded-full"></span>
-                                    <span className="bg-gray-100 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 dark:bg-slate-800 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 dark:bg-slate-800 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 dark:bg-slate-800 w-10 h-10 rounded-full"></span>
                                 </>
 
                             ) : (
                                 <>
+                                    <ButtonDarkMode />
                                     <Link href={`/creator/new-post`} title="Tạo bài viết">
-                                        <i className="w-10 bg-gray-100 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
+                                        <i className="w-10 bg-gray-100 dark:bg-slate-800 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
                                             <IconPen size={20} className="h-10 mx-auto"/>
                                         </i>
                                     </Link>
-                                    <Link href={`/`} title="Thông báo">
-                                        <i className="w-10 text-center bg-gray-100 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
+                                    {/* <Link href={`/`} title="Thông báo">
+                                        <i className="w-10 text-center bg-gray-100 dark:bg-slate-800 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
                                             <IconBell size={20} className="h-10 mx-auto"/>
                                         </i>
-                                    </Link>
+                                    </Link> */}
                                     { status == "authenticated" ? (
                                         <UserDropdown />
                                         // <div></div>

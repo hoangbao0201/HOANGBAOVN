@@ -1,30 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TagProps } from "@/lib/services/blog.service";
 
-
-export interface EditBlogSlideProps {
+export type RootStatePageEditBlog = {
+    pageEditBlog: PageEditBlogSlideProps
+}
+export interface PageEditBlogSlideProps {
     blogEdit: {
-        blogId: number;
-        slug: string;
-        title: string;
-        summary: string;
-        content: string;
-        thumbnailUrl: string;
-        createdAt: Date;
-        updatedAt: Date;
-        blogTags: { tags: TagProps }[];
+        blogId: number
+        slug: string
+        title: string
+        summary: string
+        content: string
+        published: boolean
+        thumbnailUrl: string
+        createdAt: Date
+        updatedAt: Date
+        blogTags: { tags: TagProps }[]
         blogImages: { blogImageId: number, urlImage: string }[]
     } | null,
 
     isSave: boolean
 }
-const initialState: EditBlogSlideProps = {
+const initialState: PageEditBlogSlideProps = {
     blogEdit: null,
     isSave: true
 };
 
 export const counterSlice = createSlice({
-    name: "blogEdit",
+    name: "pageEditBlogSlide",
     initialState,
     reducers: {
         setBlogEditRDHandle: (state, action) => {

@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --foreground-rgb: 3, 3, 3;
-    --background-rgb: 243, 244, 246;
-}
+// :root {
+//     --foreground-rgb: 3, 3, 3;
+//     --background-rgb: 243, 244, 246;
+// }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-rgb: 0, 0, 0;
-    }
-}
+// @media (prefers-color-scheme: dark) {
+//     :root {
+//         --foreground-rgb: 255, 255, 255;
+//         --background-rgb: 0, 0, 0;
+//     }
+// }
 
 body {
-    color: rgb(var(--foreground-rgb));
-    background-color: rgb(var(--background-rgb));
+    // color: rgb(var(--foreground-rgb));
+    // background-color: rgb(var(--background-rgb));
 }
 
 // MARKDOWN PAGE
@@ -523,5 +523,17 @@ pre[class*="language-"] {
     .item-comment {
         opacity: 1;
         transition: all 0.5s cubic-bezier(.36,-0.64,.34,1.76);
+    }
+}
+
+// Style react-markdown-editor-lite
+.rc-md-editor {
+    // border-radius: 10px 10px 0px 0px;
+    .rc-md-navigation {
+        z-index: 10;
+        position: sticky;
+        top: 0px;
+        // border-radius: 10px 10px 0px 0px;
+        background-color: #eeee !important;
     }
 }

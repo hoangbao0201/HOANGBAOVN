@@ -53,14 +53,14 @@ const ButtonAction = ({ blogId, authorId }: ButtonActionProps) => {
             <DropdownButton
                 isOptions={isOptions}
                 setIsOptions={setIsOptions}
-                className="top-full right-0 shadow-lg border rounded-md bg-white"
+                className="top-full right-0 shadow-lg border rounded-md bg-white dark:bg-slate-800"
                 content={
                     <div className="py-2 px-2 min-w-[300px]">
                         {status === "loading" ? (
                             <div className="text-center">Loading</div>
                         ) : (
                             <>
-                                <div className="px-2 py-2 rounded-md hover:bg-gray-200 cursor-pointer">
+                                <div className="px-2 py-2 rounded-md hover:bg-gray-200 hover:dark:bg-white/30 cursor-pointer">
                                     Báo cáo bài viết
                                 </div>
                                 {authorId === session?.user.userId && (
@@ -68,7 +68,7 @@ const ButtonAction = ({ blogId, authorId }: ButtonActionProps) => {
                                         <Link
                                             href={`/creator/post/${blogId}/edit`}
                                         >
-                                            <div className="px-2 py-2 rounded-md hover:bg-gray-200 cursor-pointer">
+                                            <div className="px-2 py-2 rounded-md hover:bg-gray-200 hover:dark:bg-white/30 cursor-pointer">
                                                 Chỉnh sửa bài viết
                                             </div>
                                         </Link>
@@ -77,7 +77,7 @@ const ButtonAction = ({ blogId, authorId }: ButtonActionProps) => {
                                                 setIsFormDeleteBlog(true);
                                                 setIsOptions(false);
                                             }}
-                                            className="px-2 py-2 rounded-md hover:bg-gray-200 cursor-pointer"
+                                            className="px-2 py-2 rounded-md hover:bg-gray-200 hover:dark:bg-white/30 cursor-pointer"
                                         >
                                             Xóa bài viết
                                         </div>
@@ -88,8 +88,8 @@ const ButtonAction = ({ blogId, authorId }: ButtonActionProps) => {
                     </div>
                 }
             >
-                <div className="cursor-pointer p-1 rounded-full hover:bg-gray-200 block">
-                    <IconEcllipsis />
+                <div className="cursor-pointer p-1 rounded-full hover:bg-white/30 block">
+                    <IconEcllipsis className="dark:fill-white"/>
                 </div>
             </DropdownButton>
             <Modal

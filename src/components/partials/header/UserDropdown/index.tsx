@@ -35,7 +35,7 @@ const UserDropdown = () => {
                     leaveFrom="transform opacity-100"
                     leaveTo="transform opacity-0"
                 >
-                    <Menu.Items className="absolute z-50 right-0 mt-2 w-80 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute z-50 right-0 mt-2 w-80 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-800 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="px-1 py-1">
                             <div className="pb-1 mb-1 border-b">
                                 <Menu.Item>
@@ -46,7 +46,7 @@ const UserDropdown = () => {
                                                 active
                                                     ? "bg-gray-100"
                                                     : "text-gray-900"
-                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                            } group hover:dark:bg-white/30 dark:text-white flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                         >
                                             <Image
                                                 alt="ảnh người dùng"
@@ -73,7 +73,7 @@ const UserDropdown = () => {
                                                 active
                                                     ? "bg-gray-100"
                                                     : "text-gray-900"
-                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                            } group hover:dark:bg-white/30 dark:text-white flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                         >
                                             Admin
                                         </Link>
@@ -88,7 +88,7 @@ const UserDropdown = () => {
                                             active
                                                 ? "bg-gray-100"
                                                 : "text-gray-900"
-                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                        } group hover:dark:bg-white/30 dark:text-white flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
                                         Đăng xuất
                                     </button>
