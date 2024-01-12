@@ -54,7 +54,7 @@ const SearchMain = () => {
                     setIsModalSearch(true);
                     inputRef.current?.focus();
                 }}
-                className="hidden md:block px-4 py-2 text-base bg-gray-50 dark:bg-slate-800 text-gray-600 border hover:border-blue-400 rounded-md cursor-text select-none w-full max-w-sm"
+                className="hidden md:block px-4 py-2 text-base bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-white/50 border hover:border-blue-400 rounded-md cursor-text select-none w-full max-w-sm"
             >
                 Tìm kiếm...
             </div>

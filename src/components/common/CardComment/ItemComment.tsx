@@ -32,12 +32,6 @@ const ItemComment = ({
 
     return (
         <div className="relative group">
-            {/* {lastChild && (
-                <div
-                    style={{ height: "calc(100% - 25px)" }} 
-                    className="border-l-[2.5px] border-gray-200 w-2 absolute translate-y-[0px] left-[20px] top-0 bottom-0">
-                </div>
-            )} */}
             <div
                 className={clsx("flex pb-2 item-comment relative", {
                     "pl-12": isReply
@@ -66,7 +60,7 @@ const ItemComment = ({
                 <div className="ml-2 flex-1">
                     <div className="flex items-center w-full">
 
-                        <div className="border rounded-[20px] py-[8px] px-[12px] mb-1 bg-gray-100 min-h-[50px]">
+                        <div className="border rounded-[20px] py-[8px] px-[12px] mb-1 bg-gray-100 dark:bg-slate-700 min-h-[50px]">
                             <div className="flex items-center justify-between">
                                 <Link href={`/user/${comment?.sender.username}`}>
                                     <span className="font-semibold text-[15px]">

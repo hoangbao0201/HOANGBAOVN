@@ -52,14 +52,14 @@ const FormEditorComment = ({
                 </AvatarRank>
             </div>
             <div className="w-full flex-1 flex-shrink-0 ml-2">
-                {isReply && (
+                {/* {isReply && (
                     <div className="bg-gray-200 border px-3 py-1 rounded-t-md">
                         <span className="font-semibold">Người nhận: {receiver?.name}</span>
                         <span className=""> - id: {receiver?.userId}</span>
                     </div>
-                )}
+                )} */}
                 <div
-                    className="border rounded-md py-3 px-3 mb-2 bg-gray-100 min-h-[50px] transition-all"
+                    className="border rounded-md py-3 px-3 mb-2 bg-gray-100 dark:bg-slate-700 min-h-[50px] transition-all"
                     onClick={() => setIsFormEditor(true)}
                 >
                     {isFormEditor ? (
