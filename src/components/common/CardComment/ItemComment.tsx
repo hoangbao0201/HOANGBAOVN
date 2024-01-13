@@ -14,6 +14,7 @@ interface ItemCommentProps {
     user: GetCommentsProps['sender'] | undefined;
     comment: CommentsBlogDetailProps;
     isReply?: boolean;
+    isSended?: boolean;
     childIndex?: number;
     lastChild?: boolean;
     setReceiver: Dispatch<SetStateAction<{
@@ -26,6 +27,7 @@ const ItemComment = ({
     comment,
     isReply,
     setReceiver,
+    isSended,
     lastChild,
 }: ItemCommentProps) => {
 
@@ -92,14 +94,21 @@ const ItemComment = ({
                     </div>
 
                     <div className="px-2 flex">
-                        <span
-                            onClick={() => setReceiver({
-                                receiverId: comment?.sender.userId,
-                            })}
-                            className="text-sm font-medium hover:underline cursor-pointer"
-                        >
-                            Phản hồi
-                        </span>
+                        {
+                            isSended ? (
+                                <span className="text-sm font-medium">Đang viết...</span>
+                            ) : (
+                                <span
+                                    onClick={() => setReceiver({
+                                        receiverId: comment?.sender.userId,
+                                    })}
+                                    className="text-sm font-medium hover:underline cursor-pointer"
+                                >
+                                    Phản hồi
+                                </span>
+                            )
+                        }
+                        
                     </div>
                     
                 </div>

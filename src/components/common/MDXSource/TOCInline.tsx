@@ -92,7 +92,7 @@ const TOCInline = ({
 
     return (
         <div className="mb-8">
-            <h3 className="mb-2 font-bold">📖 Mục lục</h3>
+            <h3 className="mb-2 font-semibold">📖 Mục lục</h3>
             <Suspense>
                 <div className="">{tocList}</div>
             </Suspense>

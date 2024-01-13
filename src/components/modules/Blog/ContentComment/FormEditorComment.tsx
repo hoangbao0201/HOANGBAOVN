@@ -84,12 +84,12 @@ const FormEditorComment = ({
                         className={`${isLoad && "pointer-events-none"} border text-white bg-indigo-600 rounded-md ml-auto py-1 px-3 min-w-[80px]`}
                     >
                         Gửi
-                        {isLoad && (
+                        {/* {isLoad && (
                             <span
                                 style={{ borderTop: "2px solid white" }}
                                 className="w-3 h-3 ml-2 loading-button"
                             ></span>
-                        )}
+                        )} */}
                     </button>
                 </div>
             </div>

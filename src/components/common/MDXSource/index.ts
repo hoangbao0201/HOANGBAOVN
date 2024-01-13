@@ -31,6 +31,10 @@ export const MDXSource = async ({ source }: MDXSourceProps) => {
                 ],
                 rehypePlugins: [
                     rehypeSlug,
+                    // @ts-ignore
+                    [rehypeKatex, { output: "htmlAndMathml" }],
+                    // @ts-ignore
+                    [rehypePrismPlus, { ignoreMissing: true }],
                     [
                         rehypeAutolinkHeadings,
                         {
@@ -67,10 +71,6 @@ export const MDXSource = async ({ source }: MDXSourceProps) => {
                             },
                         },
                     ],
-                    // @ts-ignore
-                    [rehypeKatex, { output: "htmlAndMathml" }],
-                    // @ts-ignore
-                    [rehypePrismPlus, { ignoreMissing: true }],
                 ],
             },
             scope: { ...data },

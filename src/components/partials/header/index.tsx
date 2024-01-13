@@ -20,6 +20,8 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
     const currentTheme = theme === "system" ? systemTheme : theme;
     // const matchesMobile = useMediaQuery("(max-width: 768px)");
 
+    // console.log(currentTheme)
+
     return (
         <header
             className={clsx(
@@ -37,10 +39,33 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                             height={100}
                             loading="lazy"
                             decoding="async"
-                            src={`/static/images/${currentTheme === "light" ? "logo.png" : "logo-dark.png"}`}
+                            src={`/static/images/${currentTheme === "dark" ? 'logo-dark.png' : 'logo.png'}`}
                             alt="Logo HOANGBAO"
                             className="w-[100px] h-[40px]"
                         />
+                        {/* {
+                            currentTheme ? (
+                                <Image
+                                    width={100}
+                                    height={100}
+                                    loading="lazy"
+                                    decoding="async"
+                                    src={`/static/images/logo.png`}
+                                    alt="Logo HOANGBAO"
+                                    className="w-[100px] h-[40px]"
+                                />
+                            ) : (
+                                <Image
+                                    width={100}
+                                    height={100}
+                                    loading="lazy"
+                                    decoding="async"
+                                    src={`/static/images/logo-dark.png`}
+                                    alt="Logo HOANGBAO"
+                                    className="w-[100px] h-[40px]"
+                                />
+                            )
+                        } */}
                     </Link>
                     <span className="mx-3 inline h-5 w-px bg-gray-300/60"></span>
                 </div>

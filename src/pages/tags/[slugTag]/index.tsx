@@ -41,8 +41,6 @@ const TagDetailPage: NextPageWithLayout<TagDetailPageProps> = ({
         }
     }, [blogs]);
 
-    console.log(isLoadPostsPageTagDetail, postsPageTagDetail)
-
     return (
         <>
             <NextSeo
@@ -93,7 +91,7 @@ TagDetailPage.getLayout = (page) => {
 export const getStaticProps: GetStaticProps = async (context) => {
     const { slugTag } = context.params as Params;
     const { blogs } = await blogService.getAllBlogs({
-        query: `?tag=${slugTag}`,
+        query: `?tags=${slugTag}`,
     });
 
     return {

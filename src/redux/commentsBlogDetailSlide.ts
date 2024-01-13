@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-    GetCommentsProps,
-} from "@/lib/services/comment.service";
+import { GetCommentsProps } from "@/lib/services/comment.service";
 
 export type RootStateCommentsBlogDetail = {
     commentsBlogDetail: CommentsBlogDetailSlideProps;
@@ -28,6 +26,36 @@ export const counterSlice = createSlice({
         },
         setCommentsBlogDetailRDHandle: (state, action) => {
             state.commentsBlogDetail = action.payload;
+            state.isLoadingBlogDetail = false;
+        },
+        setCommentIdBlogDetailRDHandle: (
+            state,
+            action: {
+                payload: {
+                    type: "comment" | "replycomment";
+                    commentId: number;
+                    parentId?: number;
+                };
+            }
+        ) => {
+            if (action.payload.type === "comment") {
+                state.commentsBlogDetail[0].commentId =
+                    action.payload.commentId;
+            } else {
+                const foundIndex = state.commentsBlogDetail.findIndex(
+                    (comment) => comment.commentId === action.payload.parentId
+                );
+                if (foundIndex !== -1) {
+                    const foundComment = state.commentsBlogDetail[foundIndex];
+
+                    if (foundComment) {
+                        foundComment.replyComments =
+                            foundComment?.replyComments || [];
+                        foundComment.replyComments[-1].commentId =
+                            action.payload.commentId;
+                    }
+                }
+            }
             state.isLoadingBlogDetail = false;
         },
         addReplyCommentsBlogDetailRDHandle: (state, action) => {
@@ -60,9 +88,9 @@ export const counterSlice = createSlice({
             state.isLoadingBlogDetail = action.payload;
         },
         sendCommentBlogDetailRDHandle: (state, action) => {
-            const { blogId, receiverId, parentId, commentText } = action.payload;
-            if(receiverId && parentId) {
-                
+            const { blogId, receiverId, parentId, commentText } =
+                action.payload;
+            if (receiverId && parentId) {
             }
             state.isLoadingBlogDetail = action.payload;
         },
@@ -72,10 +100,11 @@ export const counterSlice = createSlice({
 export const {
     setCommentsBlogDetailRDHandle,
     addCommentsBlogDetailRDHandle,
+    setCommentIdBlogDetailRDHandle,
     addReplyCommentsBlogDetailRDHandle,
     setIsLoadingCommentsBlogDetailRDHandle,
     deleteCommentsBlogDetailRDHandle,
-    sendCommentBlogDetailRDHandle
+    sendCommentBlogDetailRDHandle,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

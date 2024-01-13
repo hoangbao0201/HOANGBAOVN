@@ -26,10 +26,11 @@ const ButtonAction = ({ blogId, authorId }: ButtonActionProps) => {
     const [isFormDeleteBlog, setIsFormDeleteBlog] = useState(false);
 
     const handleDeletePost = async () => {
-        dispatch(setButonLoadingRDHandle("button_delete_post"))
         if (!session || status !== "authenticated") {
             return;
         }
+        dispatch(setButonLoadingRDHandle("button_delete_post"))
+        
         try {
             const blogRes = await blogService.delete({
                 blogId: blogId,

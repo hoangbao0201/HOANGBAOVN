@@ -107,8 +107,8 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
                         )}
                     </div>
 
-                    <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3 md:block hidden">
-                        <SidebarRightBlogDetail toc={toc} />
+                    <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3">
+                        <SidebarRightBlogDetail blogId={blog?.blogId} toc={toc} tags={blog?.blogTags}/>
                     </div>
                 </div>
             </div>

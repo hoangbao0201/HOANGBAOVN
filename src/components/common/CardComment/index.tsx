@@ -75,6 +75,7 @@ const CardComment = ({ user, comment, handleSendComment }: CardCommentProps) => 
         <div className="relative item-comment mb-3">
             <ItemComment
                 user={user}
+                isSended={comment?.commentId ===  -1}
                 isReply={false}
                 comment={comment}
                 setReceiver={setDataReceiver}

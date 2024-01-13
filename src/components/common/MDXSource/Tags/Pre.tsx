@@ -1,5 +1,6 @@
 import { useState, useRef, ReactNode, HTMLAttributes } from "react";
 
+
 const Pre = ({ children }: HTMLAttributes<HTMLPreElement>) => {
     const textInput = useRef<any>(null);
     const [hovered, setHovered] = useState(false);
@@ -68,7 +69,9 @@ const Pre = ({ children }: HTMLAttributes<HTMLPreElement>) => {
                 </button>
             )}
 
-            <pre className="leading-none text-[15px] dark:bg-gray-900">{children}</pre>
+            <pre className="leading-none text-[15px] dark:bg-gray-900">
+                {children}
+            </pre>
         </div>
     );
 };

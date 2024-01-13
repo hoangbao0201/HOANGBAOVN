@@ -14,6 +14,7 @@ import {
     RootStateCommentsBlogDetail,
     addCommentsBlogDetailRDHandle,
     addReplyCommentsBlogDetailRDHandle,
+    setCommentIdBlogDetailRDHandle,
 } from "@/redux/commentsBlogDetailSlide";
 import SkeletonItemComment from "../../skeletons/SkeletonItemComment";
 
@@ -23,7 +24,7 @@ interface ContentCommentProps {
 const ContentComment = ({ blog }: ContentCommentProps) => {
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
-    const [isLoadingSendComment, setIsLoadingSendComment] = useState(false);
+    // const [isLoadingSendComment, setIsLoadingSendComment] = useState(false);
     const { commentsBlogDetail, isLoadingBlogDetail } = useSelector(
         (state: RootStateCommentsBlogDetail) => state.commentsBlogDetail
     );
@@ -42,53 +43,68 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         parentId?: number;
         commentText: EditorState;
     }) => {
-        if (!session || status !== "authenticated") {
+        if (!session || status !== "authenticated" || commentText.getCurrentContent().getPlainText().length <= 3) {
             return;
         }
 
         try {
+            const cvCommentText = JSON.stringify(
+                convertToRaw(commentText.getCurrentContent())
+            ) as string;
+
+            // Add comment before posting to the Server
+            if (receiverId && parentId) {
+                // dispatch(
+                //     addReplyCommentsBlogDetailRDHandle({
+                //         commentId: parentId,
+                //         replyComments: [commentRes?.comment],
+                //     })
+                // );
+            } else {
+                dispatch(
+                    addCommentsBlogDetailRDHandle([
+                        {
+                            // ...commentRes.comment,
+                            blogId: blog?.blogId,
+                            commentId: -1,
+                            commentText: cvCommentText,
+                            parentId: null,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString(),
+                            sender: {
+                                userId: session.user.userId,
+                                name: session.user.name,
+                                username: session.user.username,
+                                rank: session.user.rank,
+                                role: {
+                                    roleId: session.user.role.roleId,
+                                    roleName: session.user.role.roleName,
+                                },
+                                avatarUrl: session.user.avatarUrl,
+                            },
+                            _count: {
+                                replyComments: 0,
+                            },
+                        },
+                    ])
+                );
+            }
+
             const commentRes = await commentService.addComment({
                 data: {
                     blogId: blog.blogId,
                     receiverId,
                     parentId,
-                    commentText: JSON.stringify(
-                        convertToRaw(commentText.getCurrentContent())
-                    ) as string,
+                    commentText: cvCommentText,
                 },
                 token: session.backendTokens.accessToken,
             });
 
             if (commentRes.success) {
-                if (receiverId && parentId) {
-                    dispatch(
-                        addReplyCommentsBlogDetailRDHandle({
-                            commentId: parentId,
-                            replyComments: [commentRes?.comment],
-                        })
-                    );
-                } else {
-                    dispatch(
-                        addCommentsBlogDetailRDHandle([
-                            {
-                                ...commentRes.comment,
-                                sender: {
-                                    userId: session.user.userId,
-                                    name: session.user.name,
-                                    username: session.user.username,
-                                    rank: session.user.rank,
-                                    role: {
-                                        roleId: session.user.role.roleId,
-                                        roleName: session.user.role.roleName,
-                                    },
-                                    avatarUrl: session.user.avatarUrl,
-                                },
-                                _count: {
-                                    replyComments: 0,
-                                },
-                            },
-                        ])
-                    );
+                if(receiverId && parentId) {
+                }
+                else {
+                    dispatch(setCommentIdBlogDetailRDHandle({ type: "comment", commentId: commentRes?.comment.commentId }));
                 }
             }
         } catch (error) {
@@ -106,20 +122,22 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         parentId?: number;
         commentText: EditorState;
     }) => {
-        setIsLoadingSendComment(true);
+        // setIsLoadingSendComment(true);
 
         try {
+            editorRef.current?.focus();
+            setEditorState(EditorState.createEmpty());
+
             await handleSendComment({
                 receiverId,
                 parentId,
                 commentText,
             });
-
-            editorRef.current?.focus();
-            setIsLoadingSendComment(false);
-            setEditorState(EditorState.createEmpty());
+            
+            // setIsLoadingSendComment(false);
         } catch (error) {
-            setIsLoadingSendComment(false);
+            // setIsLoadingSendComment(false);
+            editorRef.current?.focus();
             setEditorState(EditorState.createEmpty());
         }
     };
@@ -131,7 +149,9 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
             <div className="pb-4 block">
                 <FormEditorComment
                     isReply={false}
-                    isLoad={isLoadingSendComment}
+                    // isLoad={isLoadingSendComment}
+                    // isLoad={commentsBlogDetail ? commentsBlogDetail[0].commentId === -1 : false}
+                    isLoad={false}
                     sender={session?.user}
                     receiver={session?.user}
                     editorRef={editorRef}
@@ -150,7 +170,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                     commentsBlogDetail.length > 0 &&
                     commentsBlogDetail.map((comment, index) => {
                         return (
-                            <Fragment key={comment.commentId || index}>
+                            <Fragment key={`${comment?.commentId}-${index}`}>
                                 <CardComment
                                     user={session?.user}
                                     comment={comment}

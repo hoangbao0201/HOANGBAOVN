@@ -82,40 +82,46 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
                                     className="mx-auto block max-h-80 w-full object-cover"
                                 />
                             </div>
-                            <div className="flex md:px-8 px-4 pt-4 mb-5">
-                                <Link href={`/user/${blog?.author.username}`}>
-                                    <AvatarRank rank={1}>
-                                        <Image
-                                            width={60}
-                                            height={60}
-                                            alt="ảnh người dùng"
-                                            src={
-                                                "/static/images/default/avatar_user_sm.jpg"
-                                            }
-                                            className="w-12 h-12 block object-cover rounded-full flex-shrink-0"
-                                        />
-                                    </AvatarRank>
-                                </Link>
-                                <div className="ml-3">
-                                    <div className="flex items-center mb-1">
-                                        <Link
-                                            href={`/user/${blog?.author.username}`}
-                                        >
-                                            <div className="hover:underline text-lg font-medium">
-                                                {blog?.author.name}
-                                            </div>
-                                        </Link>
-                                        <span className="ml-2 text-sm font-medium border border-gray-400 px-2 py-[2px] rounded-md">
-                                            Cấp {blog?.author.rank || 1}
-                                        </span>
+                            <div className="flex justify-between md:px-8 px-4 pt-4 mb-5">
+                                <div className="flex">
+                                    <Link href={`/user/${blog?.author.username}`}>
+                                        <AvatarRank rank={1}>
+                                            <Image
+                                                width={60}
+                                                height={60}
+                                                alt="ảnh người dùng"
+                                                src={
+                                                    "/static/images/default/avatar_user_sm.jpg"
+                                                }
+                                                className="w-12 h-12 block object-cover rounded-full flex-shrink-0"
+                                            />
+                                        </AvatarRank>
+                                    </Link>
+                                    <div className="ml-3">
+                                        <div className="flex items-center mb-1">
+                                            <Link
+                                                href={`/user/${blog?.author.username}`}
+                                            >
+                                                <div className="hover:underline text-lg font-medium">
+                                                    {blog?.author.name}
+                                                </div>
+                                            </Link>
+                                            <span className="ml-2 text-sm font-medium border border-gray-400 px-2 py-[2px] rounded-md">
+                                                Cấp {blog?.author.rank || 1}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <Link href={`/`}>
+                                                <p className="text-sm hover:underline">
+                                                    {convertTime(blog?.createdAt)}
+                                                </p>
+                                            </Link>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <Link href={`/`}>
-                                            <p className="text-sm hover:underline">
-                                                {convertTime(blog?.createdAt)}
-                                            </p>
-                                        </Link>
-                                    </div>
+                                </div>
+
+                                <div>
+                                    {/* <p>Thời gian: {convertTime(blog?.updatedAt)}</p> */}
                                 </div>
                             </div>
                             <h1
