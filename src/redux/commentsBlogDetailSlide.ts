@@ -51,7 +51,7 @@ export const counterSlice = createSlice({
                     if (foundComment) {
                         foundComment.replyComments =
                             foundComment?.replyComments || [];
-                        foundComment.replyComments[-1].commentId =
+                        foundComment.replyComments[foundComment.replyComments.length - 1].commentId =
                             action.payload.commentId;
                     }
                 }
@@ -59,10 +59,12 @@ export const counterSlice = createSlice({
             state.isLoadingBlogDetail = false;
         },
         addReplyCommentsBlogDetailRDHandle: (state, action) => {
+            console.log(action.payload)
             const foundIndex = state.commentsBlogDetail.findIndex(
                 (comment) => comment.commentId === action.payload.commentId
             );
-
+            
+            console.log(foundIndex)
             if (foundIndex !== -1) {
                 const foundComment = state.commentsBlogDetail[foundIndex];
 
@@ -108,3 +110,11 @@ export const {
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
+
+
+// [
+//     { id: 1, cout: 7 },
+//     { id: 2, cout: 3 }
+//     { id: 3, cout: 5 }
+//     { id: 4, cout: 6 }
+// ]

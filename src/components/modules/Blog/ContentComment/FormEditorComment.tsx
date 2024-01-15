@@ -37,7 +37,7 @@ const FormEditorComment = ({
 }: FormEditorCommentProps) => {
     const [isFormEditor, setIsFormEditor] = useState(isEditorComment);
     return (
-        <div className="flex mb-5">
+        <div className="flex py-2">
             <div className="flex-shrink-0">
                 <AvatarRank rank={1}>
                     <Link href={`/`}>

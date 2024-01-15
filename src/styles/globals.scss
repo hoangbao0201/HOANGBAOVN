@@ -378,12 +378,21 @@ pre[class*="language-"] {
 }
 // LOADING BUTTON
 .loading-button {
-    border-radius: 70%;
+    border-radius: 50%;
     display: inline-block;
     border-top: 2px solid #333;
     border-right: 2px solid transparent;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 }
 
 // WINTER SNOW

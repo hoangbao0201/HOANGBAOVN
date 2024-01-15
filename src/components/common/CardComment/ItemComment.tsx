@@ -7,8 +7,10 @@ import draftToHtml from "draftjs-to-html";
 
 import AvatarRank from "../AvatarRank";
 import ButtonAction from "./ButtonAction";
+import IconVerify from "@/components/modules/icons/IconVerify";
 import { GetCommentsProps } from "@/lib/services/comment.service";
 import { CommentsBlogDetailProps } from "@/redux/commentsBlogDetailSlide";
+import convertTime from "@/utils/convertTime";
 
 interface ItemCommentProps {
     user: GetCommentsProps['sender'] | undefined;
@@ -16,7 +18,8 @@ interface ItemCommentProps {
     isReply?: boolean;
     isSended?: boolean;
     childIndex?: number;
-    lastChild?: boolean;
+    isLastChild?: boolean;
+    isShowMore?: boolean;
     setReceiver: Dispatch<SetStateAction<{
         receiverId: number | null
     }>>
@@ -28,24 +31,39 @@ const ItemComment = ({
     isReply,
     setReceiver,
     isSended,
-    lastChild,
+    isLastChild,
+    isShowMore,
 }: ItemCommentProps) => {
 
 
     return (
         <div className="relative group">
             <div
-                className={clsx("flex pb-2 item-comment relative", {
+                className={clsx("flex item-comment relative", {
                     "pl-12": isReply
                 })}
             >
-                {isReply && (
-                    <div className="border-l-[2.5px] border-b-[2.5px] border-gray-200 w-6 h-[80px] absolute left-[20px] -top-[60px] rounded-bl-xl"></div>
-                )}
+                
+                {
+                    isReply ? (
+                        <>
+                            <div className="border-l-[2.5px] border-b-[2.5px] border-gray-200 w-6 h-[20px] absolute left-[20px] top-[0px] rounded-bl-xl"></div>
+                            {
+                                (!isLastChild || isShowMore) && (
+                                    <div className="border-l-[2.5px] border-gray-200 w-6 h-full absolute left-[20px] top-[0px] bottom-[0px]"></div>
+                                )
+                            }
+                        </>
+                    ) : (
+                        (comment?._count.replyComments > 0) && (
+                            <div style={{ height: "calc(100% - 45px)" }} className="border-l-[2.5px] border-gray-200 w-6 h-full absolute left-[20px] bottom-[0px]"></div>
+                        )
+                    )
+                }
 
                 <div className="flex-shrink-0">
                     <AvatarRank rank={1}>
-                        <Link href={`/`}>
+                        <Link href={`/user/${comment?.sender.username}`}>
                             <Image
                                 width={60}
                                 height={60}
@@ -68,11 +86,15 @@ const ItemComment = ({
                                     <span className="font-semibold text-[15px]">
                                         {comment?.sender.name}
                                     </span>
-                                    {/* <span className="text-sm"> - userid: {comment.sender?.userId}</span>
-                                    <span className="text-sm"> - commentId: {comment?.commentId}</span>
-                                    <span className="text-sm"> - parentid: {comment?.parentId}</span>
-                                    <span className="text-sm"> - receiverid: {comment?.receiver?.userId}</span> */}
                                 </Link>
+                                {
+                                    comment.sender.role.roleName === "admin" && (
+                                        <IconVerify
+                                            size={16}
+                                            className="fill-blue-500 ml-1"
+                                        />
+                                    )
+                                }
                             </div>
                             <div className="overflow-hidden">
                                 <div
@@ -93,19 +115,24 @@ const ItemComment = ({
                         </span>
                     </div>
 
-                    <div className="px-2 flex">
+                    <div className="px-2 flex items-center gap-4 pb-1">
                         {
                             isSended ? (
                                 <span className="text-sm font-medium">Đang viết...</span>
                             ) : (
-                                <span
-                                    onClick={() => setReceiver({
-                                        receiverId: comment?.sender.userId,
-                                    })}
-                                    className="text-sm font-medium hover:underline cursor-pointer"
-                                >
-                                    Phản hồi
-                                </span>
+                                <>
+                                    <span className="text-sm">
+                                        {convertTime(comment?.updatedAt)}
+                                    </span>
+                                    <span
+                                        onClick={() => setReceiver({
+                                            receiverId: comment?.sender.userId,
+                                        })}
+                                        className="text-sm font-medium hover:underline cursor-pointer"
+                                    >
+                                        Phản hồi
+                                    </span>
+                                </>
                             )
                         }
                         

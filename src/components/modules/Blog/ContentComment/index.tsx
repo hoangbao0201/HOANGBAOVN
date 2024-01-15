@@ -43,8 +43,9 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         parentId?: number;
         commentText: EditorState;
     }) => {
-        if (!session || status !== "authenticated" || commentText.getCurrentContent().getPlainText().length <= 3) {
-            return;
+        // || commentText.getCurrentContent().getPlainText().length <= 3
+        if (!session || status !== "authenticated" || commentText.getCurrentContent().getPlainText().length <= 0) {
+            throw new Error("Không đủ thông tin");
         }
 
         try {
@@ -54,12 +55,37 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
 
             // Add comment before posting to the Server
             if (receiverId && parentId) {
-                // dispatch(
-                //     addReplyCommentsBlogDetailRDHandle({
-                //         commentId: parentId,
-                //         replyComments: [commentRes?.comment],
-                //     })
-                // );
+                dispatch(
+                    addReplyCommentsBlogDetailRDHandle({
+                        commentId: parentId,
+                        replyComments: [
+                            {
+                                blogId: blog?.blogId,
+                                commentId: -1,
+                                commentText: cvCommentText,
+                                parentId: parentId,
+                                createdAt: new Date().toISOString(),
+                                updatedAt: new Date().toISOString(),
+                                sender: {
+                                    userId: session.user.userId,
+                                    name: session.user.name,
+                                    username: session.user.username,
+                                    rank: session.user.rank,
+                                    role: {
+                                        roleId: session.user.role.roleId,
+                                        roleName: session.user.role.roleName,
+                                    },
+                                    avatarUrl: session.user.avatarUrl,
+                                },
+                                receiver: {
+                                    userId: receiverId,
+                                    name: "",
+                                    username: ""
+                                }
+                            }
+                        ],
+                    })
+                );
             } else {
                 dispatch(
                     addCommentsBlogDetailRDHandle([
@@ -102,14 +128,13 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
 
             if (commentRes.success) {
                 if(receiverId && parentId) {
+                    dispatch(setCommentIdBlogDetailRDHandle({ type: "replycomment", commentId: commentRes?.comment.commentId, parentId: parentId }));
                 }
                 else {
                     dispatch(setCommentIdBlogDetailRDHandle({ type: "comment", commentId: commentRes?.comment.commentId }));
                 }
             }
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     };
 
     // Call Handle Send Comment
@@ -122,7 +147,6 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         parentId?: number;
         commentText: EditorState;
     }) => {
-        // setIsLoadingSendComment(true);
 
         try {
             editorRef.current?.focus();
@@ -134,11 +158,10 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                 commentText,
             });
             
-            // setIsLoadingSendComment(false);
         } catch (error) {
-            // setIsLoadingSendComment(false);
-            editorRef.current?.focus();
-            setEditorState(EditorState.createEmpty());
+            // editorRef.current?.focus();
+            // setEditorState(EditorState.createEmpty());
+            // console.log(error);
         }
     };
 

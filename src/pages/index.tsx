@@ -101,5 +101,5 @@ HomePage.getLayout = (page) => {
 export const getStaticProps: GetStaticProps = async (context) => {
     const { blogs } = await await blogService.getAllBlogs({});
 
-    return { props: { blogs: blogs || [] }, revalidate: 1 };
+    return { props: { blogs: blogs || [] }, revalidate: 60 };
 };

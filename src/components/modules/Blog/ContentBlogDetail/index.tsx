@@ -10,7 +10,7 @@ import TagsBlog from "@/components/common/TagsBlog";
 import AvatarRank from "@/components/common/AvatarRank";
 import MDXContent from "@/components/common/MDXSource/MDXContent";
 import commentService, { GetCommentsProps } from "@/lib/services/comment.service";
-import { setCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetailSlide";
+import { setCommentsBlogDetailRDHandle, setIsLoadingCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetailSlide";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
@@ -33,6 +33,8 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
         if(!slugBlog) {
             return;
         }
+
+        dispatch(setIsLoadingCommentsBlogDetailRDHandle(true))
         try {
             const { success, comments } = await commentService.getComments({
                 query: `?blogId=${slugBlog.replace(/.*[^0-9]/, "")}`,
@@ -42,8 +44,10 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
             if(success) {
                 dispatch(setCommentsBlogDetailRDHandle(comments));
             }
+
+            throw new Error();
         } catch (error) {
-            
+            dispatch(setIsLoadingCommentsBlogDetailRDHandle(false))
         }
     }
 
