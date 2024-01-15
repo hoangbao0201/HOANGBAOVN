@@ -8,22 +8,26 @@ import EditBlogConfirm from "./EditBlogConfirm";
 import { useDebounce } from "@/hook/useDebounce";
 import EditorMarkdown from "@/components/common/EditorMarkdown";
 import blogService, { GetBlogEditProps } from "@/lib/services/blog.service";
-import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
+import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle, RootStatePageEditBlog } from "@/redux/pageEditBlogSlide";
 import { useRouter } from "next/router";
 import ListTag from "./ListTag";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
+
+// const EditorMarkdown = dynamic(() => import("@/components/common/EditorMarkdown"), { ssr: false })
 
 interface FormEditBlogProps {
     // blog?: GetBlogEditProps
     isEdit: boolean
+    blogId?: number
 }
-const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
+const FormEditBlog = ({ blogId, isEdit = false } : FormEditBlogProps) => {
 
     const router = useRouter();
     const dispatch = useDispatch();
-    const { blogEdit, isSave } = useSelector((state: any) => state.blogEdit);
+    const { blogEdit, isSave } = useSelector((state: RootStatePageEditBlog) => state.pageEditBlog);
     // const [isLoad, setIsLoad] = useState(false);
 
     const contentBlogEditDebounce = useDebounce(JSON.stringify(blogEdit), 2000);
@@ -44,13 +48,23 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
 
     // Handle Save Blog
     const handleSaveEditBlog = async () => {
-        if(!session || status !== "authenticated") {
+        const { blogId, slug, title, summary, content, published, blogTags } = blogEdit;
+
+        if(!session || status !== "authenticated" || !blogId) {
             return;
         }
-        // console.log(blogEdit)
+
         try {
             const saveEditBlogRes = await blogService.updateBlog({
-                data: blogEdit,
+                data: {
+                    blogId: blogId,
+                    slug: slug,
+                    title: title,
+                    summary: summary,
+                    content: content,
+                    published: published,
+                    blogTags: blogTags
+                },
                 token: session?.backendTokens.accessToken
             });
 
@@ -66,15 +80,20 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
 
     // Handle Create Blog
     const handleCreateBlog = async () => {
-        if(!session || status !== "authenticated") {
+        if(!session || status !== "authenticated" || !blogEdit) {
             return;
         }
-
+        
         try {
+            const { blogId, slug, title, summary, content, published, blogTags } = blogEdit;
+
             const { success, blog } = await blogService.createBlog({
                 data: {
-                    ...blogEdit,
-                    // blogTags: convertTags
+                    title: title,
+                    summary: summary,
+                    content: content,
+                    published: published,
+                    blogTags: blogTags
                 },
                 token: session.backendTokens.accessToken
             });
@@ -87,10 +106,11 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
     }
     
     useEffect(() => {
-        console.log(blogEdit)
-        if(!isEdit && blogEdit) {
+        console.log("blogEdit: ", { blogEdit, blogId })
+        if(!isEdit && !blogEdit?.blogId) {
             if(blogEdit?.title?.length > 10 && blogEdit?.content?.length > 10) {    
                 handleCreateBlog();
+                console.log("Create Blog")
             }
         }
         else if(!isSave) {
@@ -106,7 +126,7 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
         <div className="w-screen h-screen md:p-4 fixed inset-0">
             <div className="relative bg-white md:rounded-md shadow-sm">
                 <div className="w-full relative top-0 left-0 right-0 px-4 py-4">
-                    <div className="flex items-center mb-3">
+                    <div className="flex items-center mb-3 h-10">
                         <Link href={`/`}>
                             <Image
                                 width={100}
@@ -131,10 +151,14 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
                             }
                         </div>
 
-                        <div className="flex items-center gap-2">
-                            <ListImageEditBlog />
-                            <EditBlogConfirm />
-                        </div>
+                        {
+                            isEdit && (
+                                <div className="flex items-center gap-2">
+                                    <ListImageEditBlog />
+                                    <EditBlogConfirm />
+                                </div>
+                            )
+                        }
                         
                     </div>
                     <input
@@ -146,15 +170,12 @@ const FormEditBlog = ({ isEdit = false } : FormEditBlogProps) => {
                     />
                 </div>
                 
-                <div
-                    // pt-44 pb-20 px-4
-                    className="md:h-[calc(100vh-180px)] h-[calc(100vh-145px)] px-4 pb-4"
-                >
+                <div className="md:h-[calc(100vh-175px)] h-[calc(100vh-145px)] px-4 pb-4">
                     {session ? (
                         <EditorMarkdown
-                            blogId={blogEdit?.blogId}
-                            content={blogEdit?.content}
-                            lastEdited={blogEdit?.updatedAt}
+                            blogId={blogId}
+                            // content={blogEdit?.content}
+                            // lastEdited={blogEdit?.updatedAt}
                             onchangeContent={eventOnchangeDataBlog}
                         />
                     ) : (

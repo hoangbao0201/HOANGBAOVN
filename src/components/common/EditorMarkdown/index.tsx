@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Editor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 
@@ -9,31 +9,30 @@ import convertTime from "@/utils/convertTime";
 import TextActionSave from "./Toolbar/TextActionSave";
 import imageService from "@/lib/services/image.service";
 import MDXContentEdit from "../MDXSource/MDXContentEdit";
-import { addImageBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
+import { RootStatePageEditBlog, addImageBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
 
 
 interface EditorMarkdownProps {
-    blogId: number
-    lastEdited: Date;
-    content: string | undefined;
+    blogId?: number
+    // lastEdited?: Date;
+    // content: string | undefined;
     onchangeContent: (data: { [key: string]: any }) => void;
 }
 const EditorMarkdown = ({
-    lastEdited,
+    // lastEdited,
     blogId,
-    content,
+    // content,
     onchangeContent,
 }: EditorMarkdownProps) => {
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
+    const { blogEdit, isSave } = useSelector((state: RootStatePageEditBlog) => state.pageEditBlog);
 
     // Hanlde Upload Image Blog
     const handleUploadImageBlog = async (file: File) => {
         if (!session || status !== "authenticated") {
-            return;
+            return { url: '', text: '' };
         }
-
-        console.log("blogId: ", blogId);
 
         try {
             const formData = new FormData();
@@ -51,19 +50,22 @@ const EditorMarkdown = ({
                 }));
                 return imageRes.urlImage;
             }
-        } catch (error) {}
+            return "";
+        } catch (error) {
+            return "";
+        }
     };
     useEffect(() => {
         // Editor.use(TextActionSave, textActionConfig);
         Editor.use(TextActionSave, {
-            start: `Lần sửa cuối ${convertTime(lastEdited)}`,
+            start: blogEdit?.updatedAt ? `Lần sửa cuối ${convertTime(blogEdit?.updatedAt)}` : "",
         });
-    }, [lastEdited]);
+    }, [blogEdit?.updatedAt]);
 
     return (
         <>
             <Editor
-                value={content || ""}
+                value={blogEdit?.content || ""}
                 className="max-h-full h-full"
                 onChange={({ text, html }) =>
                     onchangeContent({ content: text })

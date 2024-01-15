@@ -72,6 +72,7 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
             <NextSeo
                 title={`${blog?.title || ""} - ${siteMetadata?.title}`}
                 description={blog?.summary}
+                canonical={`${siteMetadata?.siteUrl}/blog/${blog?.slug}-${blog?.blogId}`}
                 openGraph={{
                     url: `${siteMetadata?.siteUrl}/blog/${blog?.slug}-${blog?.blogId}`,
                     title: blog?.title,

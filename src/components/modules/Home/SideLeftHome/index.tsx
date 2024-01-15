@@ -2,8 +2,9 @@ import Link from "next/link";
 import IconHome from "../../icons/IconHome";
 import IconClock from "../../icons/IconClock";
 import IconTopic from "../../icons/IconTopic";
-import IconSignalStream from "../../icons/IconSignalStream";
 import IconChartLine from "../../icons/IconChartLine";
+import IconSignalStream from "../../icons/IconSignalStream";
+import IconScrewdriverWrench from "../../icons/ScrewdriverWrench";
 
 const SideBarNavigationMainData = [
     {
@@ -29,7 +30,12 @@ const SideBarNavigationMainData = [
     {
         title: 'Live',
         link: "/",
-        icon: <IconSignalStream size={22} />
+        icon: <IconSignalStream size={20} />
+    },
+    {
+        title: 'Tool',
+        link: "/tool",
+        icon: <IconScrewdriverWrench size={20} />
     },
 ];
 

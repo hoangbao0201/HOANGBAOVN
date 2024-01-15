@@ -6,23 +6,33 @@ export type RootStatePageEditBlog = {
 }
 export interface PageEditBlogSlideProps {
     blogEdit: {
-        blogId: number
+        blogId?: number
         slug: string
         title: string
         summary: string
         content: string
         published: boolean
         thumbnailUrl: string
-        createdAt: Date
-        updatedAt: Date
+        createdAt?: Date
+        updatedAt?: Date
         blogTags: { tags: TagProps }[]
         blogImages: { blogImageId: number, urlImage: string }[]
-    } | null,
+    },
 
     isSave: boolean
 }
 const initialState: PageEditBlogSlideProps = {
-    blogEdit: null,
+    blogEdit: {
+        blogId: undefined,
+        slug: "",
+        title: "",
+        summary: "",
+        content: "",
+        published: true,
+        thumbnailUrl: "",
+        blogTags: [],
+        blogImages: []
+    },
     isSave: true
 };
 
@@ -31,7 +41,22 @@ export const counterSlice = createSlice({
     initialState,
     reducers: {
         setBlogEditRDHandle: (state, action) => {
-            state.blogEdit = action.payload;
+            if(!action.payload) {
+                state.blogEdit = {
+                    blogId: undefined,
+                    slug: "",
+                    title: "",
+                    summary: "",
+                    content: "",
+                    published: true,
+                    thumbnailUrl: "",
+                    blogTags: [],
+                    blogImages: []
+                };
+            }
+            else {
+                state.blogEdit = action.payload;
+            }
         },
         setIsSaveBlogEditRDHandle: (state, action) => {
             state.isSave = action.payload;

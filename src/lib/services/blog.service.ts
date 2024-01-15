@@ -12,7 +12,7 @@ export interface PostCreateBlogProps {
     summary: string;
     content: string;
     published: boolean;
-    blogTags: TagProps[];
+    blogTags: { tags: TagProps }[];
 }
 export interface GetBlogsProps {
     blogId: number;
@@ -258,7 +258,7 @@ class BlogService {
         data,
         token,
     }: {
-        data: PostCreateBlogProps & { blogId: string, slug: string };
+        data: PostCreateBlogProps & { blogId: number, slug: string };
         token: string;
     }): Promise<any> {
         try {
