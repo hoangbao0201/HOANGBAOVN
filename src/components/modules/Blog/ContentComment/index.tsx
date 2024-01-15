@@ -17,6 +17,7 @@ import {
     setCommentIdBlogDetailRDHandle,
 } from "@/redux/commentsBlogDetailSlide";
 import SkeletonItemComment from "../../skeletons/SkeletonItemComment";
+import Link from "next/link";
 
 interface ContentCommentProps {
     blog: GetBlogDetailProps;
@@ -44,7 +45,11 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         commentText: EditorState;
     }) => {
         // || commentText.getCurrentContent().getPlainText().length <= 3
-        if (!session || status !== "authenticated" || commentText.getCurrentContent().getPlainText().length <= 0) {
+        if (
+            !session ||
+            status !== "authenticated" ||
+            commentText.getCurrentContent().getPlainText().length <= 0
+        ) {
             throw new Error("Không đủ thông tin");
         }
 
@@ -80,9 +85,9 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                                 receiver: {
                                     userId: receiverId,
                                     name: "",
-                                    username: ""
-                                }
-                            }
+                                    username: "",
+                                },
+                            },
                         ],
                     })
                 );
@@ -127,11 +132,21 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
             });
 
             if (commentRes.success) {
-                if(receiverId && parentId) {
-                    dispatch(setCommentIdBlogDetailRDHandle({ type: "replycomment", commentId: commentRes?.comment.commentId, parentId: parentId }));
-                }
-                else {
-                    dispatch(setCommentIdBlogDetailRDHandle({ type: "comment", commentId: commentRes?.comment.commentId }));
+                if (receiverId && parentId) {
+                    dispatch(
+                        setCommentIdBlogDetailRDHandle({
+                            type: "replycomment",
+                            commentId: commentRes?.comment.commentId,
+                            parentId: parentId,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        setCommentIdBlogDetailRDHandle({
+                            type: "comment",
+                            commentId: commentRes?.comment.commentId,
+                        })
+                    );
                 }
             }
         } catch (error) {}
@@ -147,7 +162,6 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
         parentId?: number;
         commentText: EditorState;
     }) => {
-
         try {
             editorRef.current?.focus();
             setEditorState(EditorState.createEmpty());
@@ -157,7 +171,6 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                 parentId,
                 commentText,
             });
-            
         } catch (error) {
             // editorRef.current?.focus();
             // setEditorState(EditorState.createEmpty());
@@ -167,7 +180,24 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
 
     return (
         <div className="md:px-5 px-3 py-5 bg-white dark:bg-slate-800 mt-5 md:rounded-md shadow-sm">
-            <h5 id="comment" className="text-lg font-semibold mb-4">Bình luận bài viết</h5>
+            <h5 id="comment" className="text-lg font-semibold mb-2">
+                Bình luận bài viết
+            </h5>
+            <div className={`pb-3`}>
+                {status === "unauthenticated" && (
+                    <>
+                        Hãy{" "}
+                        <Link className="font-semibold hover:underline" href={`/auth/login`}>
+                            đăng nhập
+                        </Link>{" "}
+                        hoặc{" "}
+                        <Link className="font-semibold hover:underline" href={`/auth/login`}>
+                            đăng ký
+                        </Link>{" "}
+                        để bắt đầu bình luận
+                    </>
+                )}
+            </div>
 
             <div className="pb-4 block">
                 <FormEditorComment

@@ -77,7 +77,7 @@ const ItemComment = ({
                         </Link>
                     </AvatarRank> 
                 </div>
-                <div className="ml-2 flex-1">
+                <div className="ml-2 pb-1 flex-1">
                     <div className="flex items-center w-full">
 
                         <div className="border rounded-[20px] py-[8px] px-[12px] mb-1 bg-gray-100 dark:bg-slate-700 min-h-[50px]">
