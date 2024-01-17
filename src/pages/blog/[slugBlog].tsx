@@ -94,7 +94,7 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
             <div className="max-w-7xl w-full min-h-screen mx-auto mb-4">
                 <div className="grid grid-cols-12">
                     <div className="col-span-1 xl:block hidden pt-3">
-                        <SidebarLeftBlogDetail />
+                        <SidebarLeftBlogDetail blogId={blog?.blogId}/>
                     </div>
 
                     <div className="lg:col-span-8 col-span-full pt-3">

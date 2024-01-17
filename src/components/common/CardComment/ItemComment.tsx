@@ -9,12 +9,11 @@ import AvatarRank from "../AvatarRank";
 import ButtonAction from "./ButtonAction";
 import IconVerify from "@/components/modules/icons/IconVerify";
 import { GetCommentsProps } from "@/lib/services/comment.service";
-import { CommentsBlogDetailProps } from "@/redux/commentsBlogDetailSlide";
+import { CommentsPageBlogDetailProps } from "@/redux/pageBlogDetailSlide";
 import convertTime from "@/utils/convertTime";
 
 interface ItemCommentProps {
-    user: GetCommentsProps['sender'] | undefined;
-    comment: CommentsBlogDetailProps;
+    comment: CommentsPageBlogDetailProps;
     isReply?: boolean;
     isSended?: boolean;
     childIndex?: number;
@@ -26,7 +25,6 @@ interface ItemCommentProps {
 }
 
 const ItemComment = ({
-    user,
     comment,
     isReply,
     setReceiver,
@@ -109,6 +107,7 @@ const ItemComment = ({
 
                         <span className="pl-1 group-hover:opacity-100 opacity-0 transition-all">
                             <ButtonAction
+                                parentId={comment?.parentId}
                                 senderId={comment.sender.userId}
                                 commentId={comment.commentId}
                             />

@@ -4,7 +4,7 @@ import pageHomeSlide from "./pageHomeSlide";
 import pageTagDetail from "./pageTagDetail";
 import buttonActionSlide from "./buttonActionSlide";
 import pageEditBlogSlide from "./pageEditBlogSlide";
-import commentsBlogDetailSlide from "./commentsBlogDetailSlide";
+import pageBlogDetailSlide from "./pageBlogDetailSlide";
 
 const store = configureStore({
     reducer: {
@@ -13,7 +13,7 @@ const store = configureStore({
         pageHome: pageHomeSlide,
         pageEditBlog: pageEditBlogSlide,
         pageTagDetail: pageTagDetail,
-        commentsBlogDetail: commentsBlogDetailSlide
+        pageBlogDetail: pageBlogDetailSlide
     },
 });
 

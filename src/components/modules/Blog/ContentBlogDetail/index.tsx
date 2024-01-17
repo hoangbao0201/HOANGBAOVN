@@ -1,19 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
+import { ParsedUrlQuery } from "querystring";
 
-import convertTime from "@/utils/convertTime";
 import ContentComment from "../ContentComment";
 import TagsBlog from "@/components/common/TagsBlog";
 import AvatarRank from "@/components/common/AvatarRank";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import formatFullDateTime from "@/utils/formatFullDateTime";
+import commentService from "@/lib/services/comment.service";
 import MDXContent from "@/components/common/MDXSource/MDXContent";
-import commentService, { GetCommentsProps } from "@/lib/services/comment.service";
-import { setCommentsBlogDetailRDHandle, setIsLoadingCommentsBlogDetailRDHandle } from "@/redux/commentsBlogDetailSlide";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
-import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
+import { setCommentsPageBlogDetailRDHandle, setIsLoadingCommentsPageBlogDetailRDHandle } from "@/redux/pageBlogDetailSlide";
 
 
 interface Params extends ParsedUrlQuery {
@@ -34,7 +35,7 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
             return;
         }
 
-        dispatch(setIsLoadingCommentsBlogDetailRDHandle(true))
+        dispatch(setIsLoadingCommentsPageBlogDetailRDHandle(true))
         try {
             const { success, comments } = await commentService.getComments({
                 query: `?blogId=${slugBlog.replace(/.*[^0-9]/, "")}`,
@@ -42,12 +43,12 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
 
             
             if(success) {
-                dispatch(setCommentsBlogDetailRDHandle(comments));
+                dispatch(setCommentsPageBlogDetailRDHandle(comments));
             }
 
             throw new Error();
         } catch (error) {
-            dispatch(setIsLoadingCommentsBlogDetailRDHandle(false))
+            dispatch(setIsLoadingCommentsPageBlogDetailRDHandle(false))
         }
     }
 
@@ -66,7 +67,7 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
     }, [status]);
 
     useEffect(() => {
-        dispatch(setCommentsBlogDetailRDHandle(null));
+        dispatch(setCommentsPageBlogDetailRDHandle(null));
         handleGetComments();
     }, [])
 
@@ -81,11 +82,19 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
                                     width={800}
                                     height={800}
                                     alt="ảnh bìa"
-                                    src={"/static/images/default/bg_blog_lg.png"}
+                                    src={blog?.thumbnailUrl || "/static/images/default/bg_blog_lg.png"}
                                     priority={true}
                                     className="mx-auto block max-h-80 w-full object-cover"
                                 />
                             </div>
+                            <Breadcrumbs
+                                listBreadcrumbs={[
+                                    { title: "bài viết", slug: '/blog' },
+                                    { title: blog?.title, slug: `/${blog?.slug}-${blog?.blogId}` },
+                                ]}
+                                className="md:px-8 px-4"
+                            />
+
                             <div className="flex justify-between md:px-8 px-4 pt-4 mb-5">
                                 <div className="flex">
                                     <Link href={`/user/${blog?.author.username}`}>
@@ -114,13 +123,9 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
                                                 Cấp {blog?.author.rank || 1}
                                             </span>
                                         </div>
-                                        <div>
-                                            <Link href={`/`}>
-                                                <p className="text-sm hover:underline">
-                                                    {convertTime(blog?.createdAt)}
-                                                </p>
-                                            </Link>
-                                        </div>
+                                        <p className="text-sm hover:underline">
+                                            {formatFullDateTime(blog?.createdAt)}
+                                        </p>
                                     </div>
                                 </div>
 
@@ -128,9 +133,10 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
                                     {/* <p>Thời gian: {convertTime(blog?.updatedAt)}</p> */}
                                 </div>
                             </div>
+
                             <h1
                                 title={blog?.title}
-                                className="md:font-bold md:text-4xl md:px-8 font-semibold text-2xl px-4 line-clamp-2 relative block"
+                                className="md:font-bold md:text-4xl md:px-8 px-4 font-semibold text-2xl line-clamp-2 relative block"
                             >
                                 {blog?.title}
                             </h1>

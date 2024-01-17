@@ -4,7 +4,7 @@ export interface GetCommentsProps {
     blogId: number;
     commentId: number;
     commentText: string;
-    parentId: number | null,
+    parentId?: number,
     createdAt: Date;
     updatedAt: Date;
     receiver?: {

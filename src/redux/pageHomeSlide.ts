@@ -1,4 +1,4 @@
-import { GetBlogDetailProps } from "@/lib/services/blog.service";
+import { GetBlogsProps } from "@/lib/services/blog.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 export type RootStatePageHome = {
@@ -6,7 +6,7 @@ export type RootStatePageHome = {
 }
 interface PageHomeProps {
     isLoadPostsPageHome: boolean
-    postsPageHome: GetBlogDetailProps[];
+    postsPageHome: GetBlogsProps[];
 }
 const initialState: PageHomeProps = {
     isLoadPostsPageHome: true,

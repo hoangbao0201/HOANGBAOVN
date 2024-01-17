@@ -1,5 +1,8 @@
-import { useSession } from "next-auth/react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,11 +12,6 @@ import { useDebounce } from "@/hook/useDebounce";
 import EditorMarkdown from "@/components/common/EditorMarkdown";
 import blogService, { GetBlogEditProps } from "@/lib/services/blog.service";
 import { setIsSaveBlogEditRDHandle, setBlogEditRDHandle, RootStatePageEditBlog } from "@/redux/pageEditBlogSlide";
-import { useRouter } from "next/router";
-import ListTag from "./ListTag";
-import Link from "next/link";
-import Image from "next/image";
-import dynamic from "next/dynamic";
 
 
 // const EditorMarkdown = dynamic(() => import("@/components/common/EditorMarkdown"), { ssr: false })
@@ -28,7 +26,6 @@ const FormEditBlog = ({ blogId, isEdit = false } : FormEditBlogProps) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { blogEdit, isSave } = useSelector((state: RootStatePageEditBlog) => state.pageEditBlog);
-    // const [isLoad, setIsLoad] = useState(false);
 
     const contentBlogEditDebounce = useDebounce(JSON.stringify(blogEdit), 2000);
 
@@ -37,8 +34,6 @@ const FormEditBlog = ({ blogId, isEdit = false } : FormEditBlogProps) => {
 
     // Onchange Data Blog
     const eventOnchangeDataBlog = (data: { [key: string]: any }) => {
-        // dispatch(setIsSaveBlogEditRDHandle(false)); 
-        // setIsLoad(true);
         dispatch(setIsSaveBlogEditRDHandle(false));
         dispatch(setBlogEditRDHandle({
             ...blogEdit,
@@ -48,7 +43,7 @@ const FormEditBlog = ({ blogId, isEdit = false } : FormEditBlogProps) => {
 
     // Handle Save Blog
     const handleSaveEditBlog = async () => {
-        const { blogId, slug, title, summary, content, published, blogTags } = blogEdit;
+        const { blogId, slug, title, summary, content, thumbnailUrl, published, blogTags } = blogEdit;
 
         if(!session || status !== "authenticated" || !blogId) {
             return;
@@ -63,7 +58,8 @@ const FormEditBlog = ({ blogId, isEdit = false } : FormEditBlogProps) => {
                     summary: summary,
                     content: content,
                     published: published,
-                    blogTags: blogTags
+                    blogTags: blogTags,
+                    thumbnailUrl: thumbnailUrl
                 },
                 token: session?.backendTokens.accessToken
             });
@@ -106,7 +102,6 @@ const FormEditBlog = ({ blogId, isEdit = false } : FormEditBlogProps) => {
     }
     
     useEffect(() => {
-        console.log("blogEdit: ", { blogEdit, blogId })
         if(!isEdit && !blogEdit?.blogId) {
             if(blogEdit?.title?.length > 10 && blogEdit?.content?.length > 10) {    
                 handleCreateBlog();

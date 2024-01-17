@@ -9,17 +9,17 @@ import commentService, {
     GetCommentsProps,
 } from "@/lib/services/comment.service";
 import {
-    CommentsBlogDetailProps,
-    RootStateCommentsBlogDetail,
-    addReplyCommentsBlogDetailRDHandle,
-} from "@/redux/commentsBlogDetailSlide";
+    CommentsPageBlogDetailProps,
+    RootStatePageBlogDetail,
+    addReplyCommentPageBlogDetailRDHandle,
+} from "@/redux/pageBlogDetailSlide";
 import { setButonLoadingRDHandle } from "@/redux/buttonActionSlide";
 import FormEditorComment from "@/components/modules/Blog/ContentComment/FormEditorComment";
 import Image from "next/image";
 
 interface CardCommentProps {
     user: GetCommentsProps["sender"] | undefined;
-    comment: CommentsBlogDetailProps;
+    comment: CommentsPageBlogDetailProps;
     handleSendComment: any;
 }
 const CardComment = ({
@@ -57,7 +57,7 @@ const CardComment = ({
             });
             if (replyCommentsRes?.success) {
                 dispatch(
-                    addReplyCommentsBlogDetailRDHandle({
+                    addReplyCommentPageBlogDetailRDHandle({
                         commentId: comment.commentId,
                         replyComments: replyCommentsRes?.comments,
                     })
@@ -92,7 +92,6 @@ const CardComment = ({
     return (
         <div className="relative item-comment mb-3">
             <ItemComment
-                user={user}
                 isSended={comment?.commentId === -1}
                 isReply={false}
                 comment={comment}
@@ -104,7 +103,6 @@ const CardComment = ({
                         return (
                             <Fragment key={replyComment.commentId}>
                                 <ItemComment
-                                    user={user}
                                     isReply={true}
                                     comment={replyComment}
                                     setReceiver={setDataReceiver}
@@ -141,7 +139,7 @@ const CardComment = ({
                             onClick={handleGetReplyComments}
                         >
                             <i className="rotate-90 mx-2">
-                                <IconArrowTurnUp size={17} />
+                                <IconArrowTurnUp size={17} className="dark:fill-gray-200"/>
                             </i>
                             <span className="mr-2">
                                 Xem tất cả{" "}

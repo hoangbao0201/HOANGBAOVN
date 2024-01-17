@@ -66,8 +66,9 @@ export interface GetBlogDetailProps {
     blogImages: { urlImage: string }[];
     _count: {
         userViews: number;
-        userLikes: number;
-        userSaves: number;
+        // userLikes: number;
+        // userSaves: number;
+        // Comment: number;
     };
 }
 export interface GetSearchBlogsProps {
@@ -129,13 +130,19 @@ export interface GetBlogEditProps {
         rank: number;
     };
     blogImages: { blogImageId: number; urlImage: string }[];
+}
+
+export interface GetSidebarBlog {
+    userLikes: [],
+    userSaves: [],
     _count: {
-        userViews: number;
-        userLikes: number;
-        userSaves: number;
-    };
+        userLikes: number,
+        userSaves: number,
+        Comment: number
+    }
 }
 class BlogService {
+
     async createBlog({
         data,
         token,
@@ -231,6 +238,29 @@ class BlogService {
         }
     }
 
+    async getSidebar({blogId, token}: { blogId: number, token?: string }): Promise<any> {
+        try {
+            const sidebarBlogRes = await fetch(
+                `${API_BASE_URL}/api/blogs/sidebar/${blogId || ""}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            const sidebarBlog = await sidebarBlogRes.json();
+            return sidebarBlog;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
+
     async getBlogEdit(blogId: string, token: string): Promise<any> {
         try {
             const blogRes = await fetch(
@@ -258,11 +288,11 @@ class BlogService {
         data,
         token,
     }: {
-        data: PostCreateBlogProps & { blogId: number, slug: string };
+        data: PostCreateBlogProps & { blogId: number, slug: string, thumbnailUrl: string };
         token: string;
     }): Promise<any> {
         try {
-            const { blogId, title, slug = "", content, published = false, summary = "", blogTags = [] } = data;
+            const { blogId, title, slug = "", content, thumbnailUrl = "", published = false, summary = "", blogTags = [] } = data;
 
             const blogRes = await fetch(
                 `${API_BASE_URL}/api/blogs/edit?blogId=${blogId}`,
@@ -276,6 +306,7 @@ class BlogService {
                         title: title,
                         slug: textToSlug(title) || "",
                         content: content,
+                        thumbnailUrl: thumbnailUrl,
                         summary: summary,
                         blogTags: blogTags,
                         published: published,
@@ -303,6 +334,35 @@ class BlogService {
         try {
             const blogRes = await fetch(
                 `${API_BASE_URL}/api/blogs/view/${blogId}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: token ? `Bearer ${token}` : "",
+                    },
+                }
+            );
+            const blog = await blogRes.json();
+            return blog;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error blog successful",
+                error: error,
+            };
+        }
+    }
+
+    async increaseLike({
+        blogId,
+        token,
+    }: {
+        blogId: number;
+        token?: string;
+    }): Promise<any> {
+        try {
+            const blogRes = await fetch(
+                `${API_BASE_URL}/api/blogs/like/${blogId}`,
                 {
                     method: "PATCH",
                     headers: {

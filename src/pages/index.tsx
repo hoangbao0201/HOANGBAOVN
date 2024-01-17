@@ -2,6 +2,7 @@ import { Fragment, useEffect } from "react";
 import { GetStaticProps } from "next";
 
 import { NextSeo } from "next-seo";
+import { useDispatch, useSelector } from "react-redux";
 
 import { NextPageWithLayout } from "./_app";
 import siteMetadata from "@/lib/siteMetadata";
@@ -11,9 +12,7 @@ import SideLeftHome from "@/components/modules/Home/SideLeftHome";
 import SideRightHome from "@/components/modules/Home/SideRightHome";
 import blogService, { GetBlogsProps } from "@/lib/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
-import { useDispatch, useSelector } from "react-redux";
 import { RootStatePageHome, setPostsPageHomeRDHandle } from "@/redux/pageHomeSlide";
-import { setLoadPostsPageTagDetail } from "@/redux/pageTagDetail";
 
 // const InterestingArticle = dynamic(() => import('@/components/common/InterestingArticle'), {
 //     ssr: false
@@ -63,7 +62,7 @@ const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
             <div>
                 <div className="max-w-7xl w-full min-h-screen mx-auto">
                     <div className="grid grid-cols-12">
-                        <div className="col-span-2 pt-3 h-full hidden xl:block">
+                        <div className="xl:col-span-2 col-span-full xl:px-0 md:px-3 px-1 pt-3 h-full">
                             <SideLeftHome />
                         </div>
                         <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3 transition-all">

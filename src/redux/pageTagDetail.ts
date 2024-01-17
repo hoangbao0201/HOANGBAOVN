@@ -1,4 +1,4 @@
-import { GetBlogDetailProps } from "@/lib/services/blog.service";
+import { GetBlogsProps } from "@/lib/services/blog.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 export type RootStatePageTagDetail = {
@@ -6,7 +6,7 @@ export type RootStatePageTagDetail = {
 }
 interface PageTagDetailProps {
     isLoadPostsPageTagDetail: boolean
-    postsPageTagDetail: GetBlogDetailProps[];
+    postsPageTagDetail: GetBlogsProps[];
 }
 const initialState: PageTagDetailProps = {
     isLoadPostsPageTagDetail: true,

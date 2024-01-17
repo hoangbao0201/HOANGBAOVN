@@ -1,8 +1,11 @@
 import { Fragment, useEffect } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 
+import { NextSeo } from "next-seo";
 import { ParsedUrlQuery } from "querystring";
+import { useDispatch, useSelector } from "react-redux";
 
+import siteMetadata from "@/lib/siteMetadata";
 import { NextPageWithLayout } from "@/pages/_app";
 import CardBlog from "@/components/common/CardBlog";
 import MainLayout from "@/components/Layouts/MainLayout";
@@ -10,9 +13,6 @@ import blogService, { GetBlogsProps } from "@/lib/services/blog.service";
 import SideLeftTagDetail from "@/components/modules/Tag/SideLeftTagDetail";
 import SideRightTagDetail from "@/components/modules/Tag/SideRightTagDetail";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
-import { NextSeo } from "next-seo";
-import siteMetadata from "@/lib/siteMetadata";
-import { useDispatch, useSelector } from "react-redux";
 import {
     RootStatePageTagDetail,
     setPostsPageTagDetailRDHandle,

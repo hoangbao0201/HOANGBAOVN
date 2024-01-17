@@ -42,15 +42,15 @@ const SideBarNavigationMainData = [
 
 const SideLeftHome = () => {
     return (
-        <aside className="sticky top-[72px]">
-            <ul className="">
+        <aside className="md:sticky top-[72px]">
+            <ul className="xl:block flex xl:space-x-0 space-x-3 overflow-x-auto">
                 {
                     SideBarNavigationMainData.map((item, index) => {
                         return (
                             <li key={index}>
                                 <Link href={item.link}>
                                     <div
-                                        className="text-gray-700 dark:text-white flex items-center px-3 py-2 space-x-3 hover:bg-white/90 dark:hover:bg-white/10 rounded-md"
+                                        className="xl:bg-transparent bg-white text-gray-700 dark:text-white flex items-center px-3 py-2 space-x-3 hover:bg-white/90 dark:hover:bg-white/10 rounded-md whitespace-nowrap"
                                     >
                                         {item.icon && (
                                             <i className="flex-shrink-0 fill-gray-500 dark:fill-white stroke-gray-500">{item.icon}</i>

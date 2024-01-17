@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { MultiValue } from "react-select";
 import { useSession } from "next-auth/react";
@@ -44,42 +44,49 @@ const EditBlogConfirm = () => {
     const eventOnchangeThumbnailBlog = async (
         e: ChangeEvent<HTMLInputElement>
     ) => {
-        if (e.target.files == null || (e.target.files && e.target.files.length <=0)) {
+        if (e.target.files == null || (e.target.files && e.target.files.length <=0 || status !== "authenticated")) {
             return;
         }
         const dataImg = e.target.files[0];
-        const urlImage = URL.createObjectURL(dataImg)
+        const urlImage = URL.createObjectURL(dataImg);
 
         setFileThumbnail({
-            ...fileThumbnail,
             dataImage: dataImg,
             urlImage: urlImage,
         });
-    };
-
-    const handleUploadThumbnailBlog = async () => {
-        if (!session || status !== "authenticated" || !fileThumbnail.dataImage) {
-            return;
-        }
 
         try {
+            dispatch(setIsSaveBlogEditRDHandle(false));
+
             const formData = new FormData();
-            formData.append("image", fileThumbnail.dataImage);
+            formData.append("image", dataImg);
             const imageRes = await imageService.createImageBlog({
-                query: `?blogId=${blogEdit?.blogId}`,
+                query: `?blogId=${blogEdit?.blogId}&type=thumbnail`,
                 dataImage: formData,
                 token: session.backendTokens.accessToken,
             });
-
+            console.log(imageRes)
             if (imageRes?.success) {
-                dispatch(addImageBlogEditRDHandle({
-                    blogImageId: imageRes.blogImageId,
-                    urlImage: imageRes.urlImage
+                dispatch(setBlogEditRDHandle({
+                    ...blogEdit,
+                    thumbnailUrl: imageRes.blogImage.urlImage
                 }));
                 return imageRes.urlImage;
             }
         } catch (error) {}
-    }
+    };
+
+
+    useEffect(() => {
+        if(blogEdit?.thumbnailUrl) {
+            setFileThumbnail({
+                dataImage: null,
+                urlImage: blogEdit?.thumbnailUrl || ""
+            })
+        }
+    }, [blogEdit?.thumbnailUrl])
+
+    // console.log(fileThumbnail)
 
     return (
         <>
@@ -115,7 +122,7 @@ const EditBlogConfirm = () => {
                                             backgroundImage: `URL('${fileThumbnail.urlImage}')`,
                                         }}
                                         className={`${
-                                            fileThumbnail.dataImage &&
+                                            fileThumbnail.urlImage &&
                                             "exist-file"
                                         } transition-opacity duration-500 relative bg-center bg-cover border text-center w-full px-6 py-5 bg-gray-200 h-40 block rounded-md`}
                                     >
@@ -132,6 +139,7 @@ const EditBlogConfirm = () => {
                                     </div>
                                 </label>
                             </div>
+
                             <input
                                 name="title"
                                 value={blogEdit?.title}

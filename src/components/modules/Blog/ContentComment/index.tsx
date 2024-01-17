@@ -11,11 +11,11 @@ import CardComment from "@/components/common/CardComment";
 import commentService from "@/lib/services/comment.service";
 import { GetBlogDetailProps } from "@/lib/services/blog.service";
 import {
-    RootStateCommentsBlogDetail,
-    addCommentsBlogDetailRDHandle,
-    addReplyCommentsBlogDetailRDHandle,
-    setCommentIdBlogDetailRDHandle,
-} from "@/redux/commentsBlogDetailSlide";
+    RootStatePageBlogDetail,
+    addCommentsPageBlogDetailRDHandle,
+    addReplyCommentPageBlogDetailRDHandle,
+    setCommentIdPageBlogDetailRDHandle,
+} from "@/redux/pageBlogDetailSlide";
 import SkeletonItemComment from "../../skeletons/SkeletonItemComment";
 import Link from "next/link";
 
@@ -26,8 +26,8 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
     const dispatch = useDispatch();
     const { data: session, status } = useSession();
     // const [isLoadingSendComment, setIsLoadingSendComment] = useState(false);
-    const { commentsBlogDetail, isLoadingBlogDetail } = useSelector(
-        (state: RootStateCommentsBlogDetail) => state.commentsBlogDetail
+    const { commentsPageBlogDetail, isLoadingCommentsPageBlogDetail } = useSelector(
+        (state: RootStatePageBlogDetail) => state.pageBlogDetail
     );
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
@@ -61,7 +61,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
             // Add comment before posting to the Server
             if (receiverId && parentId) {
                 dispatch(
-                    addReplyCommentsBlogDetailRDHandle({
+                    addReplyCommentPageBlogDetailRDHandle({
                         commentId: parentId,
                         replyComments: [
                             {
@@ -93,7 +93,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                 );
             } else {
                 dispatch(
-                    addCommentsBlogDetailRDHandle([
+                    addCommentsPageBlogDetailRDHandle([
                         {
                             // ...commentRes.comment,
                             blogId: blog?.blogId,
@@ -134,7 +134,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
             if (commentRes.success) {
                 if (receiverId && parentId) {
                     dispatch(
-                        setCommentIdBlogDetailRDHandle({
+                        setCommentIdPageBlogDetailRDHandle({
                             type: "replycomment",
                             commentId: commentRes?.comment.commentId,
                             parentId: parentId,
@@ -142,7 +142,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                     );
                 } else {
                     dispatch(
-                        setCommentIdBlogDetailRDHandle({
+                        setCommentIdPageBlogDetailRDHandle({
                             type: "comment",
                             commentId: commentRes?.comment.commentId,
                         })
@@ -203,7 +203,7 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                 <FormEditorComment
                     isReply={false}
                     // isLoad={isLoadingSendComment}
-                    // isLoad={commentsBlogDetail ? commentsBlogDetail[0].commentId === -1 : false}
+                    // isLoad={commentsPageBlogDetail ? commentsPageBlogDetail[0].commentId === -1 : false}
                     isLoad={false}
                     sender={session?.user}
                     receiver={session?.user}
@@ -216,12 +216,12 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
             </div>
 
             <div className="list-item-comment">
-                {isLoadingBlogDetail ? (
+                {isLoadingCommentsPageBlogDetail ? (
                     <SkeletonItemComment count={3} />
                 ) : (
-                    commentsBlogDetail &&
-                    commentsBlogDetail.length > 0 &&
-                    commentsBlogDetail.map((comment, index) => {
+                    commentsPageBlogDetail &&
+                    commentsPageBlogDetail.length > 0 &&
+                    commentsPageBlogDetail.map((comment, index) => {
                         return (
                             <Fragment key={`${comment?.commentId}-${index}`}>
                                 <CardComment

@@ -9,7 +9,7 @@ import convertTime from "@/utils/convertTime";
 import TextActionSave from "./Toolbar/TextActionSave";
 import imageService from "@/lib/services/image.service";
 import MDXContentEdit from "../MDXSource/MDXContentEdit";
-import { RootStatePageEditBlog, addImageBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
+import { RootStatePageEditBlog, addImageBlogEditRDHandle, setIsSaveBlogEditRDHandle } from "@/redux/pageEditBlogSlide";
 
 
 interface EditorMarkdownProps {
@@ -31,7 +31,7 @@ const EditorMarkdown = ({
     // Hanlde Upload Image Blog
     const handleUploadImageBlog = async (file: File) => {
         if (!session || status !== "authenticated") {
-            return { url: '', text: '' };
+            return "";
         }
 
         try {
@@ -43,12 +43,12 @@ const EditorMarkdown = ({
                 token: session.backendTokens.accessToken,
             });
 
-            if (imageRes?.success) {
+            if(imageRes?.success) {
                 dispatch(addImageBlogEditRDHandle({
-                    blogImageId: imageRes.blogImageId,
-                    urlImage: imageRes.urlImage
+                    blogImageId: imageRes.blogImage.blogImageId,
+                    urlImage: imageRes.blogImage.urlImage
                 }));
-                return imageRes.urlImage;
+                return imageRes.blogImage.urlImage;
             }
             return "";
         } catch (error) {
