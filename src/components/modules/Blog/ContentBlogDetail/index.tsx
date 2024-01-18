@@ -74,7 +74,7 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
     return (
         <>
             <div className="md:px-3">
-                <div className="bg-white dark:bg-slate-800 md:rounded-md shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-slate-800/70 md:rounded-md shadow-sm overflow-hidden">
                     <article className="">
                         <header className="mb-4">
                             <div className="mb-6">
@@ -84,13 +84,14 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
                                     alt="ảnh bìa"
                                     src={blog?.thumbnailUrl || "/static/images/default/bg_blog_lg.png"}
                                     priority={true}
-                                    className="mx-auto block max-h-80 w-full object-cover"
+                                    // className="mx-auto block max-h-80 w-full object-cover"
+                                    className="mx-auto block aspect-video w-full object-cover"
                                 />
                             </div>
                             <Breadcrumbs
                                 listBreadcrumbs={[
                                     { title: "bài viết", slug: '/blog' },
-                                    { title: blog?.title, slug: `/${blog?.slug}-${blog?.blogId}` },
+                                    { title: blog?.title, slug: `/blog/${blog?.slug}-${blog?.blogId}` },
                                 ]}
                                 className="md:px-8 px-4"
                             />

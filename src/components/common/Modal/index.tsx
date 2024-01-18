@@ -49,7 +49,7 @@ const Modal = ({
                     >
                         <Dialog.Panel
                             className={clsx(
-                                "relative flex flex-col min-h-0 w-full mx-auto transform bg-white dark:bg-slate-900 rounded-lg shadow-xl transition-all pb-4",
+                                "relative flex flex-col min-h-0 w-full mx-auto transform bg-white dark:bg-slate-600 rounded-lg shadow-xl transition-all pb-4",
                                 {
                                     "max-w-md": size === "small",
                                     "max-w-xl": size === "medium",

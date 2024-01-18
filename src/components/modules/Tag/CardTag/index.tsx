@@ -8,7 +8,7 @@ const CardTag = ({ tag } : CardTagProps) => {
 
     return (
         <div className="px-2 mb-4">
-            <div className="h-48 bg-white dark:bg-slate-800 rounded-md shadow-sm px-3 py-3 flex flex-col outline-2 outline-indigo-500 hover:outline-dashed">
+            <div className="h-48 bg-white dark:bg-slate-800/70 rounded-md shadow-sm px-3 py-3 flex flex-col outline-2 outline-indigo-500 hover:outline-dashed">
                 <div className="flex items-end justify-between line-clamp-1 mb-2">
                     <Link
                         className=""

@@ -38,7 +38,7 @@ const UserDetailPage: NextPageWithLayout<UserDetailPageProps> = ({ user }) => {
     
                     {user && (
                         <div className="max-w-6xl mx-auto top-0 -translate-y-20">
-                            <div className="py-5 flex flex-col items-center bg-white dark:bg-slate-800 shadow-sm rounded-md">
+                            <div className="py-5 flex flex-col items-center bg-white dark:bg-slate-800/70 shadow-sm rounded-md">
                                 <span className="">
                                     <Image
                                         width={150}
@@ -63,7 +63,7 @@ const UserDetailPage: NextPageWithLayout<UserDetailPageProps> = ({ user }) => {
                             <div className="mt-4">
                                 <div className="grid grid-cols-12">
                                     <div className="md:col-span-4 col-span-full mb-4">
-                                        <div className="px-4 py-4 bg-white dark:bg-slate-800 shadow-sm rounded-md">
+                                        <div className="px-4 py-4 bg-white dark:bg-slate-800/70 shadow-sm rounded-md">
                                             <div>
                                                 <span>
                                                     {user?._count.blogs} bài viết

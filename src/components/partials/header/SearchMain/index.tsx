@@ -54,13 +54,13 @@ const SearchMain = () => {
                     setIsModalSearch(true);
                     inputRef.current?.focus();
                 }}
-                className="hidden md:block px-4 py-2 text-base bg-gray-50 dark:bg-slate-800 text-gray-600 dark:text-white/50 border hover:border-blue-400 rounded-md cursor-text select-none w-full max-w-sm"
+                className="hidden md:block px-4 py-2 text-base bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-white/50 border hover:border-blue-400 rounded-md cursor-text select-none w-full max-w-sm"
             >
                 Tìm kiếm...
             </div>
             <i
                 onClick={() => setIsModalSearch(true)}
-                className="w-10 block cursor-pointer md:hidden bg-gray-100 dark:bg-slate-800 rounded-full outline-blue-600 outline-2 hover:outline-dashed"
+                className="w-10 block cursor-pointer md:hidden bg-gray-100 dark:bg-slate-800/70 rounded-full outline-blue-600 outline-2 hover:outline-dashed"
             >
                 <IconSearch size={18} className="h-10 mx-auto dark:stroke-white" />
             </i>
@@ -111,7 +111,7 @@ const SearchMain = () => {
                         return (
                             <li
                                 key={blog.blogId}
-                                className="rounded-md mb-2 bg-gray-50 dark:bg-slate-800 group hover:bg-blue-500 hover:text-white"
+                                className="rounded-md mb-2 bg-gray-50 dark:bg-slate-800/70 group hover:bg-blue-500 hover:text-white"
                             >
                                 <Link
                                     onClick={() => setIsModalSearch(false)}

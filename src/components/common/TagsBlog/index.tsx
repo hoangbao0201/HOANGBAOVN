@@ -14,7 +14,7 @@ const TagsBlog = ({ listTag, className }: TagsBlogProps) => {
                     listTag.length > 0 &&
                     listTag.map((item, index) => {
                         return (
-                            <li key={index} className="">
+                            <li key={index} className="hover:underline">
                                 <Link href={`/tags/${item.tags.slug}`}>
                                     <span
                                         className={`tag tag-${index + 1} block`}

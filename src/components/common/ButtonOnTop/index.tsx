@@ -32,7 +32,7 @@ const ButtonOnTop = () => {
                     onClick={eventOnTop}
                     className="fixed right-7 bottom-7 z-50 bg-gray-300 rounded-full text-center flex flex-col justify-center items-center p-2"
                 >
-                    <IconArrowUp className="fill-gray-600" />
+                    <IconArrowUp className="fill-gray-500" />
                 </button>
             ) : <span></span>}
         </div>

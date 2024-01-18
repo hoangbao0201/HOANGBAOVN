@@ -59,7 +59,7 @@ const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
             <div className="my-4" style={{ minHeight: "calc(100vh - 174px)" }}>
                 <div
                     className={clsx(
-                        "bg-white dark:bg-slate-800 rounded-md shadow-sm border max-w-xl w-full mx-auto overflow-hidden",
+                        "bg-white dark:bg-slate-800/70 rounded-md shadow-sm border max-w-xl w-full mx-auto overflow-hidden",
                         {
                             "pointer-events-none opacity-70": loadingLogin,
                         }

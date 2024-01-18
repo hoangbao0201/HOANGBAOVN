@@ -353,16 +353,18 @@ class BlogService {
         }
     }
 
-    async increaseLike({
+    async actionLike({
+        type,
         blogId,
         token,
     }: {
+        type: "like" | "unlike"
         blogId: number;
         token?: string;
     }): Promise<any> {
         try {
             const blogRes = await fetch(
-                `${API_BASE_URL}/api/blogs/like/${blogId}`,
+                `${API_BASE_URL}/api/blogs/like/${blogId}?type=${type}`,
                 {
                     method: "PATCH",
                     headers: {

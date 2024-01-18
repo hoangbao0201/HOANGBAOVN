@@ -8,12 +8,24 @@ export interface CommentsPageBlogDetailProps extends GetCommentsProps {
     replyComments?: GetCommentsProps[];
 }
 
+export interface SidebarPageBlogDetailProps {
+    userLikes: number | null,
+    userSaves: number | null,
+    Comment: number | null
+}
+
 export interface PageBlogDetailSlideProps {
     commentsPageBlogDetail: CommentsPageBlogDetailProps[];
+    sidebarPageBlogDetail: SidebarPageBlogDetailProps
     isLoadingCommentsPageBlogDetail: boolean;
 }
 const initialState: PageBlogDetailSlideProps = {
     commentsPageBlogDetail: [],
+    sidebarPageBlogDetail: {
+        userLikes: null, 
+        userSaves: null, 
+        Comment: null,
+    },
     isLoadingCommentsPageBlogDetail: true,
 };
 export const counterSlice = createSlice({
@@ -127,6 +139,10 @@ export const counterSlice = createSlice({
             }
             state.isLoadingCommentsPageBlogDetail = action.payload;
         },
+        // SIDEBAR
+        setSidebarPageBlogDetailRDHandle: (state, action) => {
+            state.sidebarPageBlogDetail = action.payload;
+        },
     },
 });
 
@@ -138,6 +154,7 @@ export const {
     setIsLoadingCommentsPageBlogDetailRDHandle,
     deleteCommentPageBlogDetailRDHandle,
     sendCommentPageBlogDetailRDHandle,
+    setSidebarPageBlogDetailRDHandle,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

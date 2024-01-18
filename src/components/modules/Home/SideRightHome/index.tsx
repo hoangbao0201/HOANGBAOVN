@@ -6,7 +6,7 @@ const SideRightHome = () => {
 
     return (
         <aside className="sticky top-[72px]">
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm sticky top-[72px] mb-4">
+            <div className="bg-white dark:bg-gray-800/70 rounded-lg shadow-sm sticky top-[72px] mb-4">
                 <div>
                     <div className="px-3 py-4 flex items-center text-lg font-semibold">
                         <h2>Bảnh xếp hạng</h2>

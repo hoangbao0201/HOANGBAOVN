@@ -25,7 +25,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
     return (
         <header
             className={clsx(
-                "w-full bg-white dark:bg-slate-800 shadow-sm border-b z-30 top-0 left-0 right-0",
+                "w-full bg-white dark:bg-slate-800 shadow-sm border-b border-gray-200 z-30 top-0 left-0 right-0",
                 { sticky: isDynamic }
             )}
         >
@@ -43,29 +43,6 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                             alt="Logo HOANGBAO"
                             className="w-[100px] h-[40px]"
                         />
-                        {/* {
-                            currentTheme ? (
-                                <Image
-                                    width={100}
-                                    height={100}
-                                    loading="lazy"
-                                    decoding="async"
-                                    src={`/static/images/logo.png`}
-                                    alt="Logo HOANGBAO"
-                                    className="w-[100px] h-[40px]"
-                                />
-                            ) : (
-                                <Image
-                                    width={100}
-                                    height={100}
-                                    loading="lazy"
-                                    decoding="async"
-                                    src={`/static/images/logo-dark.png`}
-                                    alt="Logo HOANGBAO"
-                                    className="w-[100px] h-[40px]"
-                                />
-                            )
-                        } */}
                     </Link>
                     <span className="mx-3 inline h-5 w-px bg-gray-300/60"></span>
                 </div>
@@ -75,21 +52,21 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                         {
                             status === "loading" ? (
                                 <>
-                                    <span className="bg-gray-100 dark:bg-slate-800 w-10 h-10 rounded-full"></span>
-                                    <span className="bg-gray-100 dark:bg-slate-800 w-10 h-10 rounded-full"></span>
-                                    <span className="bg-gray-100 dark:bg-slate-800 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 dark:bg-slate-800/70 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 dark:bg-slate-800/70 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 dark:bg-slate-800/70 w-10 h-10 rounded-full"></span>
                                 </>
 
                             ) : (
                                 <>
                                     <ButtonDarkMode />
                                     <Link href={`/creator/new-post`} title="Tạo bài viết">
-                                        <i className="w-10 bg-gray-100 dark:bg-slate-800 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
+                                        <i className="w-10 bg-gray-100 dark:bg-slate-800/70 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
                                             <IconPen size={20} className="h-10 mx-auto"/>
                                         </i>
                                     </Link>
                                     {/* <Link href={`/`} title="Thông báo">
-                                        <i className="w-10 text-center bg-gray-100 dark:bg-slate-800 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
+                                        <i className="w-10 text-center bg-gray-100 dark:bg-slate-800/70 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
                                             <IconBell size={20} className="h-10 mx-auto"/>
                                         </i>
                                     </Link> */}

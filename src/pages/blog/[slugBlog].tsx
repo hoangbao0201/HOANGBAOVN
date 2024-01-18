@@ -14,11 +14,14 @@ import { MDXSource } from "@/components/common/MDXSource";
 import ContentBlogDetail from "@/components/modules/Blog/ContentBlogDetail";
 import blogService, { GetBlogDetailProps } from "@/lib/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
-import SidebarRightBlogDetail from "@/components/modules/Blog/SideRightBlogDetail";
 import siteMetadata from "@/lib/siteMetadata";
 import dynamic from "next/dynamic";
 
 const SidebarLeftBlogDetail = dynamic(() => import("@/components/modules/Blog/SideLeftBlogDetail"), {
+    ssr: false
+});
+
+const SidebarRightBlogDetail = dynamic(() => import("@/components/modules/Blog/SideRightBlogDetail"), {
     ssr: false
 });
 

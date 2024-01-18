@@ -47,10 +47,10 @@ const SideLeftHome = () => {
                 {
                     SideBarNavigationMainData.map((item, index) => {
                         return (
-                            <li key={index}>
+                            <li key={index} className="hover:underline">
                                 <Link href={item.link}>
                                     <div
-                                        className="xl:bg-transparent bg-white text-gray-700 dark:text-white flex items-center px-3 py-2 space-x-3 hover:bg-white/90 dark:hover:bg-white/10 rounded-md whitespace-nowrap"
+                                        className="xl:bg-transparent bg-white max-xl:dark:bg-gray-800/70 text-gray-700 dark:text-slate-100 flex items-center px-3 py-2 space-x-3 hover:bg-white/90 dark:hover:bg-white/10 rounded-md whitespace-nowrap"
                                     >
                                         {item.icon && (
                                             <i className="flex-shrink-0 fill-gray-500 dark:fill-white stroke-gray-500">{item.icon}</i>

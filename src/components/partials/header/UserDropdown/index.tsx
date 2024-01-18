@@ -16,7 +16,7 @@ const UserDropdown = () => {
     return (
         <>
             <Menu as="div" className="relative align-middle flex-shrink-0">
-                <Menu.Button className="block">
+                <Menu.Button className="block h-[60px]">
                     <Image
                         alt="ảnh người dùng"
                         src={"/static/images/default/avatar_user_sm.jpg"}
@@ -35,7 +35,7 @@ const UserDropdown = () => {
                     leaveFrom="transform opacity-100"
                     leaveTo="transform opacity-0"
                 >
-                    <Menu.Items className="absolute z-50 right-0 mt-2 w-80 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-800 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute z-50 mt-1 right-0 w-80 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-800 shadow-xl dark:shadow-slate-500 ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="px-1 py-1">
                             <div className="pb-1 mb-1 border-b">
                                 <Menu.Item>

@@ -13,7 +13,7 @@ const ButtonDarkMode = () => {
             }
             className=""
         >
-            <i className="w-10 bg-gray-100 dark:bg-slate-800 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
+            <i className="w-10 bg-gray-100 dark:bg-slate-800/70 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
                 {
                     currentTheme === "light" ? (
                         <IconLight size={20} className="h-10 mx-auto"/>

@@ -69,7 +69,7 @@ const Pre = ({ children }: HTMLAttributes<HTMLPreElement>) => {
                 </button>
             )}
 
-            <pre className="leading-none text-[15px] dark:bg-gray-900">
+            <pre className="leading-none text-[16px]">
                 {children}
             </pre>
         </div>

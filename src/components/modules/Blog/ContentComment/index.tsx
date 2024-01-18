@@ -179,8 +179,8 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
     };
 
     return (
-        <div className="md:px-5 px-3 py-5 bg-white dark:bg-slate-800 mt-5 md:rounded-md shadow-sm">
-            <h5 id="comment" className="text-lg font-semibold mb-2">
+        <div className="md:px-5 px-3 py-5 bg-white dark:bg-slate-800/70 mt-5 md:rounded-md shadow-sm">
+            <h5 id="comment" className="text-lg font-semibold mb-2 scroll-mt-[70px]">
                 Bình luận bài viết
             </h5>
             <div className={`pb-3`}>
