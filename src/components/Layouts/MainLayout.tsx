@@ -14,7 +14,7 @@ const MainLayout = ({ children, isHeaderDynamic = true }: MainLayoutProps) => {
     return (
         <>
             <Header isDynamic={isHeaderDynamic} />
-            <main className={``}>{children}</main>
+            <main className={`scroll-pt-20`}>{children}</main>
             <Footer />
             <ButtonOnTop />
         </>

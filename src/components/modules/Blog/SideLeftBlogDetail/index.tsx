@@ -96,7 +96,7 @@ const SidebarLeftBlogDetail = ({ blogId }: SidebarLeftBlogDetailProps) => {
                 sidebarBlog: GetSidebarBlog;
             } = await blogService.getSidebar({
                 blogId: blogId,
-                token: session?.backendTokens.accessToken || undefined,
+                token: session?.backendTokens.accessToken || "",
             });
 
             if (sidebarBlogRes?.success) {

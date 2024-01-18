@@ -238,7 +238,7 @@ class BlogService {
         }
     }
 
-    async getSidebar({blogId, token}: { blogId: number, token?: string }): Promise<any> {
+    async getSidebar({blogId, token}: { blogId: number, token?: string | null }): Promise<any> {
         try {
             const sidebarBlogRes = await fetch(
                 `${API_BASE_URL}/api/blogs/sidebar/${blogId || ""}`,
