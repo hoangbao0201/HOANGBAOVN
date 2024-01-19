@@ -97,6 +97,11 @@ const SidebarLeftBlogDetail = ({ blogId }: SidebarLeftBlogDetailProps) => {
         if (!blogId) {
             return;
         }
+        dispatch(setSidebarPageBlogDetailRDHandle({
+            userLikes: null,
+            userSaves: null,
+            Comment: null,
+        }));
         try {
             const sidebarBlogRes: {
                 success: boolean;

@@ -44,5 +44,5 @@ TagsPage.getLayout = (page) => {
 export const getStaticProps: GetStaticProps = async (context) => {
     const { tags } = await await tagService.findAll("?take=24");
 
-    return { props: { tags: tags || [] } };
+    return { props: { tags: tags || [] }, revalidate: 60*60 };
 };
