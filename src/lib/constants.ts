@@ -8,7 +8,7 @@ export const MAIN_URL = process.env.NEXT_PUBLIC_MAIN_URL
 export const DEFAULT_METADATA = {
     nameWeb: "HOANGBAOVN",
     tags: ["hoangbaovn", "webdev"],
-    webUrl: "https://hoangbao.vercel.app"
+    webUrl: "https://hoangbaodev.com"
 }
 
 export const REVALIDATE_TIME = 3 * 60 * 60; //3h
