@@ -134,7 +134,7 @@ const SidebarLeftBlogDetail = ({ blogId }: SidebarLeftBlogDetailProps) => {
         } catch (error) {}
     };
 
-    const userActionDebounce = useDebounce(JSON.stringify(isAction), 3000);
+    const userActionDebounce = useDebounce(JSON.stringify(isAction), 2000);
     useEffect(() => {
         eventGetDataSidebarBlog();
     }, [blogId]);

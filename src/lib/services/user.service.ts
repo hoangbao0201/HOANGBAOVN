@@ -112,6 +112,26 @@ class UserService {
             };
         }
     }
+
+    async findAllSEO(): Promise<any> {
+        try {
+            const usersRes = await fetch(
+                `${API_BASE_URL}/api/users/seo`,
+                {
+                    method: "GET",
+                }
+            );
+
+            const users = await usersRes.json();
+            return users;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error users successful",
+                error: error,
+            };
+        }
+    }
 }
 
 const userService = new UserService();

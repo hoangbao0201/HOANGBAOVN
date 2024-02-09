@@ -43,6 +43,26 @@ class TagService {
             };
         }
     }
+
+    async findAllSEO(): Promise<any> {
+        try {
+            const tagsRes = await fetch(
+                `${API_BASE_URL}/api/tags/seo`,
+                {
+                    method: "GET",
+                }
+            );
+
+            const tags = await tagsRes.json();
+            return tags;
+        } catch (error) {
+            return {
+                success: false,
+                message: "error tags successful",
+                error: error,
+            };
+        }
+    }
 }
 
 const tagService = new TagService();

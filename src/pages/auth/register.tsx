@@ -1,17 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
-import styled from "styled-components";
-import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { GetServerSideProps } from "next";
 import { ChangeEvent, useState } from "react";
-import { GetServerSideProps, GetStaticProps } from "next";
 
 import clsx from "clsx";
+import styled from "styled-components";
+import { useTheme } from "next-themes";
 import { getServerSession } from "next-auth/next";
 
 import { NextPageWithLayout } from "../_app";
 import { authOptions } from "@/utils/authOptions";
+import authService from "@/lib/services/auth.services";
 import MainLayout from "@/components/Layouts/MainLayout";
 import ButtonAuth from "@/components/modules/Auth/ButtonAuth";
 
@@ -46,42 +47,43 @@ const LineHeadingStyle = styled.div`
     }
 `
 
-interface AuthLoginPageProps {
+interface AuthRegisterPageProps {
     session: any;
 }
-const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
+const AuthRegisterPage: NextPageWithLayout<AuthRegisterPageProps> = ({}) => {
     const router = useRouter();
     const { systemTheme, theme } = useTheme();
     const currentTheme = theme === "system" ? systemTheme : theme;
-    const [dataLogin, setDataLogin] = useState({
-        accout: "",
+    const [dataRegister, setDataRegister] = useState({
+        name: "",
+        username: "",
+        email: "",
         password: "",
+        rePassword: "",
     });
     const [loadingLogin, setLoadingLogin] = useState(false);
 
     const eventChangeValueInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setDataLogin({
-            ...dataLogin,
+        setDataRegister({
+            ...dataRegister,
             [e.target.name]: e.target.value,
         });
     };
 
-    const handleLogin = async () => {
+    const handleRegister = async () => {
+        const { name, username, email, password, rePassword } = dataRegister;
+        if(password !== rePassword) {
+            return;
+        }
         setLoadingLogin(true);
         try {
-            const { accout, password } = dataLogin;
 
-            const result = await signIn("credentials", {
-                redirect: false,
-                accout: accout,
-                password: password,
-            });
-            console.log(result)
+            const result = await authService.register({ name, username, email, password })
             setLoadingLogin(false);
 
-            if (result?.error) {
-            } else {
-                router.back();
+            console.log(result)
+            if(result.success) {
+                router.push("/auth/login");
             }
         } catch (error) {
             setLoadingLogin(false);
@@ -119,7 +121,6 @@ const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
                     ></div>
                     <div className="px-5 py-5">
                         <div className="font-semibold text-center mb-3">
-                            {/* HOANGBAO */}
                             <Link href={`/`}>
                                 <Image
                                     width={100}
@@ -133,25 +134,55 @@ const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
                             </Link>
                         </div>
                         <div className="font-semibold text-center text-2xl mb-5">
-                            Đăng nhập
+                            Đăng kí
                         </div>
                         <div>
                             <div className="mb-3 relative">
                                 <label
-                                    htmlFor="idInputAccout"
+                                    htmlFor="idInputName"
                                     className="select-none cursor-pointer mb-1 block"
                                 >
-                                    Tài khoản
+                                    Tên
                                 </label>
                                 <input
-                                    id="idInputAccout"
-                                    name="accout"
-                                    value={dataLogin.accout}
+                                    id="idInputName"
+                                    name="name"
+                                    value={dataRegister.name}
                                     onChange={eventChangeValueInput}
                                     className="border h-11 py-2 px-4 rounded-md w-full transition-all focus:border-blue-600 focus:outline outline-blue-600"
                                 />
                             </div>
                             <div className="mb-3 relative">
+                                <label
+                                    htmlFor="idInputUsername"
+                                    className="select-none cursor-pointer mb-1 block"
+                                >
+                                    Tài khoản
+                                </label>
+                                <input
+                                    id="idInputUsername"
+                                    name="username"
+                                    value={dataRegister.username}
+                                    onChange={eventChangeValueInput}
+                                    className="border h-11 py-2 px-4 rounded-md w-full transition-all focus:border-blue-600 focus:outline outline-blue-600"
+                                />
+                            </div>
+                            <div className="mb-3 relative">
+                                <label
+                                    htmlFor="idInputEmail"
+                                    className="select-none cursor-pointer mb-1 block"
+                                >
+                                    Email
+                                </label>
+                                <input
+                                    id="idInputEmail"
+                                    name="email"
+                                    value={dataRegister.email}
+                                    onChange={eventChangeValueInput}
+                                    className="border h-11 py-2 px-4 rounded-md w-full transition-all focus:border-blue-600 focus:outline outline-blue-600"
+                                />
+                            </div>
+                            <div className="mb-6 relative">
                                 <label
                                     htmlFor="idInputPassword"
                                     className="select-none cursor-pointer mb-1 block"
@@ -162,21 +193,32 @@ const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
                                     id="idInputPassword"
                                     name="password"
                                     type="password"
-                                    value={dataLogin.password}
+                                    value={dataRegister.password}
                                     onChange={eventChangeValueInput}
                                     className="border h-11 py-2 px-4 rounded-md w-full transition-all focus:border-blue-600 focus:outline outline-blue-600"
                                 />
                             </div>
-                            <div className="mb-3 text-blue-600 flex items-center justify-end gap-4">
-                                <Link href={`/`}><span className="hover:underline">Quên mật khẩu</span></Link>
-                                <Link href={`/auth/register`}><span className="hover:underline">Đăng kí mới</span></Link>
+                            <div className="mb-6 relative">
+                                <label
+                                    htmlFor="idInputRePassword"
+                                    className="select-none cursor-pointer mb-1 block"
+                                >
+                                    Nhập lại mật khẩu
+                                </label>
+                                <input
+                                    id="idInputRePassword"
+                                    name="rePassword"
+                                    type="rePassword"
+                                    value={dataRegister.rePassword}
+                                    onChange={eventChangeValueInput}
+                                    className="border h-11 py-2 px-4 rounded-md w-full transition-all focus:border-blue-600 focus:outline outline-blue-600"
+                                />
                             </div>
-
                             <div
-                                onClick={handleLogin}
+                                onClick={handleRegister}
                                 className="mb-2 border bg-blue-600 hover:bg-blue-700 text-lg h-13 py-2 px-2 cursor-pointer text-center text-white rounded-md"
                             >
-                                Đăng nhập
+                                Đăng kí
                             </div>
 
                             <LineHeadingStyle>Đăng nhập với</LineHeadingStyle>
@@ -207,9 +249,9 @@ const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
     );
 };
 
-export default AuthLoginPage;
+export default AuthRegisterPage;
 
-AuthLoginPage.getLayout = (page) => {
+AuthRegisterPage.getLayout = (page) => {
     return <MainLayout isHeaderDynamic={false}>{page}</MainLayout>;
 };
 
