@@ -187,11 +187,11 @@ const ContentComment = ({ blog }: ContentCommentProps) => {
                 {status === "unauthenticated" && (
                     <>
                         Hãy{" "}
-                        <Link className="font-semibold hover:underline" href={`/auth/login`}>
+                        <Link aria-label={`đăng nhập`} className="font-semibold hover:underline" href={`/auth/login`}>
                             đăng nhập
                         </Link>{" "}
                         hoặc{" "}
-                        <Link className="font-semibold hover:underline" href={`/auth/login`}>
+                        <Link aria-label={`đăng ký`} className="font-semibold hover:underline" href={`/auth/login`}>
                             đăng ký
                         </Link>{" "}
                         để bắt đầu bình luận

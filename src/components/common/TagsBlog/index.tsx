@@ -15,7 +15,7 @@ const TagsBlog = ({ listTag, className }: TagsBlogProps) => {
                     listTag.map((item, index) => {
                         return (
                             <li key={index} className="hover:underline">
-                                <Link href={`/tags/${item.tags.slug}`}>
+                                <Link aria-label={`${item?.tags.name}`} href={`/tags/${item.tags.slug}`}>
                                     <span
                                         className={`tag tag-${index + 1} block`}
                                     >

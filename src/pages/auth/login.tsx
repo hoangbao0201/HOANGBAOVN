@@ -25,8 +25,8 @@ const LineHeadingStyle = styled.div`
     &::before {
         content: "";
         display: block;
-        max-width: 180px;
-        width: 100%;
+        /* max-width: 150px; */
+        width: 30%;
         height: 2px;
         background: #dddd;
         position: absolute;
@@ -36,8 +36,8 @@ const LineHeadingStyle = styled.div`
     &::after {
         content: "";
         display: block;
-        max-width: 180px;
-        width: 100%;
+        /* max-width: 150px; */
+        width: 30%;
         height: 2px;
         background: #dddd;
         position: absolute;
@@ -120,7 +120,7 @@ const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
                     <div className="px-5 py-5">
                         <div className="font-semibold text-center mb-3">
                             {/* HOANGBAO */}
-                            <Link href={`/`}>
+                            <Link aria-label={`Trang chủ HOANGBAO`} href={`/`}>
                                 <Image
                                     width={100}
                                     height={100}
@@ -168,8 +168,8 @@ const AuthLoginPage: NextPageWithLayout<AuthLoginPageProps> = ({}) => {
                                 />
                             </div>
                             <div className="mb-3 text-blue-600 flex items-center justify-end gap-4">
-                                <Link href={`/`}><span className="hover:underline">Quên mật khẩu</span></Link>
-                                <Link href={`/auth/register`}><span className="hover:underline">Đăng kí mới</span></Link>
+                                <Link aria-label={`Quên mật khẩu`} href={`/`}><span className="hover:underline">Quên mật khẩu</span></Link>
+                                <Link aria-label={`Đăng kí mới`} href={`/auth/register`}><span className="hover:underline">Đăng kí mới</span></Link>
                             </div>
 
                             <div

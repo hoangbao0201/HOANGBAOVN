@@ -111,12 +111,14 @@ const ButtonAction = ({ parentId, commentId, senderId }: ButtonActionProps) => {
 
                 <div className="text-right mt-4">
                     <button
+                        title="Nút hủy phương thức"
                         onClick={() => setIsFormDeleteBlog(false)}
                         className="py-2 px-3 rounded-md border text-black bg-white hover:bg-gray-200 min-w-20"
                     >
                         Hủy
                     </button>
                     <button
+                        title="Nút xóa bình luận"
                         onClick={handleDeleteComment}
                         className="py-2 px-3 rounded-md border text-white bg-indigo-600 hover:bg-indigo-700 min-w-20 ml-2"
                     >

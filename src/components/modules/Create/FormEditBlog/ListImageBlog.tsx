@@ -55,6 +55,7 @@ const ListImageEditBlog = ({}: ListImageEditBlogProps) => {
     return (
         <>
             <button
+                title="Nút ẩn/hiện danh sách ảnh"
                 onClick={() => setIsShowListImageBlog(true)}
                 className="px-3 py-1 rounded-md border text-white whitespace-nowrap bg-blue-500 hover:bg-blue-600"
             >

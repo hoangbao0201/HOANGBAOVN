@@ -33,7 +33,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                 {/* <NavbarCollapse /> */}
 
                 <div className="text-lg font-semibold flex flex-shrink-0 items-center">
-                    <Link href={`/`}>
+                    <Link aria-label={`Trang chủ HOANGBAO`} href={`/`}>
                         <Image
                             width={100}
                             height={100}
@@ -60,7 +60,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                             ) : (
                                 <>
                                     <ButtonDarkMode />
-                                    <Link href={`/creator/new-post`} title="Tạo bài viết">
+                                    <Link aria-label={`Tạo bài viết`} href={`/creator/new-post`} title="Tạo bài viết">
                                         <i className="w-10 bg-gray-100 dark:bg-slate-800/70 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
                                             <IconPen size={20} className="h-10 mx-auto"/>
                                         </i>
@@ -74,7 +74,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                                         <UserDropdown />
                                         // <div></div>
                                     ) : (
-                                        <Link href={`/auth/login`}>
+                                        <Link aria-label={`Đăng nhập`} href={`/auth/login`}>
                                             <span className="py-2 px-3 rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white">
                                                 Đăng nhập
                                             </span>

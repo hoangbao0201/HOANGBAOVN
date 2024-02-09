@@ -21,7 +21,7 @@ const DropdownButton = ({ isOptions, setIsOptions, children, content, placement,
       
     return (
         <div ref={optionRef} className='relative'>
-            <button onClick={() => setIsOptions(value => !value)}>
+            <button title='Nút ẩn/hiện' onClick={() => setIsOptions(value => !value)}>
                 {children}
             </button>
             {

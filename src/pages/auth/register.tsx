@@ -121,7 +121,7 @@ const AuthRegisterPage: NextPageWithLayout<AuthRegisterPageProps> = ({}) => {
                     ></div>
                     <div className="px-5 py-5">
                         <div className="font-semibold text-center mb-3">
-                            <Link href={`/`}>
+                            <Link aria-label={`Trang chủ HOANGBAO`} href={`/`}>
                                 <Image
                                     width={100}
                                     height={100}

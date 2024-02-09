@@ -91,6 +91,7 @@ const EditBlogConfirm = () => {
     return (
         <>
             <button
+                title="Nút xuất bản"
                 onClick={() => setIsShowEditBlogDetail(true)}
                 className="px-3 py-1 rounded-md border text-white whitespace-nowrap bg-green-500 hover:bg-green-600"
             >
@@ -205,6 +206,7 @@ const EditBlogConfirm = () => {
 
                     <div className="mt-10 flex justify-end space-x-2">
                         <button
+                            title="Nút thoát"
                             onClick={() =>
                                 setIsShowEditBlogDetail(false)
                             }

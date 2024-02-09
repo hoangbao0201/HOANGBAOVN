@@ -122,7 +122,7 @@ const FormEditBlog = ({ blogId, isEdit = false } : FormEditBlogProps) => {
             <div className="relative bg-white md:rounded-md shadow-sm">
                 <div className="w-full relative top-0 left-0 right-0 px-4 py-4">
                     <div className="flex items-center mb-3 h-10">
-                        <Link href={`/`}>
+                        <Link aria-label={`${session?.user.name}`} href={`/`}>
                             <Image
                                 width={100}
                                 height={100}

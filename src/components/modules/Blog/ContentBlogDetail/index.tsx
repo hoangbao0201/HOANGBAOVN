@@ -98,7 +98,7 @@ const ContentBlogDetail = ({ blog, content }: ContentBlogDetailProps) => {
 
                             <div className="flex justify-between md:px-8 px-4 pt-4 mb-5">
                                 <div className="flex">
-                                    <Link href={`/user/${blog?.author.username}`}>
+                                    <Link aria-label={`${blog?.author.name}`} href={`/user/${blog?.author.username}`}>
                                         <AvatarRank rank={1}>
                                             <Image
                                                 width={60}

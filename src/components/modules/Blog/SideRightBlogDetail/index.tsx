@@ -46,7 +46,7 @@ const SidebarRightBlogDetail = ({ blogId, toc, tags = [] } : SidebarRightBlogDet
                     blogsSuggest ? (
                         blogsSuggest.map(blog => {
                             return (
-                                <Link key={blog?.blogId} href={`/blog/${blog?.slug}-${blog?.blogId}`}>
+                                <Link aria-label={`${blog?.title}`} key={blog?.blogId} href={`/blog/${blog?.slug}-${blog?.blogId}`}>
                                     <div className="py-2 px-3 hover:bg-gray-200 hover:text-indigo-600 dark:hover:bg-gray-700 rounded-md dark:hover:text-white hover:underline">
                                         <p className="line-clamp-1">{blog?.title}</p>
                                     </div>

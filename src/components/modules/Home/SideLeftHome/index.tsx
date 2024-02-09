@@ -48,7 +48,7 @@ const SideLeftHome = () => {
                     SideBarNavigationMainData.map((item, index) => {
                         return (
                             <li key={index} className="hover:underline">
-                                <Link href={item.link}>
+                                <Link aria-label={`${item?.title}`} href={item.link}>
                                     <div
                                         className="xl:bg-transparent bg-white max-xl:dark:bg-gray-800/70 text-gray-700 dark:text-slate-100 flex items-center px-3 py-2 space-x-3 hover:bg-white/90 dark:hover:bg-white/10 rounded-md whitespace-nowrap"
                                     >

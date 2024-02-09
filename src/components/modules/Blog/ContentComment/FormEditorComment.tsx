@@ -40,7 +40,7 @@ const FormEditorComment = ({
         <div className="flex py-2">
             <div className="flex-shrink-0">
                 <AvatarRank rank={1}>
-                    <Link href={`/`}>
+                    <Link aria-label={`${sender?.name}`} href={`/`}>
                         <Image
                             width={60}
                             height={60}
@@ -80,6 +80,7 @@ const FormEditorComment = ({
                         value={sender?.name || " "}
                     />
                     <button
+                        title="Nút gởi tin nhắn"
                         onClick={() => handleSend({ commentText: dataFormComment })}
                         className={`${isLoad && "pointer-events-none"} border text-white bg-indigo-600 rounded-md ml-auto py-1 px-3 min-w-[80px]`}
                     >

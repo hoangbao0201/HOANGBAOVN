@@ -95,12 +95,12 @@ const ModalMenu = ({ isShow, setIsShow }: ModalMenuProps) => {
                                         </p>
                                         <div className="">
                                             <div className="border-b pb-4 px-2">
-                                                <Link href={"/"}>
+                                                <Link aria-label={`Trang chủ`} href={"/"}>
                                                     <p className="px-4 py-2 rounded-md hover:bg-gray-100">
                                                         Trang chủ
                                                     </p>
                                                 </Link>
-                                                <Link href={"/bai-viet"}>
+                                                <Link aria-label={`Bài viết`} href={"/bai-viet"}>
                                                     <p className="px-4 py-2 rounded-md hover:bg-gray-100">
                                                         Bài viết
                                                     </p>

@@ -82,9 +82,7 @@ const TOCInline = ({
                             : ` text-gray-900 dark:text-white`
                     } cursor-pointer font-medium select-none line-clamp-2 transition-all item-toc mb-2 hover:underline hover:text-indigo-600`}
                 >
-                    {/* <div title={heading.value} onClick={() => handleChangeTagTOC(heading.url)}>{heading.value}</div> */}
-                    {/* <Link title={heading.value} href={``}>{heading.value}</Link> */}
-                    <a href={heading.url}>{heading.value}</a>
+                    <a aria-label={`${heading.value}`} href={heading.url}>{heading.value}</a>
                 </li>
             ))}
         </ul>

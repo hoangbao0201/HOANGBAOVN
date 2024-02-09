@@ -61,7 +61,7 @@ const ItemComment = ({
 
                 <div className="flex-shrink-0">
                     <AvatarRank rank={1}>
-                        <Link href={`/user/${comment?.sender.username}`}>
+                        <Link aria-label={`${comment?.sender.name}`} href={`/user/${comment?.sender.username}`}>
                             <Image
                                 width={60}
                                 height={60}
@@ -80,7 +80,7 @@ const ItemComment = ({
 
                         <div className="border rounded-[20px] py-[8px] px-[12px] mb-1 bg-gray-100 dark:bg-slate-700 min-h-[50px]">
                             <div className="flex items-center justify-between">
-                                <Link href={`/user/${comment?.sender.username}`}>
+                                <Link aria-label={`${comment?.sender.name}`} href={`/user/${comment?.sender.username}`}>
                                     <span className="font-semibold text-[15px]">
                                         {comment?.sender.name}
                                     </span>

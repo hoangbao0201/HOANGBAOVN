@@ -29,6 +29,7 @@ const ButtonOnTop = () => {
             {showButton ? (
                 <button
                     ref={buttonRef}
+                    title="Nút cuộn lên"
                     onClick={eventOnTop}
                     className="fixed right-7 bottom-7 z-50 bg-gray-300 rounded-full text-center flex flex-col justify-center items-center p-2"
                 >

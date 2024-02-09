@@ -8,6 +8,7 @@ const ButtonDarkMode = () => {
 
     return (
         <button
+            title="Nút ẩn/hiện darkmode"
             onClick={() =>
                 theme == "dark" ? setTheme("light") : setTheme("dark")
             }

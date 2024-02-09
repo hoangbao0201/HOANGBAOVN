@@ -12,6 +12,7 @@ const CardTag = ({ tag } : CardTagProps) => {
                 <div className="flex items-end justify-between line-clamp-1 mb-2">
                     <Link
                         className=""
+                        aria-label={`${tag?.name}`}
                         href={`/tags/${tag.slug}`}
                     >
                         <h2 className="font-semibold text-lg hover:underline hover:text-indigo-700">#{tag.name}</h2>
@@ -23,8 +24,8 @@ const CardTag = ({ tag } : CardTagProps) => {
                 </p>
 
                 <div className="space-x-1 mt-auto">
-                    <button className="py-2 px-3 text-sm min-w-[90px] text-white border bg-blue-600 hover:bg-blue-700 rounded-md">Theo dõi</button>
-                    <button className="py-2 px-3 text-sm min-w-[90px] text-black dark:text-white hover:bg-blue-50 hover:dark:bg-white/30 rounded-md">Ẩn đi</button>
+                    <button title="Nút theo dõi" className="py-2 px-3 text-sm min-w-[90px] text-white border bg-blue-600 hover:bg-blue-700 rounded-md">Theo dõi</button>
+                    <button title="Nút ẩn đi" className="py-2 px-3 text-sm min-w-[90px] text-black dark:text-white hover:bg-blue-50 hover:dark:bg-white/30 rounded-md">Ẩn đi</button>
                 </div>
             </div>
         </div>

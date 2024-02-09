@@ -37,6 +37,7 @@ const Pre = ({ children }: HTMLAttributes<HTMLPreElement>) => {
                             ? "border-green-400 focus:border-green-400 focus:outline-none"
                             : "border-gray-300"
                     }`}
+                    title="Nút sao chép"
                     onClick={onCopy}
                 >
                     <svg

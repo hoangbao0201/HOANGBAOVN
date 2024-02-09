@@ -8,6 +8,7 @@ const NavbarCollapse = () => {
         <div className="mr-3">
             <div>
                 <button
+                    title="Nút ẩn/hiện thanh bên"
                     onClick={() => setIsOpenNavbar((value) => !value)}
                     className="w-10 h-10 select-none flex items-center justify-center border rounded-md bg-gray-100"
                 >

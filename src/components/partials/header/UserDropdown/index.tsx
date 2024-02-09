@@ -41,6 +41,7 @@ const UserDropdown = () => {
                                 <Menu.Item>
                                     {({ active }) => (
                                         <Link
+                                            aria-label={`${session?.user.name}`}
                                             href={`/user/${session?.user.username}`}
                                             className={`${
                                                 active
@@ -67,6 +68,7 @@ const UserDropdown = () => {
                                 <Menu.Item>
                                     {({ active }) => (
                                         <Link
+                                            aria-label={`Admin`}
                                             target="_blank"
                                             href={`/admin/dashboarch`}
                                             className={`${
@@ -83,6 +85,7 @@ const UserDropdown = () => {
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
+                                        title="Nút đăng xuất"
                                         onClick={handleLogoutUser}
                                         className={`${
                                             active

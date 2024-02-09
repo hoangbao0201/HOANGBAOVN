@@ -114,6 +114,7 @@ const SearchMain = () => {
                                 className="rounded-md mb-2 bg-gray-50 dark:bg-slate-800/70 group hover:bg-blue-500 hover:text-white"
                             >
                                 <Link
+                                    aria-label={`${blog?.title}`}
                                     onClick={() => setIsModalSearch(false)}
                                     href={`/blog/${blog.slug}-${blog.blogId}`}
                                 >

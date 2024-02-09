@@ -61,6 +61,7 @@ const Modal = ({
                         >
                             <Dialog.Title className={`font-semibold md:text-xl text-lg py-4 text-center border-b`}>{title}</Dialog.Title>
                             <button
+                                title="Nút thoát"
                                 onClick={() => setIsOpen(false)}
                                 className="absolute right-4 top-4 bg-gray-200 hover:bg-gray-300 p-2 rounded-full outline-none"
                             >

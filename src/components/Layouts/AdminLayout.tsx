@@ -22,13 +22,13 @@ const AdminLayout = ({ children } : AdminLayoutProps) => {
             <div className="h-full">
                 <div className="fixed top-0 right-0 left-[300px] border-b bg-white z-10">
                     <div className="px-4 flex items-center h-[60px]">
-                        <Link href={`/`} target="_blank" className="font-semibold">
+                        <Link aria-label={`Trang chủ HOANGBAO`} href={`/`} target="_blank" className="font-semibold">
                             HOANGBAO
                         </Link>
                     </div>
                 </div>
                 <div className="w-full max-w-[300px] h-screen fixed top-0 left-0 bottom-0 border-r bg-white">
-                    <Link href={`/admin/dashboarch`}>
+                    <Link aria-label={`${session?.user.name}`} href={`/admin/dashboarch`}>
                         <div className="flex items-center px-4 h-[60px] border-b mb-3">
                             <Image
                                 alt="ảnh người dùng"
@@ -51,7 +51,7 @@ const AdminLayout = ({ children } : AdminLayoutProps) => {
                                             item.children.map((child, index) => {
                                                 return (
                                                     <div key={child.pathname} className="mx-3 mb-1">
-                                                        <Link key={index} href={`${child.link}`}>
+                                                        <Link aria-label={`${child?.title}`} key={index} href={`${child.link}`}>
                                                             <div className={clsx(
                                                                 "px-4 py-2 rounded-md",
                                                                 {

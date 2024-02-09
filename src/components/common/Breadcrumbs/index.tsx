@@ -26,6 +26,7 @@ const Breadcrumbs = ({ className, listBreadcrumbs }: BreadcrumbsProps) => {
                     className="flex items-center font-medium text-gray-600 fill-gray-500 dark:text-gray-100 dark:fill-gray-100"
                 >
                     <Link
+                        aria-label="Trang chủ HOANGBAO"
                         itemType="http://schema.org/Thing"
                         itemProp="item"
                         title={`Trang chủ HOANGBAO`}
@@ -46,6 +47,7 @@ const Breadcrumbs = ({ className, listBreadcrumbs }: BreadcrumbsProps) => {
                         >
                             <IconChevronsRight size={12} className="mx-2" />
                             <Link
+                                aria-label={`${item?.title}`}
                                 itemType="http://schema.org/Thing"
                                 itemProp="item"
                                 title={item?.title}

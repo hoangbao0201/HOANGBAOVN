@@ -36,7 +36,7 @@ const EditorComment = () => {
         <div>
             <div className="flex mb-5">
                 <AvatarRank rank={1}>
-                    <Link href={`/`}>
+                    <Link aria-label={`Trang chủ HOANGBAO`} href={`/`}>
                         <Image
                             width={60}
                             height={60}
@@ -61,7 +61,7 @@ const EditorComment = () => {
                     </div>
                     <div className="flex space-x-2">
                         <input className="w-full border px-3 py-2 rounded-md outline-none" />
-                        <button onClick={handleAddMention} className="border text-white bg-indigo-600 rounded-md ml-auto py-1 px-3 min-w-[80px]">
+                        <button title="Nút thêm gợi ý" onClick={handleAddMention} className="border text-white bg-indigo-600 rounded-md ml-auto py-1 px-3 min-w-[80px]">
                             Thêm
                         </button>
                     </div>

@@ -63,6 +63,7 @@ const MessageLive = () => {
             </div>
             <div>
                 <button
+                    title="Nút gởi tin nhắn"
                     className="py-2 px-3 rounded-md bg-blue-500"
                     onClick={handleSendMessage}
                     style={{ marginBottom: '30px' }}
