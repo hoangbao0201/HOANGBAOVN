@@ -15,7 +15,6 @@ import {
 } from "@/redux/pageBlogDetailSlide";
 import { setButonLoadingRDHandle } from "@/redux/buttonActionSlide";
 import FormEditorComment from "@/components/modules/Blog/ContentComment/FormEditorComment";
-import Image from "next/image";
 
 interface CardCommentProps {
     user: GetCommentsProps["sender"] | undefined;
@@ -149,11 +148,20 @@ const CardComment = ({
                             </span>
                             {nameButtonAction ===
                                 `button_get_replycomment_${comment?.commentId}` && (
-                                <Image
-                                    width={20}
-                                    height={20}
-                                    alt="loaiding button"
-                                    src={`/static/gif/loading-button.gif`}
+                                // <Image
+                                //     width={20}
+                                //     height={20}
+                                //     alt="loaiding button"
+                                //     src={`/static/gif/loading-button.gif`}
+                                //     className="w-4 h-4"
+                                // />
+                                <div
+                                    style={{
+                                        width: '20px',
+                                        height: '20px',
+                                        backgroundImage: `url(/static/gif/loading-button.gif)`,
+                                        backgroundSize: 'cover',
+                                    }}
                                     className="w-4 h-4"
                                 />
                             )}

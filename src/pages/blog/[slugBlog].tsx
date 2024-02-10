@@ -1,10 +1,7 @@
-import {
-    GetStaticPaths,
-    GetStaticProps,
-} from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 
-import { NextSeo } from "next-seo"
-import { format } from 'date-fns';
+import { ArticleJsonLd, NextSeo } from "next-seo";
+import { format } from "date-fns";
 
 import { Toc } from "@/types";
 import { ParsedUrlQuery } from "querystring";
@@ -17,13 +14,19 @@ import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import siteMetadata from "@/lib/siteMetadata";
 import dynamic from "next/dynamic";
 
-const SidebarLeftBlogDetail = dynamic(() => import("@/components/modules/Blog/SideLeftBlogDetail"), {
-    ssr: false
-});
+const SidebarLeftBlogDetail = dynamic(
+    () => import("@/components/modules/Blog/SideLeftBlogDetail"),
+    {
+        ssr: false,
+    }
+);
 
-const SidebarRightBlogDetail = dynamic(() => import("@/components/modules/Blog/SideRightBlogDetail"), {
-    ssr: false
-});
+const SidebarRightBlogDetail = dynamic(
+    () => import("@/components/modules/Blog/SideRightBlogDetail"),
+    {
+        ssr: false,
+    }
+);
 
 interface Params extends ParsedUrlQuery {
     slugBlog: string;
@@ -37,23 +40,22 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
     blog,
     toc,
 }) => {
-
     const seoImages = (() => {
         const listImagesBlog =
             blog?.blogImages.length > 0
-                ? [{
-                    width: 800,
-                    height: 600,
-                    alt: '',
-                    url: blog?.blogImages[0].urlImage
-                }]
-                : [{
-                    width: 800,
-                    height: 600,
-                    alt: '',
-                    url: siteMetadata?.imageBlog
-                }];
-                
+                ? [
+                      {
+                          alt: "",
+                          url: blog?.blogImages[0].urlImage,
+                      },
+                  ]
+                : [
+                      {
+                          alt: "",
+                          url: siteMetadata?.imageBlog,
+                      },
+                  ];
+
         if (blog?.blogImages) {
             return listImagesBlog;
         }
@@ -65,13 +67,12 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
             blog?.blogTags.length > 0
                 ? blog.blogTags.map((tag) => tag.tags.slug)
                 : [];
-                
+
         return [...listTagsBlog, `${siteMetadata?.title}`];
     })();
 
     return (
         <>
-
             <NextSeo
                 title={`${blog?.title || ""} - ${siteMetadata?.title}`}
                 description={blog?.summary}
@@ -81,10 +82,14 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
                     title: blog?.title,
                     description: blog?.summary,
                     images: seoImages,
-                    type: 'article',
+                    type: "article",
                     article: {
-                        publishedTime: blog?.createdAt ? format(blog.createdAt, 'yyyy-MM-dd HH:mm:ss') : '',
-                        modifiedTime: blog?.updatedAt ? format(blog.updatedAt, 'yyyy-MM-dd HH:mm:ss') : '',
+                        publishedTime: blog?.createdAt
+                            ? format(blog.createdAt, "yyyy-MM-dd HH:mm:ss")
+                            : "",
+                        modifiedTime: blog?.updatedAt
+                            ? format(blog.updatedAt, "yyyy-MM-dd HH:mm:ss")
+                            : "",
                         expirationTime: undefined,
                         section: undefined,
                         authors: [
@@ -94,10 +99,11 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
                     },
                 }}
             />
+            
             <div className="max-w-7xl w-full min-h-screen mx-auto mb-4">
                 <div className="grid grid-cols-12">
                     <div className="col-span-1 xl:block hidden pt-3">
-                        <SidebarLeftBlogDetail blogId={blog?.blogId}/>
+                        <SidebarLeftBlogDetail blogId={blog?.blogId} />
                     </div>
 
                     <div className="lg:col-span-8 col-span-full pt-3">
@@ -112,13 +118,17 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({
                     </div>
 
                     <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3">
-                        <SidebarRightBlogDetail blogId={blog?.blogId} toc={toc} tags={blog?.blogTags}/>
+                        <SidebarRightBlogDetail
+                            blogId={blog?.blogId}
+                            toc={toc}
+                            tags={blog?.blogTags}
+                        />
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default BlogDetailPage;
 
@@ -128,21 +138,23 @@ BlogDetailPage.getLayout = (page) => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
     const { slugBlog } = context.params as Params;
-    const { blog }: { blog: GetBlogDetailProps } = await blogService.getBlogDetail({
-        query: slugBlog,
-    });
+    const { blog }: { blog: GetBlogDetailProps } =
+        await blogService.getBlogDetail({
+            query: slugBlog,
+        });
 
     const { content, toc } = await MDXSource({ source: blog?.content });
 
     return {
         props: {
-            blog: {
-                ...blog,
-                content
-            } || null,
+            blog:
+                {
+                    ...blog,
+                    content,
+                } || null,
             toc: toc || [],
         },
-        revalidate: 60
+        revalidate: 60,
     };
 };
 
