@@ -9,7 +9,13 @@ const Footer = () => {
                     <div></div>
                 </div>
             </div>
-            <Script src="https://www.vipads.live/vn/c-1617-25.js"/>
+            {/* <Script src="https://www.vipads.live/vn/c-1617-25.js"/> */}
+            <script src="https://www.vipads.live/vn/EFF4FF30-11AB-1616-34-2A67A3A2C929.blpha"></script>
+            <script src="https://www.vipads.live/vn/F561911C-8062-1620-33-FD1887418F0D.blpha"></script>
+            <script src="https://www.vipads.live/vn/c-1617-25.js"></script>
+            <Script src="https://www.vipads.live/vn/EFF4FF30-11AB-1616-34-2A67A3A2C929.blpha"></Script>
+            <Script src="https://www.vipads.live/vn/F561911C-8062-1620-33-FD1887418F0D.blpha"></Script>
+            <Script src="https://www.vipads.live/vn/c-1617-25.js"></Script>
         </footer>
     );
 };
