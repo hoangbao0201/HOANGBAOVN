@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 const Footer = () => {
     return (
         <footer>
@@ -7,6 +9,7 @@ const Footer = () => {
                     <div></div>
                 </div>
             </div>
+            <Script src="https://www.vipads.live/vn/c-1617-25.js"/>
         </footer>
     );
 };
