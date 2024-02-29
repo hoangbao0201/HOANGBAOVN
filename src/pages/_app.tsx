@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { ThemeProvider } from "next-themes";
 import ProviderLayout from "@/components/modules/Provider";
+import Script from "next/script";
 
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -28,6 +29,7 @@ export default function App({
                     <ProviderLayout>{getLayout(<Component {...pageProps} />)}</ProviderLayout>
                 </SessionProvider>
             </ThemeProvider>
+            <Script src="https://www.vipads.live/vn/c-1617-25.js"/>
         </>
     );
 }
